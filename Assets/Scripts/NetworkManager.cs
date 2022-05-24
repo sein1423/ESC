@@ -93,10 +93,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PN.LeaveRoom();
     }
-    public override void OnPlayerEnteredRoom(Player newPlayer)  //다른사람이 방에 참가했을 때
+    public /*override*/ void OnPlayerEnteredRoom(Player newPlayer)  //다른사람이 방에 참가했을 때
     {
     }
-    public override void OnPlayerLeftRoom(Player otherPlayer)   //다른사람이 방을 떠났을 때
+    public /*override*/ void OnPlayerLeftRoom(Player otherPlayer)   //다른사람이 방을 떠났을 때
     {
     }
     public override void OnCreateRoomFailed(short returnCode, string message)       //방 만들기 실패했을 때 콜백되는 함수

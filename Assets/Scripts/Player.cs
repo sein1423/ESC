@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        GetInput();
+        //GetInput();
         IsGround();
         TryJump();
         TryRun();
