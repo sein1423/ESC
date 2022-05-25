@@ -128,7 +128,12 @@ public class GameManagement : MonoBehaviour
         //DontDestroyOnLoad(timeManager);
         Destroy(GameObject.Find("SoundManager"));
     }
-
+    public void TestCharacter()
+    {
+        SceneManager.LoadScene("SampleScene");
+        //DontDestroyOnLoad(timeManager);
+        Destroy(GameObject.Find("SoundManager"));
+    }
 
     public void GameSave()
     {
