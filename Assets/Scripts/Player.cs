@@ -47,9 +47,10 @@ public class Player : MonoBehaviour
 
     GameObject nearObject;
     bool iDown;
-    public GameObject[] weapons;
-    public bool[] hasWeapons;
-
+    public GameObject weapons;
+    public bool hasWeapons;
+    public GameObject light;
+    public GameObject lighter;
     bool sDown1;
     bool sDown2;
     bool sDown3;
@@ -84,7 +85,7 @@ public class Player : MonoBehaviour
         TryRun();
         TryCrouch();
         Move();
-        Swap();
+        GetLighter();
         CameraRotation();
         CharacterRotation();
         Interaction();
@@ -94,8 +95,6 @@ public class Player : MonoBehaviour
     {
         iDown = Input.GetButtonDown("Interaction");
         sDown1 = Input.GetButtonDown("Swap1");
-        sDown2= Input.GetButtonDown("Swap2");
-        sDown3 = Input.GetButtonDown("Swap3");
     }
 
     // 지면 체크
@@ -246,31 +245,20 @@ public class Player : MonoBehaviour
         myRigid.MoveRotation(myRigid.rotation * Quaternion.Euler(_characterRotationY));
     }
 
-    void Swap()
+    void GetLighter()
     {
-        if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
-            return;
-        if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
-            return;
-        if (sDown3 && (!hasWeapons[2] || equipWeaponIndex == 2))
-            return;
-        int weaponIndex = -1;
-        if (sDown1) weaponIndex = 0;
-        if (sDown2) weaponIndex = 1;
-        if (sDown3) weaponIndex = 2;
-        if((sDown1 || sDown2 || sDown3) && isGround)
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            if(equipWeapon != null)
-                equipWeapon.SetActive(false);
-
-            equipWeaponIndex = weaponIndex;
-            equipWeapon = weapons[weaponIndex];
-            equipWeapon.SetActive(true);
-
-            anim.SetTrigger("doSwap");
-
-            isSwap = true; 
+            if (light.activeSelf == true)
+            {
+                light.SetActive(false);
+            }
+            else
+            {
+                light.SetActive(true);
+            }
         }
+
     }
     void Interaction()
     {
@@ -280,9 +268,10 @@ public class Player : MonoBehaviour
             {
                 Item item = nearObject.GetComponent<Item>();
                 int weaponIndex = item.value;
-                hasWeapons[weaponIndex] = true;
+                hasWeapons = true;
 
                 Destroy(nearObject);
+                lighter.SetActive(true);
             }
         }
     }
@@ -294,7 +283,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        Debug.Log(other.tag);
+        Debug.Log(other.name);
         if (other.tag == "Weapon")
             nearObject = other.gameObject;
     }
