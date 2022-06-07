@@ -249,6 +249,6 @@ public class GameManagement : MonoBehaviour
 
     public void SoloplayButton()
     {
-        SceneManager.LoadScene("Stage");
+        SceneManager.LoadScene("SampleScene");
     }
 }
