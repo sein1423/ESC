@@ -15,6 +15,7 @@ public class GameManagement : MonoBehaviour
     public GameObject dbManager;
     public GameObject playModePanel;
     public GameObject multiplayLobbyPanel;
+    public GameObject player;
 
     public static string staticPlayerName;
     public static string staticPlayTime;
@@ -32,11 +33,13 @@ public class GameManagement : MonoBehaviour
             {
                 menuSet.SetActive(false); //끔
                 Time.timeScale = 1.0f; //시간을 다시 재생
+                player.SetActive(true);
             }
             else
             {                    //꺼져있으면
                 menuSet.SetActive(true); //킴
                 Time.timeScale = 0f; //시간을 멈춤
+                player.SetActive(false);
             }
 
             if (optionSet.activeSelf) //사운드메뉴가 켜져있으면
@@ -88,6 +91,11 @@ public class GameManagement : MonoBehaviour
     {
         NetworkManager.StaticNetworkDisconnect();
         SceneManager.LoadScene("Main");
+    }
+    
+    public void RePlay()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void GameExit()
