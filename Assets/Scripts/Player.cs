@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+using PN = Photon.Pun.PhotonNetwork;
+using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviourPunCallbacks
 {
     // 스피드 조정 변수
     [SerializeField]
@@ -293,4 +297,5 @@ public class Player : MonoBehaviour
         if (other.tag == "Weapon")
             nearObject = null;
     }
+
 }

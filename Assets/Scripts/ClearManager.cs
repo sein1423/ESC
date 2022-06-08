@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ClearManager : MonoBehaviour
 {
+    public GameObject gameManagement;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +23,8 @@ public class ClearManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene("Escape");
+            GameManagement gm = gameManagement.GetComponent<GameManagement>();
+            gm.GameClear();
         }
     }
 }

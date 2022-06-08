@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class RankingManager : MonoBehaviour
 {
     public GameObject dbManager;
+    public GameObject rankingPanel;
+    public GameObject connectFailPanel;
     public Text myRecord;
     public Text text0;
     public Text text1;
@@ -29,10 +32,9 @@ public class RankingManager : MonoBehaviour
     public Text text19;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         MyRecord();
-        Rank();
     }
 
     void MyRecord()
@@ -40,23 +42,45 @@ public class RankingManager : MonoBehaviour
         if (GameManagement.staticPlayTime == null)
             return;
         else
+        {
             myRecord.text = GameManagement.staticPlayerName + "님의 기록: " + GameManagement.staticPlayTime;
+            return;
+        }
     }
 
-    void Rank()
+    public async void RankButton()
     {
-        DB db = dbManager.GetComponent<DB>();
-        string[] rankDB = new string[10];
+        rankingPanel.SetActive(true);
 
-        db.DBDeleteToTime("100분0초");   //닉네임 입력 시 100분0초로 초기화 해놨는데 만일 게임 클리어를 못해 시간이 변경되지 못할 경우 DB 삭제
-        rankDB = db.DBSelectRank(10);     //name컬럼과 timeStr컬럼을 조회하는데 timeNum의 오름차순으로 정렬하고 10개까지만 조회
-
-        Text[] textArr = new Text[20] {text0, text1, text2, text3, text4, text5, text6, text7, text8, text9, 
+        DBManager db = dbManager.GetComponent<DBManager>();
+        Text[] textArr = new Text[20] {text0, text1, text2, text3, text4, text5, text6, text7, text8, text9,
                             text10, text11, text12, text13, text14, text15, text16, text17, text18, text19};
-        
-        for (int i = 0; i < rankDB.Length; i++)
+        db.DBCommand("rank", "", "", "");
+        await Task.Delay(1500);
+        if (GameManagement.staticQueryResult == "connectFail")
         {
-            textArr[i].text = rankDB[i];
+            rankingPanel.SetActive(false);
+            connectFailPanel.SetActive(true);
+            return;
         }
+        else
+        {
+            string[] rankSplit = GameManagement.staticQueryResult.Split(',');
+            for (int i = 0; i < 20; i++)
+            {
+                textArr[i].text = rankSplit[i];
+            }
+            return;
+        }
+    }
+
+    public void RankingCloseButton()
+    {
+        rankingPanel.SetActive(false);
+    }
+
+    public void ConnectFailCloseButton()
+    {
+        connectFailPanel.SetActive(false);
     }
 }

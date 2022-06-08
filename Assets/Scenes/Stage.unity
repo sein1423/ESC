@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1815,8 +1815,6 @@ MonoBehaviour:
   optionSet: {fileID: 304028068}
   timeManager: {fileID: 701840482}
   dbManager: {fileID: 1218516048}
-  playModePanel: {fileID: 0}
-  multiplayLobbyPanel: {fileID: 0}
 --- !u!4 &825583390
 Transform:
   m_ObjectHideFlags: 0
@@ -2914,9 +2912,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1218516048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be27f869750586245a24fef50a52a22f, type: 3}
+  m_Script: {fileID: 11500000, guid: 62498e7e61461cf41af128a5fd96dc50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  url: https://jaay8vk6s3.execute-api.ap-northeast-2.amazonaws.com/default/can2022-lambda
 --- !u!4 &1218516050
 Transform:
   m_ObjectHideFlags: 0

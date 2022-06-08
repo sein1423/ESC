@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using PN = Photon.Pun.PhotonNetwork;
-using Random = UnityEngine.Random;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    public GameObject multiplayLobbyPanel;
+    public GameObject dbManager;
+    public GameObject inputNamePanel;
     public GameObject playModePanel;
+    public GameObject multiplayLobbyPanel;
     public GameObject makeRoomPanel;
     public GameObject searchRoomPanel;
     public GameObject roomPanel;
@@ -27,6 +29,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Text player2;
     public Text playerCount;
     public byte maxPlayer = 2;          //최대 플레이어 수
+    private string gameVersion = "1.0";
+
+    void Awake()
+    {
+        PN.AutomaticallySyncScene = true;
+        PN.GameVersion = this.gameVersion;
+    }
 
 
     void Update()
@@ -52,89 +61,39 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
 
+
+    public void PlayModeCloseButton()
+    {
+        GameManagement.staticPlayerName = null;
+        DBManager db = dbManager.GetComponent<DBManager>();
+        db.DBCommand("deleteName", GameManagement.staticPlayerName, "", "");
+        GameManagement.staticPlayerName = null;
+        playModePanel.SetActive(false);
+        inputNamePanel.SetActive(true);
+    }
+    public void SoloplayButton()
+    {
+        GameManagement.staticPlaymode = "soloplay";
+        SceneManager.LoadScene("SampleScene");
+    }
+    public void MultiplayButton()       //2인용 버튼을 누르면 OnConnectedToMaster() 함수 콜백
+    {
+        GameManagement.staticPlaymode = "multiplay";
+        PN.ConnectUsingSettings();
+    }
     public override void OnConnectedToMaster()  //정상적으로 서버에 접속되면 콜백되어 실행되며 OnJoinLobby() 함수 실행
     {
         PN.LocalPlayer.NickName = GameManagement.staticPlayerName;
         PN.JoinLobby();
         multiplayLobbyPanel.SetActive(true);
     }
-    public override void OnJoinedLobby()    //OnJoinLobby() 함수가 실행되면 콜백되어 OnJoinedLobby 함수 실행
-    {
-        
-    }
-    public void CreateRoom()    //방만들기 버튼을 눌렀을 때 호출되는 함수, OnCreatedRoom 함수 콜백
-    {
-        PN.JoinOrCreateRoom(makeRoomNameInput.text, new RoomOptions { MaxPlayers = maxPlayer }, null);
-    }       
-    public override void OnCreatedRoom()    //방이 만들어지면 콜백되는 함수
-    {
-    }  
-    public void JoinSearchRoom()      //방 참가 버튼을 눌렀을 때 호출되는 함수, OnJoinedRoom 함수 콜백
-    {
-        PN.JoinRoom(searchRoomNameInput.text);
-    }
-    public void JoinRandomRoom()    //생성된 방이 있다면 랜덤으로 매칭된다
-    {
-        PN.JoinRandomRoom();
-    }
-    public override void OnJoinedRoom()     //방에 참가됐을때 콜백되는 함수
-    {
-        roomPanel.SetActive(true);
-        roomText.text = $"방 이름:  {PN.CurrentRoom.Name}";
-        playerCountError.text = "";
-        makeRoomNameInput.text = "";
-        makeRoomNameOverlap.text = "";
-        makeRoomPanel.SetActive(false);
-        searchRoomNameInput.text = "";
-        searchRoomNameOverlap.text = "";
-        searchRoomPanel.SetActive(false);
-    }
-    public void LeaveRoom()     //방 나가는 함수
-    {
-        PN.LeaveRoom();
-    }
-    /*public *//*override*//* void OnPlayerEnteredRoom(Player newPlayer)  //다른사람이 방에 참가했을 때
-    {
-    }
-    public *//*override*//* void OnPlayerLeftRoom(Player otherPlayer)   //다른사람이 방을 떠났을 때
-    {
-    }*/
-    public override void OnCreateRoomFailed(short returnCode, string message)       //방 만들기 실패했을 때 콜백되는 함수
-    {
-        makeRoomNameOverlap.text = "중복된 방 이름입니다";
-    }
-    public override void OnJoinRoomFailed(short returnCode, string message)     //방 참가 실패시 콜백되는 함수
-    {
-        joinRoomFailPanel.SetActive(true);
-    }
-    public override void OnJoinRandomFailed(short returnCode, string message)   //랜덤 방 참가
-    {
-        randomMatchFailPanel.SetActive(true);
-    }
-    public override void OnDisconnected(DisconnectCause cause)  //서버에서 나가지면 콜백되어 실행
-    {
-        multiplayLobbyPanel.SetActive(false);
-        playModePanel.SetActive(true);
-    }
-
-
-
-
-
-
-
-    public void MultiplayButton()       //2인용 버튼을 누르면 OnConnectedToMaster() 함수 콜백
-    {
-        PN.ConnectUsingSettings();
-    }
     public void MultiplayCloseButton()       //로비에서 클로즈 버튼 눌렀을 때 OnDisconnected() 함수 콜백
     {
         PN.Disconnect();
     }
-    static public void StaticNetworkDisconnect()    //게임 실행중에 게임에서 나갈 시 실행될 함수
-    {
-        PN.Disconnect();
-    }
+
+
+    
     public void MakeRoomButton()    //로비에서 MakeRoom버튼 눌렀을 때
     {
         makeRoomPanel.SetActive(true);
@@ -155,16 +114,35 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         CreateRoom();
     }
+    public void CreateRoom()    //방만들기 버튼을 눌렀을 때 호출되는 함수, OnCreatedRoom 함수 콜백
+    {
+        PN.JoinOrCreateRoom(makeRoomNameInput.text, new RoomOptions { MaxPlayers = maxPlayer }, null);
+    }
     public void MakeRoomCancel()    //MakeRoom 패널에서 취소버튼 눌렀을 때
     {
         makeRoomPanel.SetActive(false);
     }
-    public void SearchRoomButton()    //로비에서 MakeRoom버튼 눌렀을 때
+    public override void OnJoinedRoom()     //방에 참가됐을때 콜백되는 함수
+    {
+        roomPanel.SetActive(true);
+        roomText.text = $"방 이름:  {PN.CurrentRoom.Name}";
+        playerCountError.text = "";
+        makeRoomNameInput.text = "";
+        makeRoomNameOverlap.text = "";
+        makeRoomPanel.SetActive(false);
+        searchRoomNameInput.text = "";
+        searchRoomNameOverlap.text = "";
+        searchRoomPanel.SetActive(false);
+    }
+
+
+
+    public void SearchRoomButton()    
     {
         searchRoomPanel.SetActive(true);
         searchRoomNameOverlap.text = "";
     }
-    public void SearchRoomButton2()   //MakeRoom 패널에서 실제 방만들기 버튼 눌렀을때
+    public void SearchRoomButton2()   
     {
         if (searchRoomNameInput.text == "")
         {
@@ -178,18 +156,51 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         JoinSearchRoom();
     }
-    public void SearchRoomCancel()    //MakeRoom 패널에서 취소버튼 눌렀을 때
+    public void JoinSearchRoom()      
+    {
+        PN.JoinRoom(searchRoomNameInput.text);
+    }
+    public void SearchRoomCancel()    
     {
         searchRoomPanel.SetActive(false);
     }
+
+
+
     public void RandomMatch()       //랜덤매칭 버튼 클릭 시
     {
         JoinRandomRoom();
     }
-    public void RoomOutButton()     //방에서 나오는 취소 버튼
+    public void JoinRandomRoom()    //생성된 방이 있다면 랜덤으로 매칭된다
+    {
+        PN.JoinRandomRoom();
+    }
+
+
+
+    public void RoomOutButton()     //방에서 나오는 버튼
     {
         LeaveRoom();
         roomPanel.SetActive(false);
+    }
+    public void LeaveRoom()     //방 나가는 함수
+    {
+        PN.LeaveRoom();
+    }
+
+
+
+    public override void OnCreateRoomFailed(short returnCode, string message)       //방 만들기 실패했을 때 콜백되는 함수
+    {
+        makeRoomNameOverlap.text = "중복된 방 이름입니다";
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message)     //방 참가 실패시 콜백되는 함수
+    {
+        joinRoomFailPanel.SetActive(true);
+    }
+    public override void OnJoinRandomFailed(short returnCode, string message)   //랜덤 방 참가
+    {
+        randomMatchFailPanel.SetActive(true);
     }
     public void RandomMatchFailCloseButton()    //랜덤 매칭 실패되고 나오는 패널 취소 버튼
     {
@@ -199,11 +210,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         joinRoomFailPanel.SetActive(false);
     }
+    public override void OnDisconnected(DisconnectCause cause)  //서버에서 나가지면 콜백되어 실행
+    {
+        multiplayLobbyPanel.SetActive(false);
+        playModePanel.SetActive(true);
+    }
+    static public void StaticNetworkDisconnect()    //게임 실행중에 게임에서 나갈 시 실행될 함수
+    {
+        PN.Disconnect();
+    }
+
+
+
     public void GameStartButton()    //게임 시작
     {
         if (PN.CurrentRoom.PlayerCount == maxPlayer)
         {
-            SceneManager.LoadScene("Stage");
+            PN.IsMessageQueueRunning = false;
+            SceneManager.LoadScene("SampleScene");
         }
         else if (PN.CurrentRoom.PlayerCount != PN.CurrentRoom.MaxPlayers)
         {
