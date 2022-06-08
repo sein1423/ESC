@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Die.unity
+    guid: c9b62079e7609284f965fd02a74ead3b
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8685c88742bbd9942b35aed1c3dd5fc9, type: 2}

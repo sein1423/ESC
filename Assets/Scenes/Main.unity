@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5328,6 +5328,9 @@ MonoBehaviour:
   optionSet: {fileID: 0}
   timeManager: {fileID: 0}
   dbManager: {fileID: 0}
+  playModePanel: {fileID: 0}
+  multiplayLobbyPanel: {fileID: 0}
+  player: {fileID: 0}
 --- !u!4 &842087437
 Transform:
   m_ObjectHideFlags: 0
@@ -8223,10 +8226,13 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "w: \uC804\uC9C4\n\ns: \uD6C4\uC9C4\n\na: \uC67C\uCABD\n\nd: \uC624\uB978\uCABD\n\n\uB3D9\uAD74\uC5D0\uC11C
+  m_Text: "W: \uC804\uC9C4                         F : \uC544\uC774\uD15C \uC90D\uAE30    
+    \n\nS: \uD6C4\uC9C4\t\t\t\t\t\t\tG : \uB77C\uC774\uD130 \uC628/\uC624\uD504\n\nA:
+    \uC67C\uCABD\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\nD: \uC624\uB978\uCABD  \t\t\t\t\t\uB9C8\uC6B0\uC2A4\uB85C
+    \uC2DC\uC810\uC774\uB3D9\n\n\uC880\uD53C\uB97C \uD53C\uD574 \uB3D9\uAD74\uC5D0\uC11C
     \uD0C8\uCD9C\uD558\uC138\uC694!"
 --- !u!222 &1481706211
 CanvasRenderer:
