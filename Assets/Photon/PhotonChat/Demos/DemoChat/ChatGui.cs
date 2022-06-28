@@ -9,10 +9,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
-
-using Photon.Chat;
 using Photon.Realtime;
-using AuthenticationValues = Photon.Chat.AuthenticationValues;
 #if PHOTON_UNITY_NETWORKING
 using Photon.Pun;
 #endif
@@ -52,9 +49,9 @@ namespace Photon.Chat.Demo
 
         public ChatClient chatClient;
 
-        #if !PHOTON_UNITY_NETWORKING
+#if !PHOTON_UNITY_NETWORKING
         [SerializeField]
-        #endif
+#endif
         protected internal ChatAppSettings chatAppSettings;
 
 
@@ -72,7 +69,7 @@ namespace Photon.Chat.Demo
 
         private readonly Dictionary<string, Toggle> channelToggles = new Dictionary<string, Toggle>();
 
-        private readonly Dictionary<string,FriendItem> friendListItemLUT =  new Dictionary<string, FriendItem>();
+        private readonly Dictionary<string, FriendItem> friendListItemLUT = new Dictionary<string, FriendItem>();
 
         public bool ShowState = true;
         public GameObject Title;
@@ -118,7 +115,7 @@ namespace Photon.Chat.Demo
             DontDestroyOnLoad(this.gameObject);
 
             this.UserIdText.text = "";
-            this.StateText.text  = "";
+            this.StateText.text = "";
             this.StateText.gameObject.SetActive(true);
             this.UserIdText.gameObject.SetActive(true);
             this.Title.SetActive(true);
@@ -127,12 +124,12 @@ namespace Photon.Chat.Demo
 
             if (string.IsNullOrEmpty(this.UserName))
             {
-                this.UserName = "user" + Environment.TickCount%99; //made-up username
+                this.UserName = "user" + Environment.TickCount % 99; //made-up username
             }
 
-            #if PHOTON_UNITY_NETWORKING
+#if PHOTON_UNITY_NETWORKING
             this.chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings.GetChatSettings();
-            #endif
+#endif
 
             bool appIdPresent = !string.IsNullOrEmpty(this.chatAppSettings.AppIdChat);
 
@@ -150,9 +147,9 @@ namespace Photon.Chat.Demo
             this.UserIdFormPanel.gameObject.SetActive(false);
 
             this.chatClient = new ChatClient(this);
-            #if !UNITY_WEBGL
+#if !UNITY_WEBGL
             this.chatClient.UseBackgroundWorkerForSending = true;
-            #endif
+#endif
             this.chatClient.AuthValues = new AuthenticationValues(this.UserName);
             this.chatClient.ConnectUsingSettings(this.chatAppSettings);
 
@@ -188,7 +185,7 @@ namespace Photon.Chat.Demo
             }
 
             // check if we are missing context, which means we got kicked out to get back to the Photon Demo hub.
-            if ( this.StateText == null)
+            if (this.StateText == null)
             {
                 Destroy(this.gameObject);
                 return;
@@ -252,7 +249,7 @@ namespace Photon.Chat.Demo
 
             if (inputLine[0].Equals('\\'))
             {
-                string[] tokens = inputLine.Split(new char[] {' '}, 2);
+                string[] tokens = inputLine.Split(new char[] { ' ' }, 2);
                 if (tokens[0].Equals("\\help"))
                 {
                     this.PostHelpToCurrentChannel();
@@ -263,8 +260,8 @@ namespace Photon.Chat.Demo
 
 
                     List<string> messages = new List<string>();
-                    messages.Add ("i am state " + newState);
-                    string[] subtokens = tokens[1].Split(new char[] {' ', ','});
+                    messages.Add("i am state " + newState);
+                    string[] subtokens = tokens[1].Split(new char[] { ' ', ',' });
 
                     if (subtokens.Length > 0)
                     {
@@ -276,15 +273,15 @@ namespace Photon.Chat.Demo
                         messages.Add(subtokens[1]);
                     }
 
-                    this.chatClient.SetOnlineStatus(newState,messages.ToArray()); // this is how you set your own state and (any) message
+                    this.chatClient.SetOnlineStatus(newState, messages.ToArray()); // this is how you set your own state and (any) message
                 }
                 else if ((tokens[0].Equals("\\subscribe") || tokens[0].Equals("\\s")) && !string.IsNullOrEmpty(tokens[1]))
                 {
-                    this.chatClient.Subscribe(tokens[1].Split(new char[] {' ', ','}));
+                    this.chatClient.Subscribe(tokens[1].Split(new char[] { ' ', ',' }));
                 }
                 else if ((tokens[0].Equals("\\unsubscribe") || tokens[0].Equals("\\u")) && !string.IsNullOrEmpty(tokens[1]))
                 {
-                    this.chatClient.Unsubscribe(tokens[1].Split(new char[] {' ', ','}));
+                    this.chatClient.Unsubscribe(tokens[1].Split(new char[] { ' ', ',' }));
                 }
                 else if (tokens[0].Equals("\\clear"))
                 {
@@ -303,7 +300,7 @@ namespace Photon.Chat.Demo
                 }
                 else if (tokens[0].Equals("\\msg") && !string.IsNullOrEmpty(tokens[1]))
                 {
-                    string[] subtokens = tokens[1].Split(new char[] {' ', ','}, 2);
+                    string[] subtokens = tokens[1].Split(new char[] { ' ', ',' }, 2);
                     if (subtokens.Length < 2) return;
 
                     string targetUser = subtokens[0];
@@ -372,18 +369,18 @@ namespace Photon.Chat.Demo
 
             this.ConnectingLabel.SetActive(false);
 
-            this.UserIdText.text = "Connected as "+ this.UserName;
+            this.UserIdText.text = "Connected as " + this.UserName;
 
             this.ChatPanel.gameObject.SetActive(true);
 
-            if (this.FriendsList!=null  && this.FriendsList.Length>0)
+            if (this.FriendsList != null && this.FriendsList.Length > 0)
             {
                 this.chatClient.AddFriends(this.FriendsList); // Add some users to the server-list to get their status updates
 
                 // add to the UI as well
-                foreach(string _friend in this.FriendsList)
+                foreach (string _friend in this.FriendsList)
                 {
-                    if (this.FriendListUiItemtoInstantiate != null && _friend!= this.UserName)
+                    if (this.FriendListUiItemtoInstantiate != null && _friend != this.UserName)
                     {
                         this.InstantiateFriendButton(_friend);
                     }
@@ -480,7 +477,7 @@ namespace Photon.Chat.Demo
         {
             GameObject fbtn = (GameObject)Instantiate(this.FriendListUiItemtoInstantiate);
             fbtn.gameObject.SetActive(true);
-            FriendItem  _friendItem =	fbtn.GetComponent<FriendItem>();
+            FriendItem _friendItem = fbtn.GetComponent<FriendItem>();
 
             _friendItem.FriendId = friendId;
 
@@ -539,7 +536,7 @@ namespace Photon.Chat.Demo
             byte[] msgBytes = message as byte[];
             if (msgBytes != null)
             {
-                Debug.Log("Message with byte[].Length: "+ msgBytes.Length);
+                Debug.Log("Message with byte[].Length: " + msgBytes.Length);
             }
             if (this.selectedChannelName.Equals(channelName))
             {
@@ -563,7 +560,7 @@ namespace Photon.Chat.Demo
             if (this.friendListItemLUT.ContainsKey(user))
             {
                 FriendItem _friendItem = this.friendListItemLUT[user];
-                if ( _friendItem!=null) _friendItem.OnFriendStatusUpdate(status,gotMessage,message);
+                if (_friendItem != null) _friendItem.OnFriendStatusUpdate(status, gotMessage, message);
             }
         }
 
@@ -606,7 +603,7 @@ namespace Photon.Chat.Demo
 
             if (channel != null)
             {
-                channel.Add("Bot", msg,0); //TODO: how to use msgID?
+                channel.Add("Bot", msg, 0); //TODO: how to use msgID?
             }
         }
 

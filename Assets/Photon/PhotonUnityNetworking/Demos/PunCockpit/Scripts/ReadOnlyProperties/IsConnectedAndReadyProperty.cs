@@ -22,10 +22,10 @@ namespace Photon.Pun.Demo.Cockpit
         void Update()
         {
 
-			if ((PhotonNetwork.IsConnectedAndReady && _cache != 1) || (!PhotonNetwork.IsConnectedAndReady && _cache != 0))
+            if ((PhotonNetwork.IsConnectedAndReady && _cache != 1) || (!PhotonNetwork.IsConnectedAndReady && _cache != 0))
             {
-				_cache = PhotonNetwork.IsConnectedAndReady ? 1 : 0;
-				Text.text = PhotonNetwork.IsConnectedAndReady ? "true" : "false";
+                _cache = PhotonNetwork.IsConnectedAndReady ? 1 : 0;
+                Text.text = PhotonNetwork.IsConnectedAndReady ? "true" : "false";
                 this.OnValueChanged();
             }
         }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MapCamController : MonoBehaviour
@@ -8,7 +6,7 @@ public class MapCamController : MonoBehaviour
     public Transform cam;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

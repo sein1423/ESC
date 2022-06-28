@@ -15,8 +15,8 @@ namespace Photon.Chat
         /// <summary>Limit of the number of users subscribed to the channel to be created.</summary>
         public int MaxSubscribers { get; set; }
 
-        #if CHAT_EXTENDED
+#if CHAT_EXTENDED
         public System.Collections.Generic.Dictionary<string, object> CustomProperties { get; set; }
-        #endif
+#endif
     }
 }

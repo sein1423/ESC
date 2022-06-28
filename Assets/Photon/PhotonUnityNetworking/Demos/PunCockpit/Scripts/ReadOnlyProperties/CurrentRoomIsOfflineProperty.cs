@@ -24,10 +24,10 @@ namespace Photon.Pun.Demo.Cockpit
 
             if (PhotonNetwork.CurrentRoom != null)
             {
-				if ((PhotonNetwork.CurrentRoom.IsOffline && _cache != 1) || (!PhotonNetwork.CurrentRoom.IsOffline && _cache != 0))
+                if ((PhotonNetwork.CurrentRoom.IsOffline && _cache != 1) || (!PhotonNetwork.CurrentRoom.IsOffline && _cache != 0))
                 {
-					_cache = PhotonNetwork.CurrentRoom.IsOffline ? 1 : 0;
-					Text.text = PhotonNetwork.CurrentRoom.IsOffline ? "true" : "false";
+                    _cache = PhotonNetwork.CurrentRoom.IsOffline ? 1 : 0;
+                    Text.text = PhotonNetwork.CurrentRoom.IsOffline ? "true" : "false";
                     this.OnValueChanged();
                 }
             }

@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Mono.Data.SqliteClient;
 // 아래는 DB 사용에 필요한 패키지들
 using System;
+using System.Collections;
 using System.Data;
-using Mono.Data.SqliteClient;
 using System.IO;
-using UnityEngine.Networking;
+using UnityEngine;
 
 public class DB : MonoBehaviour
 {
@@ -102,7 +100,7 @@ public class DB : MonoBehaviour
         while (dataReader.Read())       //들어온 레코드 읽기
         {
             rank[i] = dataReader.GetString(0);
-            rank[i+1] = dataReader.GetString(1);
+            rank[i + 1] = dataReader.GetString(1);
             i += 2;
         }
         dataReader.Dispose();       //생성 순서와 반대로 닫아준다

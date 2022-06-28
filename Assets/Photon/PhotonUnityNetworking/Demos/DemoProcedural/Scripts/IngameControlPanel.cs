@@ -55,25 +55,25 @@ namespace Photon.Pun.Demo.Procedural
                 switch (value)
                 {
                     case 0:
-                    {
-                        WorldGenerator.Instance.WorldSize = WorldSize.Tiny;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.WorldSize = WorldSize.Tiny;
+                            break;
+                        }
                     case 1:
-                    {
-                        WorldGenerator.Instance.WorldSize = WorldSize.Small;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.WorldSize = WorldSize.Small;
+                            break;
+                        }
                     case 2:
-                    {
-                        WorldGenerator.Instance.WorldSize = WorldSize.Medium;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.WorldSize = WorldSize.Medium;
+                            break;
+                        }
                     case 3:
-                    {
-                        WorldGenerator.Instance.WorldSize = WorldSize.Large;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.WorldSize = WorldSize.Large;
+                            break;
+                        }
                 }
             });
 
@@ -84,20 +84,20 @@ namespace Photon.Pun.Demo.Procedural
                 switch (value)
                 {
                     case 0:
-                    {
-                        WorldGenerator.Instance.ClusterSize = ClusterSize.Small;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.ClusterSize = ClusterSize.Small;
+                            break;
+                        }
                     case 1:
-                    {
-                        WorldGenerator.Instance.ClusterSize = ClusterSize.Medium;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.ClusterSize = ClusterSize.Medium;
+                            break;
+                        }
                     case 2:
-                    {
-                        WorldGenerator.Instance.ClusterSize = ClusterSize.Large;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.ClusterSize = ClusterSize.Large;
+                            break;
+                        }
                 }
             });
 
@@ -108,20 +108,20 @@ namespace Photon.Pun.Demo.Procedural
                 switch (value)
                 {
                     case 0:
-                    {
-                        WorldGenerator.Instance.WorldType = WorldType.Flat;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.WorldType = WorldType.Flat;
+                            break;
+                        }
                     case 1:
-                    {
-                        WorldGenerator.Instance.WorldType = WorldType.Standard;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.WorldType = WorldType.Standard;
+                            break;
+                        }
                     case 2:
-                    {
-                        WorldGenerator.Instance.WorldType = WorldType.Mountain;
-                        break;
-                    }
+                        {
+                            WorldGenerator.Instance.WorldType = WorldType.Mountain;
+                            break;
+                        }
                 }
             });
 
@@ -188,75 +188,75 @@ namespace Photon.Pun.Demo.Procedural
             if (propertiesThatChanged.ContainsKey(WorldGenerator.Instance.SeedPropertiesKey) && propertiesThatChanged.ContainsKey(WorldGenerator.Instance.WorldSizePropertiesKey) && propertiesThatChanged.ContainsKey(WorldGenerator.Instance.ClusterSizePropertiesKey) && propertiesThatChanged.ContainsKey(WorldGenerator.Instance.WorldTypePropertiesKey))
             {
                 // Updating Seed
-                int seed = (int) propertiesThatChanged[WorldGenerator.Instance.SeedPropertiesKey];
+                int seed = (int)propertiesThatChanged[WorldGenerator.Instance.SeedPropertiesKey];
                 seedInputField.text = seed.ToString();
 
                 // Updating World Size
-                WorldSize worldSize = (WorldSize) propertiesThatChanged[WorldGenerator.Instance.WorldSizePropertiesKey];
+                WorldSize worldSize = (WorldSize)propertiesThatChanged[WorldGenerator.Instance.WorldSizePropertiesKey];
                 switch (worldSize)
                 {
                     case WorldSize.Tiny:
-                    {
-                        worldSizeDropdown.value = 0;
-                        break;
-                    }
+                        {
+                            worldSizeDropdown.value = 0;
+                            break;
+                        }
                     case WorldSize.Small:
-                    {
-                        worldSizeDropdown.value = 1;
-                        break;
-                    }
+                        {
+                            worldSizeDropdown.value = 1;
+                            break;
+                        }
                     case WorldSize.Medium:
-                    {
-                        worldSizeDropdown.value = 2;
-                        break;
-                    }
+                        {
+                            worldSizeDropdown.value = 2;
+                            break;
+                        }
                     case WorldSize.Large:
-                    {
-                        worldSizeDropdown.value = 3;
-                        break;
-                    }
+                        {
+                            worldSizeDropdown.value = 3;
+                            break;
+                        }
                 }
 
                 // Updating Cluster Size
-                ClusterSize clusterSize = (ClusterSize) propertiesThatChanged[WorldGenerator.Instance.ClusterSizePropertiesKey];
+                ClusterSize clusterSize = (ClusterSize)propertiesThatChanged[WorldGenerator.Instance.ClusterSizePropertiesKey];
                 switch (clusterSize)
                 {
                     case ClusterSize.Small:
-                    {
-                        clusterSizeDropdown.value = 0;
-                        break;
-                    }
+                        {
+                            clusterSizeDropdown.value = 0;
+                            break;
+                        }
                     case ClusterSize.Medium:
-                    {
-                        clusterSizeDropdown.value = 1;
-                        break;
-                    }
+                        {
+                            clusterSizeDropdown.value = 1;
+                            break;
+                        }
                     case ClusterSize.Large:
-                    {
-                        clusterSizeDropdown.value = 2;
-                        break;
-                    }
+                        {
+                            clusterSizeDropdown.value = 2;
+                            break;
+                        }
                 }
 
                 // Updating World Type
-                WorldType worldType = (WorldType) propertiesThatChanged[WorldGenerator.Instance.WorldTypePropertiesKey];
+                WorldType worldType = (WorldType)propertiesThatChanged[WorldGenerator.Instance.WorldTypePropertiesKey];
                 switch (worldType)
                 {
                     case WorldType.Flat:
-                    {
-                        worldTypeDropdown.value = 0;
-                        break;
-                    }
+                        {
+                            worldTypeDropdown.value = 0;
+                            break;
+                        }
                     case WorldType.Standard:
-                    {
-                        worldTypeDropdown.value = 1;
-                        break;
-                    }
+                        {
+                            worldTypeDropdown.value = 1;
+                            break;
+                        }
                     case WorldType.Mountain:
-                    {
-                        worldTypeDropdown.value = 2;
-                        break;
-                    }
+                        {
+                            worldTypeDropdown.value = 2;
+                            break;
+                        }
                 }
 
                 // Generating a new world

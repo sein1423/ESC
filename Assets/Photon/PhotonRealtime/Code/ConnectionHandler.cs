@@ -20,16 +20,16 @@ namespace Photon.Realtime
     using System.Diagnostics;
     using SupportClass = ExitGames.Client.Photon.SupportClass;
 
-    #if SUPPORTED_UNITY
+#if SUPPORTED_UNITY
     using UnityEngine;
-    #endif
+#endif
 
 
-    #if SUPPORTED_UNITY
+#if SUPPORTED_UNITY
     public class ConnectionHandler : MonoBehaviour
-    #else
+#else
     public class ConnectionHandler
-    #endif
+#endif
     {
         /// <summary>
         /// Photon client to log information and statistics from.
@@ -44,7 +44,7 @@ namespace Photon.Realtime
         /// If false, a regular timeout time will have to pass (on top) to time out the client.
         /// </remarks>
         public bool DisconnectAfterKeepAlive = false;
-        
+
         /// <summary>Defines for how long the Fallback Thread should keep the connection, before it may time out as usual.</summary>
         /// <remarks>We want to the Client to keep it's connection when an app is in the background (and doesn't call Update / Service Clients should not keep their connection indefinitely in the background, so after some milliseconds, the Fallback Thread should stop keeping it up.</remarks>
         public int KeepAliveInBackground = 60000;
@@ -57,7 +57,7 @@ namespace Photon.Realtime
         {
             get { return this.fallbackThreadId < 255; }
         }
-        
+
         /// <summary>Keeps the ConnectionHandler, even if a new scene gets loaded.</summary>
         public bool ApplyDontDestroyOnLoad = true;
 
@@ -71,9 +71,9 @@ namespace Photon.Realtime
         private readonly Stopwatch backgroundStopwatch = new Stopwatch();
 
 
-        #if SUPPORTED_UNITY
+#if SUPPORTED_UNITY
 
-        #if UNITY_2019_4_OR_NEWER
+#if UNITY_2019_4_OR_NEWER
 
         /// <summary>
         /// Resets statics for Domain Reload
@@ -84,7 +84,7 @@ namespace Photon.Realtime
             AppQuits = false;
         }
 
-        #endif
+#endif
 
 
         /// <summary>Called by Unity when the application gets closed. The UnityEngine will also call OnDisable, which disconnects.</summary>
@@ -120,28 +120,28 @@ namespace Photon.Realtime
             }
         }
 
-        #endif
+#endif
 
 
         public void StartFallbackSendAckThread()
         {
-            #if !UNITY_WEBGL
+#if !UNITY_WEBGL
             if (this.FallbackThreadRunning)
             {
                 return;
             }
 
-            #if UNITY_SWITCH
+#if UNITY_SWITCH
             this.fallbackThreadId = SupportClass.StartBackgroundCalls(this.RealtimeFallbackThread, 50);  // as workaround, we don't name the Thread.
-            #else
+#else
             this.fallbackThreadId = SupportClass.StartBackgroundCalls(this.RealtimeFallbackThread, 50, "RealtimeFallbackThread");
-            #endif
-            #endif
+#endif
+#endif
         }
 
         public void StopFallbackSendAckThread()
         {
-            #if !UNITY_WEBGL
+#if !UNITY_WEBGL
             if (!this.FallbackThreadRunning)
             {
                 return;
@@ -149,7 +149,7 @@ namespace Photon.Realtime
 
             SupportClass.StopBackgroundCalls(this.fallbackThreadId);
             this.fallbackThreadId = 255;
-            #endif
+#endif
         }
 
 
@@ -171,7 +171,7 @@ namespace Photon.Realtime
                         backgroundStopwatch.Reset();
                         backgroundStopwatch.Start();
                     }
-                    
+
                     // check if the client should disconnect after some seconds in background
                     if (backgroundStopwatch.ElapsedMilliseconds > this.KeepAliveInBackground)
                     {
@@ -181,7 +181,7 @@ namespace Photon.Realtime
                         }
                         return true;
                     }
-                    
+
 
                     this.didSendAcks = true;
                     this.CountSendAcksOnly++;

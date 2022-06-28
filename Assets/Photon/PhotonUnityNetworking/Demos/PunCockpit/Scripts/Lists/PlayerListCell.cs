@@ -8,13 +8,11 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
 using System.Collections;
-
 using UnityEngine;
 using UnityEngine.UI;
-
-using Photon.Realtime;
-using Photon.Pun.UtilityScripts;
 
 namespace Photon.Pun.Demo.Cockpit
 {

@@ -14,7 +14,7 @@ namespace Photon.Pun.Demo.Cockpit
 	/// PhotonNetwork.AutomaticallySyncScene UI Toggle
     /// </summary>
     [RequireComponent(typeof(Toggle))]
-	public class AutoSyncSceneToggle : MonoBehaviour
+    public class AutoSyncSceneToggle : MonoBehaviour
     {
         Toggle _toggle;
 
@@ -45,16 +45,16 @@ namespace Photon.Pun.Demo.Cockpit
         void Update()
         {
 
-			if (PhotonNetwork.AutomaticallySyncScene != _toggle.isOn)
+            if (PhotonNetwork.AutomaticallySyncScene != _toggle.isOn)
             {
-				_toggle.isOn = PhotonNetwork.AutomaticallySyncScene;
+                _toggle.isOn = PhotonNetwork.AutomaticallySyncScene;
             }
         }
 
 
         public void ToggleValue(bool value)
         {
-			PhotonNetwork.AutomaticallySyncScene = value;
+            PhotonNetwork.AutomaticallySyncScene = value;
             //Debug.Log("PhotonNetwork.CrcCheckEnabled = " + PhotonNetwork.CrcCheckEnabled, this);
         }
     }

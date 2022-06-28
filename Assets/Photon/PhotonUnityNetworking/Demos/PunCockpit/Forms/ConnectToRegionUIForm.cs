@@ -6,8 +6,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Photon.Pun.Demo.Cockpit.Forms
 {
@@ -16,42 +16,43 @@ namespace Photon.Pun.Demo.Cockpit.Forms
     /// </summary>
 	public class ConnectToRegionUIForm : MonoBehaviour
     {
-		public InputField RegionInput;
-		public Dropdown RegionListInput;
+        public InputField RegionInput;
+        public Dropdown RegionListInput;
 
-		[System.Serializable]
-		public class OnSubmitEvent : UnityEvent<string>{}
+        [System.Serializable]
+        public class OnSubmitEvent : UnityEvent<string> { }
 
-		public OnSubmitEvent OnSubmit;
+        public OnSubmitEvent OnSubmit;
 
-		public void Start()
-		{
-			
-		}
+        public void Start()
+        {
 
-		// new UI will fire "EndEdit" event also when loosing focus. So check "enter" key and only then StartChat.
-		public void EndEditOnEnter()
-		{
-			if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
-			{
-				this.SubmitForm();
-			}
-		}
+        }
 
-		public void SetRegionFromDropDown(int index)
-		{
-			if (index == 0) {
-				return;
-			}
+        // new UI will fire "EndEdit" event also when loosing focus. So check "enter" key and only then StartChat.
+        public void EndEditOnEnter()
+        {
+            if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
+            {
+                this.SubmitForm();
+            }
+        }
 
-			RegionInput.text =	RegionListInput.options[index].text;
-			RegionListInput.value = 0;
+        public void SetRegionFromDropDown(int index)
+        {
+            if (index == 0)
+            {
+                return;
+            }
 
-		}
+            RegionInput.text = RegionListInput.options[index].text;
+            RegionListInput.value = 0;
 
-		public void SubmitForm()
-		{
-			OnSubmit.Invoke (RegionInput.text);
-		}
-	}
+        }
+
+        public void SubmitForm()
+        {
+            OnSubmit.Invoke(RegionInput.text);
+        }
+    }
 }

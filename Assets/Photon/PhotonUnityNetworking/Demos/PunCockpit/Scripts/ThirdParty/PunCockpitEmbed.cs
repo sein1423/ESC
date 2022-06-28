@@ -8,12 +8,10 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Photon.Pun.UtilityScripts;
 using System.Collections;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-using Photon.Pun.UtilityScripts;
 
 namespace Photon.Pun.Demo.Cockpit
 {

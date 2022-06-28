@@ -12,11 +12,10 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Photon.Pun.UtilityScripts
@@ -43,12 +42,12 @@ namespace Photon.Pun.UtilityScripts
     [DisallowMultipleComponent]
     public class PhotonTeamsManager : MonoBehaviour, IMatchmakingCallbacks, IInRoomCallbacks
     {
-        #if UNITY_EDITOR
-        #pragma warning disable 0414
+#if UNITY_EDITOR
+#pragma warning disable 0414
         [SerializeField]
         private bool listFoldIsOpen = true;
-        #pragma warning restore 0414
-        #endif
+#pragma warning restore 0414
+#endif
 
         [SerializeField]
         private List<PhotonTeam> teamsList = new List<PhotonTeam>
@@ -59,7 +58,7 @@ namespace Photon.Pun.UtilityScripts
 
         private Dictionary<byte, PhotonTeam> teamsByCode;
         private Dictionary<string, PhotonTeam> teamsByName;
-        
+
         /// <summary>The main list of teams with their player-lists. Automatically kept up to date.</summary>
         private Dictionary<byte, HashSet<Player>> playersPerTeam;
 
@@ -161,10 +160,10 @@ namespace Photon.Pun.UtilityScripts
                             break;
                         }
                     }
-                } 
+                }
                 else if (temp is byte)
                 {
-                    byte teamCode = (byte) temp;
+                    byte teamCode = (byte)temp;
                     // check if player switched teams, remove from previous team 
                     foreach (byte code in playersPerTeam.Keys)
                     {
@@ -194,7 +193,7 @@ namespace Photon.Pun.UtilityScripts
                 }
                 else
                 {
-                    Debug.LogErrorFormat("Unexpected: custom property key {0} should have of type byte, instead we got {1} of type {2}. Player: {3}", 
+                    Debug.LogErrorFormat("Unexpected: custom property key {0} should have of type byte, instead we got {1} of type {2}. Player: {3}",
                         TeamPlayerProp, temp, temp.GetType(), targetPlayer);
                 }
             }
@@ -573,7 +572,7 @@ namespace Photon.Pun.UtilityScripts
                 return false;
             }
             return player.SetCustomProperties(new Hashtable { { PhotonTeamsManager.TeamPlayerProp, team.Code } },
-                new Hashtable { { PhotonTeamsManager.TeamPlayerProp, currentTeam.Code }});
+                new Hashtable { { PhotonTeamsManager.TeamPlayerProp, currentTeam.Code } });
         }
 
         /// <summary>Switch the player's team using a team code.</summary>
@@ -611,7 +610,7 @@ namespace Photon.Pun.UtilityScripts
                 Debug.LogWarningFormat("LeaveCurrentTeam failed: player ({0}) was not joined to any team", player);
                 return false;
             }
-            return player.SetCustomProperties(new Hashtable {{PhotonTeamsManager.TeamPlayerProp, null}}, new Hashtable {{PhotonTeamsManager.TeamPlayerProp, currentTeam.Code}});
+            return player.SetCustomProperties(new Hashtable { { PhotonTeamsManager.TeamPlayerProp, null } }, new Hashtable { { PhotonTeamsManager.TeamPlayerProp, currentTeam.Code } });
         }
 
         /// <summary>

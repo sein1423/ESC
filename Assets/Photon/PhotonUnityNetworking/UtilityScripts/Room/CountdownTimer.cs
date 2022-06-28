@@ -41,7 +41,7 @@ namespace Photon.Pun.UtilityScripts
 
         public const string CountdownStartTime = "StartTime";
 
-        [Header("Countdown time in seconds")] 
+        [Header("Countdown time in seconds")]
         public float Countdown = 5.0f;
 
         private bool isTimerRunning;
@@ -170,7 +170,7 @@ namespace Photon.Pun.UtilityScripts
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
 
-            Debug.Log("Set Custom Props for Time: "+ props.ToStringFull() + " wasSet: "+wasSet);
+            Debug.Log("Set Custom Props for Time: " + props.ToStringFull() + " wasSet: " + wasSet);
         }
     }
 }

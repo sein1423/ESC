@@ -7,7 +7,6 @@
 
 namespace Photon.Chat
 {
-    using System.Collections.Generic;
     using ExitGames.Client.Photon;
 
     /// <summary>
@@ -102,7 +101,7 @@ namespace Photon.Chat
         void OnUserUnsubscribed(string channel, string user);
 
 
-        #if CHAT_EXTENDED
+#if CHAT_EXTENDED
         
         /// <summary>
         /// Properties of a public channel has been changed
@@ -132,17 +131,17 @@ namespace Photon.Chat
         /// <param name="data">Optional error data</param>
         void OnErrorInfo(string channel, string error, object data);
         
-        #endif
+#endif
 
 
-        #if SDK_V4
+#if SDK_V4
         /// <summary>
         /// Received a broadcast message
         /// </summary>
         /// <param name="channel">Name of the chat channel</param>
         /// <param name="message">Message data</param>
         void OnReceiveBroadcastMessage(string channel, byte[] message);
-        #endif
+#endif
 
     }
 }

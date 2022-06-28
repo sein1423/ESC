@@ -5,17 +5,15 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Photon.Pun.Demo.Cockpit.Forms;
+using Photon.Pun.Demo.Shared;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 using UnityEngine;
 using UnityEngine.UI;
-
-using Photon.Pun.Demo.Cockpit.Forms;
-using Photon.Pun.Demo.Shared;
-using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Photon.Pun.Demo.Cockpit
@@ -29,7 +27,7 @@ namespace Photon.Pun.Demo.Cockpit
         public static bool Embedded;
         public static string EmbeddedGameTitle = "";
 
-		public bool debug = false;
+        public bool debug = false;
 
         public string UserId { get; set; }
 
@@ -68,7 +66,7 @@ namespace Photon.Pun.Demo.Cockpit
 
         public InputField RoomCustomPropertyInputfield;
 
-		[Header("Photon Settings")]
+        [Header("Photon Settings")]
         /// <summary>
         /// The game version override. This is one way to let the user define the gameversion, and set it properly right after we call connect to override the server settings
         /// Check ConnectAndJoinRandom.cs for another example of gameversion overriding
@@ -113,26 +111,26 @@ namespace Photon.Pun.Demo.Cockpit
             new FriendListView.FriendDetail("Bob","Bob")
             };
 
-		[Header("Modal window")]
-		public CanvasGroup ModalWindow;
+        [Header("Modal window")]
+        public CanvasGroup ModalWindow;
 
-		public RegionListView RegionListView;
-		public Text RegionListLoadingFeedback;
+        public RegionListView RegionListView;
+        public Text RegionListLoadingFeedback;
 
         public void Start()
         {
 
             Instance = this;
 
-			// doc setup
+            // doc setup
 
-			DocLinks.Language = DocLinks.Languages.English;
-			DocLinks.Product = DocLinks.Products.Pun;
-			DocLinks.Version = DocLinks.Versions.V2;
+            DocLinks.Language = DocLinks.Languages.English;
+            DocLinks.Product = DocLinks.Products.Pun;
+            DocLinks.Version = DocLinks.Versions.V2;
 
-			//
+            //
 
-			ModalWindow.gameObject.SetActive (false);
+            ModalWindow.gameObject.SetActive(false);
 
             MaximalCanvasGroup.gameObject.SetActive(true);
 
@@ -169,43 +167,44 @@ namespace Photon.Pun.Demo.Cockpit
             ConnectAsDropDown.AddOptions(FriendsList.Select(x => x.NickName).ToList());
 
 
-			// check the current network status
+            // check the current network status
 
-			if (PhotonNetwork.IsConnected)
-			{
-				if (PhotonNetwork.Server == ServerConnection.GameServer)
-				{
-					this.OnJoinedRoom ();
+            if (PhotonNetwork.IsConnected)
+            {
+                if (PhotonNetwork.Server == ServerConnection.GameServer)
+                {
+                    this.OnJoinedRoom();
 
-				}
-				else if (PhotonNetwork.Server == ServerConnection.MasterServer || PhotonNetwork.Server == ServerConnection.NameServer)
-				{
-			
-					if (PhotonNetwork.InLobby)
-					{
-						this.OnJoinedLobby ();
-					}
-					else
-					{
-						this.OnConnectedToMaster ();
-					}
+                }
+                else if (PhotonNetwork.Server == ServerConnection.MasterServer || PhotonNetwork.Server == ServerConnection.NameServer)
+                {
 
-				}
-			}else
-			{
-	            this.SwitchToSimpleConnection();
+                    if (PhotonNetwork.InLobby)
+                    {
+                        this.OnJoinedLobby();
+                    }
+                    else
+                    {
+                        this.OnConnectedToMaster();
+                    }
 
-	            if (!Embedded)
-	            {
-	                MinimizeButton.SetActive(false);
-	                SwitchtoMaximalPanel();
-	            }
-	            else
-	            {
-	                this.Title.text = EmbeddedGameTitle;
-	                SwitchtoMinimalPanel();
-	            }
-			}
+                }
+            }
+            else
+            {
+                this.SwitchToSimpleConnection();
+
+                if (!Embedded)
+                {
+                    MinimizeButton.SetActive(false);
+                    SwitchtoMaximalPanel();
+                }
+                else
+                {
+                    this.Title.text = EmbeddedGameTitle;
+                    SwitchtoMinimalPanel();
+                }
+            }
         }
 
         public void SwitchtoMinimalPanel()
@@ -260,43 +259,43 @@ namespace Photon.Pun.Demo.Cockpit
         public void SetPlayerTtlRoomOption(int value)
         {
             this.PlayerTtl = value;
-			if (debug)	Debug.Log("PunCockpit:PlayerTtl = " + this.PlayerTtl);
+            if (debug) Debug.Log("PunCockpit:PlayerTtl = " + this.PlayerTtl);
         }
 
         public void SetEmptyRoomTtlRoomOption(int value)
         {
             this.EmptyRoomTtl = value;
-			if (debug)	Debug.Log("PunCockpit:EmptyRoomTtl = " + this.EmptyRoomTtl);
+            if (debug) Debug.Log("PunCockpit:EmptyRoomTtl = " + this.EmptyRoomTtl);
         }
 
         public void SetMaxPlayersRoomOption(int value)
         {
             this.MaxPlayers = value;
-			if (debug)	Debug.Log("PunCockpit:MaxPlayers = " + this.MaxPlayers);
+            if (debug) Debug.Log("PunCockpit:MaxPlayers = " + this.MaxPlayers);
         }
 
         public void SetPluginsRoomOption(string value)
         {
             this.Plugins = value;
-			if (debug)	Debug.Log("PunCockpit:Plugins = " + this.Plugins);
+            if (debug) Debug.Log("PunCockpit:Plugins = " + this.Plugins);
         }
 
         public void SetPublishUserId(bool value)
         {
             this.PublishUserId = value;
-			if (debug)	Debug.Log("PunCockpit:PublishUserId = " + this.PublishUserId);
+            if (debug) Debug.Log("PunCockpit:PublishUserId = " + this.PublishUserId);
         }
 
         public void SetIsVisible(bool value)
         {
             this.IsVisible = value;
-			if (debug)	Debug.Log("PunCockpit:IsVisible = " + this.IsVisible);
+            if (debug) Debug.Log("PunCockpit:IsVisible = " + this.IsVisible);
         }
 
         public void SetIsOpen(bool value)
         {
             this.IsOpen = value;
-			if (debug)	Debug.Log("PunCockpit:IsOpen = " + this.IsOpen);
+            if (debug) Debug.Log("PunCockpit:IsOpen = " + this.IsOpen);
         }
 
         //	public void SetCheckUserOnJoin(bool value)
@@ -305,131 +304,134 @@ namespace Photon.Pun.Demo.Cockpit
         //		Debug.Log ("CheckUserOnJoin = " + this.CheckUserOnJoin);
         //	}
 
-		public void SetResetBestRegionCodeInPreferences(bool value)
-		{
-			this.ResetBestRegionCodeInPreferences = value;
-			if (debug)	Debug.Log("PunCockpit:ResetBestRegionCodeInPreferences = " + this.ResetBestRegionCodeInPreferences);
-		}
+        public void SetResetBestRegionCodeInPreferences(bool value)
+        {
+            this.ResetBestRegionCodeInPreferences = value;
+            if (debug) Debug.Log("PunCockpit:ResetBestRegionCodeInPreferences = " + this.ResetBestRegionCodeInPreferences);
+        }
 
         public void SetCleanupCacheOnLeave(bool value)
         {
             this.CleanupCacheOnLeave = value;
-			if (debug)	Debug.Log("PunCockpit:CleanupCacheOnLeave = " + this.CleanupCacheOnLeave);
+            if (debug) Debug.Log("PunCockpit:CleanupCacheOnLeave = " + this.CleanupCacheOnLeave);
         }
 
         public void SetDeleteNullProperties(bool value)
         {
             this.DeleteNullProperties = value;
-			if (debug)	Debug.Log("PunCockpit:DeleteNullProperties = " + this.DeleteNullProperties);
+            if (debug) Debug.Log("PunCockpit:DeleteNullProperties = " + this.DeleteNullProperties);
         }
 
-		LoadBalancingClient _lbc;
-		bool _regionPingProcessActive;
-		List<Region> RegionsList;
+        LoadBalancingClient _lbc;
+        bool _regionPingProcessActive;
+        List<Region> RegionsList;
 
-		/// <summary>
-		/// in progress, not fully working
-		/// </summary>
-		public void PingRegions()
-		{
-			ModalWindow.gameObject.SetActive (true);
+        /// <summary>
+        /// in progress, not fully working
+        /// </summary>
+        public void PingRegions()
+        {
+            ModalWindow.gameObject.SetActive(true);
 
-			RegionListLoadingFeedback.text = "Connecting to NameServer...";
-			_regionPingProcessActive = true;
-			if (debug)	Debug.Log("PunCockpit:PingRegions:ConnectToNameServer");
+            RegionListLoadingFeedback.text = "Connecting to NameServer...";
+            _regionPingProcessActive = true;
+            if (debug) Debug.Log("PunCockpit:PingRegions:ConnectToNameServer");
 
 
             _lbc = new LoadBalancingClient();
-            
-			_lbc.AddCallbackTarget(this);
+
+            _lbc.AddCallbackTarget(this);
 
 
-			_lbc.StateChanged += OnStateChanged;
+            _lbc.StateChanged += OnStateChanged;
 
-			_lbc.AppId = PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime;
-			_lbc.ConnectToNameServer ();
+            _lbc.AppId = PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime;
+            _lbc.ConnectToNameServer();
 
-		}
+        }
 
-		void Update()
-		{
-			if (_lbc!=null) _lbc.Service();
+        void Update()
+        {
+            if (_lbc != null) _lbc.Service();
 
-			if (RegionsList !=null)
-			{
-				if (this.ModalWindow.gameObject.activeInHierarchy) {
+            if (RegionsList != null)
+            {
+                if (this.ModalWindow.gameObject.activeInHierarchy)
+                {
 
-					if (PunCockpit.Instance.debug)	Debug.Log("PunCockpit:OnRegionsPinged");
+                    if (PunCockpit.Instance.debug) Debug.Log("PunCockpit:OnRegionsPinged");
 
-					this.RegionListView.OnRegionListUpdate (RegionsList);
-				}
+                    this.RegionListView.OnRegionListUpdate(RegionsList);
+                }
 
-				_lbc = null;
+                _lbc = null;
 
-				RegionListLoadingFeedback.text = string.Empty;
+                RegionListLoadingFeedback.text = string.Empty;
 
-				RegionsList = null;
-			}
-		}
+                RegionsList = null;
+            }
+        }
 
 
-		void OnStateChanged(ClientState previousState, ClientState state)
-		{
-			if (state == ClientState.ConnectedToNameServer) {
-				_lbc.StateChanged -= this.OnStateChanged;
+        void OnStateChanged(ClientState previousState, ClientState state)
+        {
+            if (state == ClientState.ConnectedToNameServer)
+            {
+                _lbc.StateChanged -= this.OnStateChanged;
 
-				if (debug)	Debug.Log("PunCockpit:OnStateChanged: ClientState.ConnectedToNameServer. Waiting for OnRegionListReceived callback.");
+                if (debug) Debug.Log("PunCockpit:OnStateChanged: ClientState.ConnectedToNameServer. Waiting for OnRegionListReceived callback.");
 
-				RegionListLoadingFeedback.text = "Waiting for application Region List...";
-			}
-		}
+                RegionListLoadingFeedback.text = "Waiting for application Region List...";
+            }
+        }
 
         public override void OnRegionListReceived(RegionHandler regionHandler)
-		{
-			if (PunCockpit.Instance.debug)
-				Debug.Log ("PunCockpit:OnRegionListReceived: " + regionHandler);
+        {
+            if (PunCockpit.Instance.debug)
+                Debug.Log("PunCockpit:OnRegionListReceived: " + regionHandler);
 
-			if (_regionPingProcessActive)
-			{
-				RegionListLoadingFeedback.text = "Pinging Regions...";
-				_regionPingProcessActive = false;
-				regionHandler.PingMinimumOfRegions (OnRegionsPinged, null);
-			}
+            if (_regionPingProcessActive)
+            {
+                RegionListLoadingFeedback.text = "Pinging Regions...";
+                _regionPingProcessActive = false;
+                regionHandler.PingMinimumOfRegions(OnRegionsPinged, null);
+            }
         }
-        
 
-		private void OnRegionsPinged(RegionHandler regionHandler)
-		{
-				RegionsList = regionHandler.EnabledRegions.OrderBy(x=>x.Ping).ToList();
-				// will check this on Update() to get back to the main thread.
 
-		}
+        private void OnRegionsPinged(RegionHandler regionHandler)
+        {
+            RegionsList = regionHandler.EnabledRegions.OrderBy(x => x.Ping).ToList();
+            // will check this on Update() to get back to the main thread.
 
-		public void CloseRegionListView()
-		{
+        }
 
-			RegionsList = null;
+        public void CloseRegionListView()
+        {
 
-			if (_lbc != null) {
-				_lbc.Disconnect ();
-				_lbc = null;
-			}
+            RegionsList = null;
 
-			_regionPingProcessActive = false;
+            if (_lbc != null)
+            {
+                _lbc.Disconnect();
+                _lbc = null;
+            }
 
-			this.RegionListView.ResetList ();
-			this.ModalWindow.gameObject.SetActive (false);
-		}
+            _regionPingProcessActive = false;
 
-		public void LoadLevel(string level)
-		{
-			if (debug) Debug.Log("PunCockpit:LoadLevel(" +level+")");
-			PhotonNetwork.LoadLevel(level);
-		}
+            this.RegionListView.ResetList();
+            this.ModalWindow.gameObject.SetActive(false);
+        }
+
+        public void LoadLevel(string level)
+        {
+            if (debug) Debug.Log("PunCockpit:LoadLevel(" + level + ")");
+            PhotonNetwork.LoadLevel(level);
+        }
 
         public void SetRoomCustomProperty(string value)
         {
-			if (debug) Debug.Log("PunCockpit:SetRoomCustomProperty() c0 = " + value);
+            if (debug) Debug.Log("PunCockpit:SetRoomCustomProperty() c0 = " + value);
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() { { "C0", value } });
         }
 
@@ -451,19 +453,19 @@ namespace Photon.Pun.Demo.Cockpit
 
         public void CreateRoom(string roomName, string lobbyName = "MyLobby", LobbyType lobbyType = LobbyType.SqlLobby, string[] expectedUsers = null)
         {
-			if (debug) Debug.Log("PunCockpit:CreateRoom roomName:" + roomName + " lobbyName:" + lobbyName + " lobbyType:" + lobbyType + " expectedUsers:" + (expectedUsers == null ? "null" : expectedUsers.ToStringFull()));
+            if (debug) Debug.Log("PunCockpit:CreateRoom roomName:" + roomName + " lobbyName:" + lobbyName + " lobbyType:" + lobbyType + " expectedUsers:" + (expectedUsers == null ? "null" : expectedUsers.ToStringFull()));
 
             this.RoomListManager.ResetList();
             this.LobbyPanel.gameObject.SetActive(false);
             this.ConnectingLabel.SetActive(true);
 
             RoomOptions _roomOptions = this.GetRoomOptions();
-			if (debug) Debug.Log("PunCockpit:Room options  <" + _roomOptions + ">");
+            if (debug) Debug.Log("PunCockpit:Room options  <" + _roomOptions + ">");
 
             TypedLobby sqlLobby = new TypedLobby(lobbyName, lobbyType);
             bool _result = PhotonNetwork.CreateRoom(roomName, _roomOptions, sqlLobby, expectedUsers);
 
-			if (debug) Debug.Log("PunCockpit:CreateRoom() -> " + _result);
+            if (debug) Debug.Log("PunCockpit:CreateRoom() -> " + _result);
 
         }
 
@@ -493,9 +495,9 @@ namespace Photon.Pun.Demo.Cockpit
             this.ConnectingLabel.SetActive(true);
 
             PhotonNetwork.ConnectUsingSettings();
-			//if (GameVersionOverride != string.Empty) {
-		//		PhotonNetwork.GameVersion = "28"; // GameVersionOverride;
-		//	}
+            //if (GameVersionOverride != string.Empty) {
+            //		PhotonNetwork.GameVersion = "28"; // GameVersionOverride;
+            //	}
         }
 
         public void ReConnect()
@@ -538,20 +540,22 @@ namespace Photon.Pun.Demo.Cockpit
 
             this.ConnectingLabel.SetActive(true);
 
-			if (this.ResetBestRegionCodeInPreferences) {
-				ServerSettings.ResetBestRegionCodeInPreferences ();
-			}
+            if (this.ResetBestRegionCodeInPreferences)
+            {
+                ServerSettings.ResetBestRegionCodeInPreferences();
+            }
 
             PhotonNetwork.ConnectToBestCloudServer();
-			if (GameVersionOverride != string.Empty) {
-				PhotonNetwork.GameVersion = GameVersionOverride;
-			}
+            if (GameVersionOverride != string.Empty)
+            {
+                PhotonNetwork.GameVersion = GameVersionOverride;
+            }
         }
 
         public void ConnectToRegion(string region)
         {
 
-			if (debug)  Debug.Log("PunCockpit:ConnectToRegion(" + region + ")");
+            if (debug) Debug.Log("PunCockpit:ConnectToRegion(" + region + ")");
 
             PhotonNetwork.NetworkingClient.AppId = PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime;
 
@@ -565,35 +569,37 @@ namespace Photon.Pun.Demo.Cockpit
 
             bool _result = PhotonNetwork.ConnectToRegion(region);
 
-			if (GameVersionOverride != string.Empty) {
-				PhotonNetwork.GameVersion = GameVersionOverride;
-			}
+            if (GameVersionOverride != string.Empty)
+            {
+                PhotonNetwork.GameVersion = GameVersionOverride;
+            }
 
-			if (debug)  Debug.Log("PunCockpit:ConnectToRegion(" + region + ") ->" + _result);
+            if (debug) Debug.Log("PunCockpit:ConnectToRegion(" + region + ") ->" + _result);
         }
 
 
 
         public void ConnectOffline()
         {
-			if (debug)  Debug.Log("PunCockpit:ConnectOffline()");
+            if (debug) Debug.Log("PunCockpit:ConnectOffline()");
             PhotonNetwork.OfflineMode = true;
         }
 
         public void JoinLobby()
         {
-			if (debug)  Debug.Log("PunCockpit:JoinLobby()");
-			bool _result =  PhotonNetwork.JoinLobby();
+            if (debug) Debug.Log("PunCockpit:JoinLobby()");
+            bool _result = PhotonNetwork.JoinLobby();
 
-			if (!_result) {
-				Debug.LogError ("PunCockpit: Could not joinLobby");
-			}
+            if (!_result)
+            {
+                Debug.LogError("PunCockpit: Could not joinLobby");
+            }
 
         }
 
         public void Disconnect()
         {
-			if (debug)  Debug.Log("PunCockpit:Disconnect()");
+            if (debug) Debug.Log("PunCockpit:Disconnect()");
             PhotonNetwork.Disconnect();
         }
 
@@ -607,7 +613,7 @@ namespace Photon.Pun.Demo.Cockpit
         #region CONNECT UI
         public void OnDropdownConnectAs(int dropdownIndex)
         {
-			if (debug)  Debug.Log("PunCockpit:OnDropdownConnectAs(" + dropdownIndex + ")");
+            if (debug) Debug.Log("PunCockpit:OnDropdownConnectAs(" + dropdownIndex + ")");
 
             this.UserId = this.FriendsList[dropdownIndex].UserId;
             PlayerPrefs.SetString(UserIdUiForm.UserIdPlayerPref, this.UserId);
@@ -647,16 +653,16 @@ namespace Photon.Pun.Demo.Cockpit
 
         public override void OnConnected()
         {
-			if (debug) Debug.Log("PunCockpit:OnConnected()");
+            if (debug) Debug.Log("PunCockpit:OnConnected()");
 
             this.ConnectingLabel.SetActive(false);
 
             this.UserIdText.text = "UserId:" + this.UserId + " Nickname:" + PhotonNetwork.NickName;
         }
 
-		public override void OnDisconnected(DisconnectCause cause)
+        public override void OnDisconnected(DisconnectCause cause)
         {
-			if (debug) Debug.Log("PunCockpit:OnDisconnected("+cause+")");
+            if (debug) Debug.Log("PunCockpit:OnDisconnected(" + cause + ")");
 
             this.ConnectingLabel.SetActive(false);
             this.UserIdText.text = string.Empty;
@@ -670,7 +676,7 @@ namespace Photon.Pun.Demo.Cockpit
 
         public override void OnConnectedToMaster()
         {
-			if (debug)  Debug.Log("PunCockpit:OnConnectedToMaster()");
+            if (debug) Debug.Log("PunCockpit:OnConnectedToMaster()");
 
 
             this.StateText.text = "Connected to Master" + (PhotonNetwork.OfflineMode ? " <Color=Red><b>Offline</b></color>" : "");
@@ -682,7 +688,7 @@ namespace Photon.Pun.Demo.Cockpit
         {
             this.StateText.text = "Connected to Lobby";
 
-			if (debug)  Debug.Log("PunCockpit:OnJoinedLobby()");
+            if (debug) Debug.Log("PunCockpit:OnJoinedLobby()");
             this.SetUpLobbyGenericUI();
         }
 
@@ -705,7 +711,7 @@ namespace Photon.Pun.Demo.Cockpit
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
-			if (debug) Debug.Log("PunCockpit:OnRoomPropertiesUpdate() " + propertiesThatChanged.ToStringFull());
+            if (debug) Debug.Log("PunCockpit:OnRoomPropertiesUpdate() " + propertiesThatChanged.ToStringFull());
 
             if (propertiesThatChanged.ContainsKey("C0"))
             {
@@ -715,7 +721,7 @@ namespace Photon.Pun.Demo.Cockpit
 
         public override void OnLeftLobby()
         {
-			if (debug) Debug.Log("PunCockpit:OnLeftLobby()");
+            if (debug) Debug.Log("PunCockpit:OnLeftLobby()");
 
             this.RoomListManager.ResetList();
             this.LobbyPanel.gameObject.SetActive(false);
@@ -723,12 +729,12 @@ namespace Photon.Pun.Demo.Cockpit
 
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
-			if (debug)  Debug.Log("PunCockpit:OnCreateRoomFailed(" + returnCode + "," + message + ")");
+            if (debug) Debug.Log("PunCockpit:OnCreateRoomFailed(" + returnCode + "," + message + ")");
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-			if (debug)  Debug.Log("PunCockpit:OnJoinRandomFailed(" + returnCode + "," + message + ")");
+            if (debug) Debug.Log("PunCockpit:OnJoinRandomFailed(" + returnCode + "," + message + ")");
         }
 
         public override void OnJoinedRoom()
@@ -737,7 +743,7 @@ namespace Photon.Pun.Demo.Cockpit
             this.StateText.text = "Connected to GameServer " + (PhotonNetwork.OfflineMode ? " <Color=Red><b>Offline</b></color>" : "");
 
 
-			if (debug)  Debug.Log("PunCockpit:OnJoinedRoom()");
+            if (debug) Debug.Log("PunCockpit:OnJoinedRoom()");
 
             this.ConnectingLabel.gameObject.SetActive(false);
 
@@ -765,14 +771,14 @@ namespace Photon.Pun.Demo.Cockpit
 
         public override void OnLeftRoom()
         {
-			if (debug)  Debug.Log("PunCockpit:OnLeftRoom()");
+            if (debug) Debug.Log("PunCockpit:OnLeftRoom()");
             this.GamePanel.gameObject.SetActive(false);
 
-			if (PhotonNetwork.OfflineMode)
-			{
-				this.ConnectingLabel.gameObject.SetActive(false);
-				this.ConnectionPanel.gameObject.SetActive (true);
-			}
+            if (PhotonNetwork.OfflineMode)
+            {
+                this.ConnectingLabel.gameObject.SetActive(false);
+                this.ConnectionPanel.gameObject.SetActive(true);
+            }
         }
 
         #endregion

@@ -8,16 +8,11 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
+using ExitGames.Client.Photon;
+using Photon.Realtime;
 using System;
 using UnityEditor;
 using UnityEngine;
-
-using Photon.Pun;
-
-using ExitGames.Client.Photon;
-using System.Collections.Generic;
-using System.Reflection;
-using Photon.Realtime;
 
 namespace Photon.Pun
 {
@@ -126,7 +121,7 @@ namespace Photon.Pun
 
             if (!string.IsNullOrEmpty(PhotonNetwork.BestRegionSummaryInPreferences))
             {
-                this.regionsPrefsList = PhotonNetwork.BestRegionSummaryInPreferences.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+                this.regionsPrefsList = PhotonNetwork.BestRegionSummaryInPreferences.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                 if (this.regionsPrefsList.Length < 2)
                 {
                     this.prefLabel = notAvailableLabel;

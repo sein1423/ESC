@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Threading.Tasks;
 
 public class GameManagement : MonoBehaviour
 {
@@ -127,7 +123,7 @@ public class GameManagement : MonoBehaviour
         await Task.Delay(1000);
         staticPlayTime = timeStr;
 
-        if(staticQueryResult == "success")
+        if (staticQueryResult == "success")
         {
             SceneManager.LoadScene("Escape");
             Destroy(GameObject.Find("SoundManager"));

@@ -174,8 +174,8 @@ namespace Photon.Pun
         {
             this.m_Objects.Clear();
 
-            this.m_SampleCount = (int) stream.ReceiveNext();
-            this.m_ObjectsPerSample = (int) stream.ReceiveNext();
+            this.m_SampleCount = (int)stream.ReceiveNext();
+            this.m_ObjectsPerSample = (int)stream.ReceiveNext();
 
             for (int i = 0; i < this.m_SampleCount * this.m_ObjectsPerSample; ++i)
             {

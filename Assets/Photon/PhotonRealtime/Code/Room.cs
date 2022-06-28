@@ -16,15 +16,12 @@
 
 namespace Photon.Realtime
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using ExitGames.Client.Photon;
 
-    #if SUPPORTED_UNITY || NETFX_CORE
+#if SUPPORTED_UNITY || NETFX_CORE
     using Hashtable = ExitGames.Client.Photon.Hashtable;
-    using SupportClass = ExitGames.Client.Photon.SupportClass;
-    #endif
+#endif
 
 
     /// <summary>
@@ -302,10 +299,10 @@ namespace Photon.Realtime
         /// <summary>Define if actor or room properties with null values are removed on the server or kept.</summary>
         public bool DeleteNullProperties { get; private set; }
 
-        #if SERVERSDK
+#if SERVERSDK
         /// <summary>Define if rooms should have unique UserId per actor and that UserIds are used instead of actor number in rejoin.</summary>
         public bool CheckUserOnJoin { get; private set; }
-        #endif
+#endif
 
 
         /// <summary>Creates a Room (representation) with given name and properties and the "listing options" as provided by parameters.</summary>
@@ -338,9 +335,9 @@ namespace Photon.Realtime
             this.SuppressPlayerInfo = (roomFlags & (int)RoomOptionBit.SuppressPlayerInfo) != 0;
             this.PublishUserId = (roomFlags & (int)RoomOptionBit.PublishUserId) != 0;
             this.DeleteNullProperties = (roomFlags & (int)RoomOptionBit.DeleteNullProps) != 0;
-            #if SERVERSDK
+#if SERVERSDK
             this.CheckUserOnJoin = (roomFlags & (int)RoomOptionBit.CheckUserOnJoin) != 0;
-            #endif
+#endif
             this.autoCleanUp = (roomFlags & (int)RoomOptionBit.DeleteCacheOnLeave) != 0;
         }
 
@@ -422,7 +419,7 @@ namespace Photon.Realtime
 
                 // invoking callbacks
                 this.LoadBalancingClient.InRoomCallbackTargets.OnRoomPropertiesUpdate(propertiesToSet);
-               
+
             }
             else
             {
@@ -545,7 +542,7 @@ namespace Photon.Realtime
         public virtual Player GetPlayer(int id, bool findMaster = false)
         {
             int idToFind = (findMaster && id == 0) ? this.MasterClientId : id;
-            
+
             Player result = null;
             this.Players.TryGetValue(idToFind, out result);
 

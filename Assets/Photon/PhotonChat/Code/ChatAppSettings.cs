@@ -15,9 +15,9 @@ namespace Photon.Chat
 {
     using System;
     using ExitGames.Client.Photon;
-    #if SUPPORTED_UNITY
+#if SUPPORTED_UNITY
     using UnityEngine.Serialization;
-    #endif
+#endif
 
     /// <summary>
     /// Settings for Photon application(s) and the server to connect to.
@@ -25,15 +25,15 @@ namespace Photon.Chat
     /// <remarks>
     /// This is Serializable for Unity, so it can be included in ScriptableObject instances.
     /// </remarks>
-    #if !NETFX_CORE || SUPPORTED_UNITY
+#if !NETFX_CORE || SUPPORTED_UNITY
     [Serializable]
-    #endif
+#endif
     public class ChatAppSettings
     {
         /// <summary>AppId for the Chat Api.</summary>
-        #if SUPPORTED_UNITY
+#if SUPPORTED_UNITY
         [FormerlySerializedAs("AppId")]
-        #endif
+#endif
         public string AppIdChat;
 
         /// <summary>The AppVersion can be used to identify builds and will split the AppId distinct "Virtual AppIds" (important for the users to find each other).</summary>

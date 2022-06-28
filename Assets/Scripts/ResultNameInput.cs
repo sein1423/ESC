@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ResultNameInput : MonoBehaviour
 {
@@ -57,7 +55,7 @@ public class ResultNameInput : MonoBehaviour
             inputNamePanel.SetActive(false);
             Destroy(GameObject.Find("SoundManager"));
         }
-        else if(GameManagement.staticQueryResult == "connectFail")
+        else if (GameManagement.staticQueryResult == "connectFail")
         {
             GameManagement.staticPlayerName = inputName;
             inputNameWarning.text = "";
@@ -70,7 +68,7 @@ public class ResultNameInput : MonoBehaviour
             inputNameWarning.text = "중복된 이름입니다";
             return;
         }
-        else if(GameManagement.staticQueryResult == "fail")
+        else if (GameManagement.staticQueryResult == "fail")
         {
             inputNameWarning.text = "잠시 후 다시시도 바랍니다";
             return;

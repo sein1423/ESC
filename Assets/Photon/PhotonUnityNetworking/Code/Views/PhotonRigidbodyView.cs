@@ -83,7 +83,7 @@ namespace Photon.Pun
                         this.m_Body.position = this.m_NetworkPosition;
                     }
                 }
-                
+
                 if (this.m_SynchronizeVelocity || this.m_SynchronizeAngularVelocity)
                 {
                     float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));

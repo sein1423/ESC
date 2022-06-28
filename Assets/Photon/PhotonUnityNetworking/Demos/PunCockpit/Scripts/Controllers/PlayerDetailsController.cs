@@ -4,15 +4,13 @@
 // </copyright>
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
- 
+
+using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
-
-using Photon.Realtime;
-using Photon.Pun.UtilityScripts;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Photon.Pun.Demo.Cockpit
@@ -84,12 +82,12 @@ namespace Photon.Pun.Demo.Cockpit
                 this.AddProperty(ParseKey(item.Key), item.Value.ToString(), this.BuiltInPropertiesPanel);
             }
 
-			// PlayerNumbering extension
+            // PlayerNumbering extension
             this.AddProperty("Player Number", "#" + player.GetPlayerNumber().ToString("00"), this.PlayerNumberingExtensionPanel);
 
 
-			// Score extension
-			this.AddProperty(PunPlayerScores.PlayerScoreProp, player.GetScore().ToString(), this.ScoreExtensionPanel);
+            // Score extension
+            this.AddProperty(PunPlayerScores.PlayerScoreProp, player.GetScore().ToString(), this.ScoreExtensionPanel);
 
 
             foreach (DictionaryEntry item in _player.CustomProperties)
@@ -97,7 +95,7 @@ namespace Photon.Pun.Demo.Cockpit
                 this.AddProperty(ParseKey(item.Key), item.Value.ToString(), this.CustomPropertiesPanel);
             }
 
-			MasterClientToolBar.SetActive(PhotonNetwork.CurrentRoom.PlayerCount>1 && PhotonNetwork.LocalPlayer.IsMasterClient);
+            MasterClientToolBar.SetActive(PhotonNetwork.CurrentRoom.PlayerCount > 1 && PhotonNetwork.LocalPlayer.IsMasterClient);
         }
 
         void AddProperty(string property, string value, Transform parent)

@@ -15,10 +15,9 @@
 //using UnityEditor;
 //#endif
 
-using UnityEngine;
-
 //using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
 
 namespace Photon.Pun.UtilityScripts
 {
@@ -32,9 +31,9 @@ namespace Photon.Pun.UtilityScripts
         /// <summary>Used as PhotonNetwork.GameVersion.</summary>
         public byte Version = 1;
 
-		/// <summary>Max number of players allowed in room. Once full, a new room will be created by the next connection attemping to join.</summary>
-		[Tooltip("The max number of players allowed in room. Once full, a new room will be created by the next connection attemping to join.")]
-		public byte MaxPlayers = 4;
+        /// <summary>Max number of players allowed in room. Once full, a new room will be created by the next connection attemping to join.</summary>
+        [Tooltip("The max number of players allowed in room. Once full, a new room will be created by the next connection attemping to join.")]
+        public byte MaxPlayers = 4;
 
         public int playerTTL = -1;
 
@@ -50,10 +49,10 @@ namespace Photon.Pun.UtilityScripts
         {
             Debug.Log("ConnectAndJoinRandom.ConnectNow() will now call: PhotonNetwork.ConnectUsingSettings().");
 
-            
+
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = this.Version + "." + SceneManagerHelper.ActiveSceneBuildIndex;
-           
+
         }
 
 

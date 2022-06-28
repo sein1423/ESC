@@ -5,15 +5,11 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections;
-using System.Linq;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-
 using Photon.Realtime;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Photon.Pun.Demo.Cockpit.Forms
 {

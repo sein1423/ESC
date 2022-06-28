@@ -13,9 +13,6 @@ using UnityEngine;
 
 namespace Photon.Pun.UtilityScripts
 {
-    using System;
-
-
     /// <summary>
     ///     Represents the cull area used for network culling.
     /// </summary>
@@ -384,21 +381,21 @@ namespace Photon.Pun.UtilityScripts
         public void Draw()
         {
 #if UNITY_EDITOR
-        if (this.Childs != null)
-        {
-            foreach (CellTreeNode node in this.Childs)
+            if (this.Childs != null)
             {
-                node.Draw();
+                foreach (CellTreeNode node in this.Childs)
+                {
+                    node.Draw();
+                }
             }
-        }
 
-        Gizmos.color = new Color((this.NodeType == ENodeType.Root) ? 1 : 0, (this.NodeType == ENodeType.Node) ? 1 : 0, (this.NodeType == ENodeType.Leaf) ? 1 : 0);
-        Gizmos.DrawWireCube(this.Center, this.Size);
+            Gizmos.color = new Color((this.NodeType == ENodeType.Root) ? 1 : 0, (this.NodeType == ENodeType.Node) ? 1 : 0, (this.NodeType == ENodeType.Leaf) ? 1 : 0);
+            Gizmos.DrawWireCube(this.Center, this.Size);
 
-        byte offset = (byte)this.NodeType;
-        GUIStyle gs = new GUIStyle() { fontStyle = FontStyle.Bold };
-        gs.normal.textColor = Gizmos.color;
-        UnityEditor.Handles.Label(this.Center+(Vector3.forward*offset*1f), this.Id.ToString(), gs);
+            byte offset = (byte)this.NodeType;
+            GUIStyle gs = new GUIStyle() { fontStyle = FontStyle.Bold };
+            gs.normal.textColor = Gizmos.color;
+            UnityEditor.Handles.Label(this.Center + (Vector3.forward * offset * 1f), this.Id.ToString(), gs);
 #endif
         }
 

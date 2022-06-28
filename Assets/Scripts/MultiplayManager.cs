@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
+using UnityEngine;
 using PN = Photon.Pun.PhotonNetwork;
 
 public class MultiplayManager : MonoBehaviourPunCallbacks
@@ -17,7 +14,7 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
         {
             Destroy(multiplayManager);
         }
-        else if(GameManagement.staticPlaymode == "multiplay")
+        else if (GameManagement.staticPlaymode == "multiplay")
         {
             CreatePlayer();
         }
@@ -26,7 +23,7 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void CreatePlayer()

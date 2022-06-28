@@ -12,13 +12,11 @@
 
 namespace Photon.Realtime
 {
-    using System;
     using ExitGames.Client.Photon;
+    using System;
 
-    #if SUPPORTED_UNITY || NETFX_CORE
-    using Hashtable = ExitGames.Client.Photon.Hashtable;
-    using SupportClass = ExitGames.Client.Photon.SupportClass;
-    #endif
+#if SUPPORTED_UNITY || NETFX_CORE
+#endif
 
 
     /// <summary>
@@ -27,9 +25,9 @@ namespace Photon.Realtime
     /// <remarks>
     /// This is Serializable for Unity, so it can be included in ScriptableObject instances.
     /// </remarks>
-    #if !NETFX_CORE || SUPPORTED_UNITY
+#if !NETFX_CORE || SUPPORTED_UNITY
     [Serializable]
-    #endif
+#endif
     public class AppSettings
     {
         /// <summary>AppId for Realtime or PUN.</summary>
@@ -67,9 +65,9 @@ namespace Photon.Realtime
         /// If <see cref="LoadBalancingClient.SummaryToCache"/> is not null, store this string.
         /// To avoid storing the value multiple times, you could set SummaryToCache to null.
         /// </remarks>
-        #if SUPPORTED_UNITY
+#if SUPPORTED_UNITY
         [NonSerialized]
-        #endif
+#endif
         public string BestRegionSummaryFromStorage;
 
         /// <summary>The address (hostname or IP) of the server to connect to.</summary>
@@ -143,8 +141,8 @@ namespace Photon.Realtime
                                  String.IsNullOrEmpty(ProxyServer) ? string.Empty : "Proxy: " + this.ProxyServer + ", ",
                                  this.Protocol,
                                  this.AuthMode
-                                 //this.EnableLobbyStatistics,
-                                 //this.NetworkLogging,
+                                //this.EnableLobbyStatistics,
+                                //this.NetworkLogging,
                                 );
         }
 

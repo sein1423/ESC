@@ -20,11 +20,11 @@ namespace Photon.Pun.Demo.Cockpit
 
         void Update()
         {
-			if (PhotonNetwork.BestRegionSummaryInPreferences != _cache)
+            if (PhotonNetwork.BestRegionSummaryInPreferences != _cache)
             {
-				_cache = PhotonNetwork.BestRegionSummaryInPreferences;
+                _cache = PhotonNetwork.BestRegionSummaryInPreferences;
 
-				this.OnValueChanged();
+                this.OnValueChanged();
 
                 if (string.IsNullOrEmpty(_cache))
                 {

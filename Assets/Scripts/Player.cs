@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
-using PN = Photon.Pun.PhotonNetwork;
-using UnityEngine.UI;
+using System.Collections;
+using UnityEngine;
 
 public class Player : MonoBehaviourPunCallbacks
 {
@@ -266,9 +262,9 @@ public class Player : MonoBehaviourPunCallbacks
     }
     void Interaction()
     {
-        if(iDown && nearObject != null)
+        if (iDown && nearObject != null)
         {
-            if(nearObject.tag == "Weapon")
+            if (nearObject.tag == "Weapon")
             {
                 Item item = nearObject.GetComponent<Item>();
                 int weaponIndex = item.value;
@@ -297,5 +293,8 @@ public class Player : MonoBehaviourPunCallbacks
         if (other.tag == "Weapon")
             nearObject = null;
     }
+
+
+    
 
 }

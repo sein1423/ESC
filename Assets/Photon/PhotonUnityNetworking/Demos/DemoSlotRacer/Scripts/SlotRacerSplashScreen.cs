@@ -44,7 +44,7 @@ namespace Photon.Pun.Demo.SlotRacer
 
         public void Update()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 if (this.WarningText == null)
@@ -90,7 +90,7 @@ namespace Photon.Pun.Demo.SlotRacer
                                             "\nElse, you'll get only a minimal Menu to connect";
                 }
             }
-            #endif
+#endif
         }
     }
 }

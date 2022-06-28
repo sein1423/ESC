@@ -21,10 +21,10 @@ namespace Photon.Pun.Demo.Cockpit
 
         void Update()
         {
-			if ((PhotonNetwork.OfflineMode && _cache != 1) || (!PhotonNetwork.OfflineMode && _cache != 0))
+            if ((PhotonNetwork.OfflineMode && _cache != 1) || (!PhotonNetwork.OfflineMode && _cache != 0))
             {
-				_cache = PhotonNetwork.OfflineMode ? 1 : 0;
-				Text.text = PhotonNetwork.OfflineMode ? "true" : "false";
+                _cache = PhotonNetwork.OfflineMode ? 1 : 0;
+                Text.text = PhotonNetwork.OfflineMode ? "true" : "false";
                 this.OnValueChanged();
             }
         }

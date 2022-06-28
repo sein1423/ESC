@@ -30,18 +30,18 @@ namespace Photon.Pun
     public class PunSceneSettings : ScriptableObject
     {
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         // Suppressing compiler warning "this variable is never used". Only used in the CustomEditor, only in Editor
-        #pragma warning disable 0414
+#pragma warning disable 0414
         [SerializeField]
         bool SceneSettingsListFoldoutOpen = true;
-        #pragma warning restore 0414
-        #endif
-        
+#pragma warning restore 0414
+#endif
+
         [SerializeField]
         public List<SceneSetting> MinViewIdPerScene = new List<SceneSetting>();
 
-      
+
         private const string SceneSettingsFileName = "PunSceneSettingsFile.asset";
 
         // we use the path to PunSceneSettings.cs as path to create a scene settings file
@@ -88,18 +88,18 @@ namespace Photon.Pun
                 if (instanceField == null)
                 {
                     instanceField = CreateInstance<PunSceneSettings>();
-                    #pragma warning disable 0168
+#pragma warning disable 0168
                     try
                     {
                         AssetDatabase.CreateAsset(instanceField, PunSceneSettingsCsPath);
                     }
                     catch (Exception e)
                     {
-                        #if PHOTON_UNITY_NETWORKING
+#if PHOTON_UNITY_NETWORKING
                         Debug.LogError("-- WARNING: PROJECT CLEANUP NECESSARY -- If you delete pun from your project, make sure you also clean up the Scripting define symbols from any reference to PUN like 'PHOTON_UNITY_NETWORKING ");
-                        #endif
+#endif
                     }
-                    #pragma warning restore 0168
+#pragma warning restore 0168
                 }
 
                 return instanceField;
@@ -137,13 +137,13 @@ namespace Photon.Pun
             {
                 return;
             }
-            
-            #if UNITY_EDITOR
+
+#if UNITY_EDITOR
             foreach (SceneSetting sceneSetting in Instance.MinViewIdPerScene)
             {
                 if (sceneSetting.sceneAsset == null && !string.IsNullOrEmpty(sceneSetting.sceneName))
                 {
-                    
+
                     string[] guids = AssetDatabase.FindAssets(sceneSetting.sceneName + " t:SceneAsset");
 
                     foreach (string guid in guids)
@@ -154,25 +154,25 @@ namespace Photon.Pun
                             sceneSetting.sceneAsset =
                                 AssetDatabase.LoadAssetAtPath<SceneAsset>(
                                     AssetDatabase.GUIDToAssetPath(guid));
-                            
-                        //    Debug.Log("SceneSettings : ''"+sceneSetting.sceneName+"'' scene is missing: Issue corrected",Instance);
+
+                            //    Debug.Log("SceneSettings : ''"+sceneSetting.sceneName+"'' scene is missing: Issue corrected",Instance);
                             break;
                         }
                     }
-                    
+
                     //Debug.Log("SceneSettings : ''"+sceneSetting.sceneName+"'' scene is missing",Instance);
-                    
+
                     continue;
                 }
-                
-                if (sceneSetting.sceneAsset != null && sceneSetting.sceneName!= sceneSetting.sceneAsset.name )
+
+                if (sceneSetting.sceneAsset != null && sceneSetting.sceneName != sceneSetting.sceneAsset.name)
                 {
-                 //   Debug.Log("SceneSettings : '"+sceneSetting.sceneName+"' mismatch with sceneAsset: '"+sceneSetting.sceneAsset.name+"' : Issue corrected",Instance);
+                    //   Debug.Log("SceneSettings : '"+sceneSetting.sceneName+"' mismatch with sceneAsset: '"+sceneSetting.sceneAsset.name+"' : Issue corrected",Instance);
                     sceneSetting.sceneName = sceneSetting.sceneAsset.name;
                     continue;
                 }
             }
-            #endif
+#endif
         }
     }
 }

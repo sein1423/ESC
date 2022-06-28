@@ -4,16 +4,14 @@
 // </copyright>
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
- 
 
-using System.Collections;
-using System.Linq;
-
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
 
 using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Photon.Pun.Demo.Cockpit
 {

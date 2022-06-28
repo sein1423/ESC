@@ -19,10 +19,9 @@
 namespace Photon.Realtime
 {
     using System;
-    using UnityEngine;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
-    using ExitGames.Client.Photon;
+    using UnityEngine;
 
 
     /// <summary>
@@ -145,7 +144,7 @@ namespace Photon.Realtime
             string emailEscaped = UnityEngine.Networking.UnityWebRequest.EscapeURL(email);
             string st = UnityEngine.Networking.UnityWebRequest.EscapeURL(serviceTypes);
             string uv = UnityEngine.Networking.UnityWebRequest.EscapeURL(Application.unityVersion);
-            string serviceUrl = string.Format(ServiceUrl, string.IsNullOrEmpty(CustomContext) ? DefaultContext : CustomContext );
+            string serviceUrl = string.Format(ServiceUrl, string.IsNullOrEmpty(CustomContext) ? DefaultContext : CustomContext);
 
             return string.Format("{0}?email={1}&st={2}&uv={3}&av={4}", serviceUrl, emailEscaped, st, uv, originAv);
         }

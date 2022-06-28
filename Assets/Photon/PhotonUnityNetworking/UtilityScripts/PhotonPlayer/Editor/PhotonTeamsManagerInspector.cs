@@ -8,11 +8,11 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using UnityEngine;
-using System.Collections.Generic;
 using Photon.Realtime;
+using System;
+using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace Photon.Pun.UtilityScripts
 {
@@ -52,31 +52,31 @@ namespace Photon.Pun.UtilityScripts
         /// <param name="imageData">PNG image data.</param>
         /// <param name="width">Width of image in pixels.</param>
         /// <param name="height">Height of image in pixels.</param>
-        private static void GetImageSize( byte[] imageData, out int width, out int height )
+        private static void GetImageSize(byte[] imageData, out int width, out int height)
         {
-            width = ReadInt( imageData, 3 + 15 );
-            height = ReadInt( imageData, 3 + 15 + 2 + 2 );
+            width = ReadInt(imageData, 3 + 15);
+            height = ReadInt(imageData, 3 + 15 + 2 + 2);
         }
 
-        private static int ReadInt( byte[] imageData, int offset )
+        private static int ReadInt(byte[] imageData, int offset)
         {
-            return ( imageData[ offset ] << 8 ) | imageData[ offset + 1 ];
+            return (imageData[offset] << 8) | imageData[offset + 1];
         }
 
         private Texture LoadTexture(string textureName, string proSkin, string lightSkin)
         {
             string skin = EditorGUIUtility.isProSkin ? proSkin : lightSkin;
             // Get image data (PNG) from base64 encoded strings.
-            byte[] imageData = Convert.FromBase64String( skin );
+            byte[] imageData = Convert.FromBase64String(skin);
             // Gather image size from image data.
             int texWidth, texHeight;
-            GetImageSize( imageData, out texWidth, out texHeight );
+            GetImageSize(imageData, out texWidth, out texHeight);
             // Generate texture asset.
-            var tex = new Texture2D( texWidth, texHeight, TextureFormat.ARGB32, false, true );
+            var tex = new Texture2D(texWidth, texHeight, TextureFormat.ARGB32, false, true);
             tex.hideFlags = HideFlags.HideAndDontSave;
             tex.name = textureName;
             tex.filterMode = FilterMode.Point;
-            tex.LoadImage( imageData );
+            tex.LoadImage(imageData);
             return tex;
         }
 
@@ -159,7 +159,7 @@ namespace Photon.Pun.UtilityScripts
                 Rect propertyPosition = new Rect(elementRect.xMin + paddingLeft, elementRect.yMin + spacingY,
                     codePropertyWidth, propertyHeight);
                 EditorGUI.LabelField(propertyPosition, "Code");
-                Rect secondPropertyPosition = new Rect(elementRect.xMin + paddingLeft + codePropertyWidth, elementRect.yMin + spacingY, 
+                Rect secondPropertyPosition = new Rect(elementRect.xMin + paddingLeft + codePropertyWidth, elementRect.yMin + spacingY,
                     namePropertyWidth, propertyHeight);
                 EditorGUI.LabelField(secondPropertyPosition, "Name");
                 for (int i = 0; i < teamsListSp.arraySize; ++i)
@@ -184,7 +184,7 @@ namespace Photon.Pun.UtilityScripts
                             teamCodeSp.intValue = oldCode;
                         }
                     }
-                    secondPropertyPosition = new Rect(elementRect.xMin + paddingLeft + codePropertyWidth, elementRect.yMin + spacingY, 
+                    secondPropertyPosition = new Rect(elementRect.xMin + paddingLeft + codePropertyWidth, elementRect.yMin + spacingY,
                         namePropertyWidth, propertyHeight);
                     EditorGUI.BeginChangeCheck();
                     EditorGUI.PropertyField(secondPropertyPosition, teamNameSp, GUIContent.none);
@@ -195,7 +195,7 @@ namespace Photon.Pun.UtilityScripts
                         {
                             Debug.LogWarning("Team name cannot be null or empty");
                             teamNameSp.stringValue = oldName;
-                        } 
+                        }
                         else if (names.Contains(newName))
                         {
                             Debug.LogWarningFormat("Team with the same name \"{0}\" already exists", newName);

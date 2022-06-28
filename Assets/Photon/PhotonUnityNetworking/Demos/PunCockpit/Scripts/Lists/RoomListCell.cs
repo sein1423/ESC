@@ -5,12 +5,10 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Photon.Realtime;
 using System.Collections;
-
 using UnityEngine;
 using UnityEngine.UI;
-
-using Photon.Realtime;
 
 namespace Photon.Pun.Demo.Cockpit
 {

@@ -12,13 +12,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Photon.Pun;
-
 namespace Photon.Pun.UtilityScripts
 {
-    using ExitGames.Client.Photon;
-
-
     /// <summary>
     ///     Handles the network culling.
     /// </summary>
@@ -36,8 +31,8 @@ namespace Photon.Pun.UtilityScripts
         private PhotonView pView;
 
         private Vector3 lastPosition, currentPosition;
-        
-        
+
+
         // used to limit the number of UpdateInterestGroups calls per second (there is no use to change groups more than a few times per second, even if the Culling algorithm makes it look like that)
         private float timeSinceUpdate;
         // see timeSinceUpdate

@@ -8,13 +8,10 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Photon.Realtime;
 using System.Collections.Generic;
 using System.Linq;
-
 using UnityEngine;
-
-using Photon.Pun;
-using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Photon.Pun.UtilityScripts
@@ -74,7 +71,7 @@ namespace Photon.Pun.UtilityScripts
 
             instance = this;
             if (dontDestroyOnLoad)
-            { 
+            {
                 DontDestroyOnLoad(this.gameObject);
             }
 
@@ -123,7 +120,7 @@ namespace Photon.Pun.UtilityScripts
         /// <summary>
         /// Internal call Refresh the cached data and call the OnPlayerNumberingChanged delegate.
         /// </summary>
-       public void RefreshData()
+        public void RefreshData()
         {
             if (PhotonNetwork.CurrentRoom == null)
             {
@@ -147,19 +144,19 @@ namespace Photon.Pun.UtilityScripts
             string allPlayers = "all players: ";
             foreach (Player player in sorted)
             {
-                allPlayers += player.ActorNumber + "=pNr:"+player.GetPlayerNumber()+", ";
+                allPlayers += player.ActorNumber + "=pNr:" + player.GetPlayerNumber() + ", ";
 
                 int number = player.GetPlayerNumber();
 
                 // if it's this user, select a number and break
                 // else:
-                    // check if that user has a number
-                    // if not, break!
-                    // else remember used numbers
+                // check if that user has a number
+                // if not, break!
+                // else remember used numbers
 
                 if (player.IsLocal)
                 {
-					Debug.Log ("PhotonNetwork.CurrentRoom.PlayerCount = " + PhotonNetwork.CurrentRoom.PlayerCount);
+                    Debug.Log("PhotonNetwork.CurrentRoom.PlayerCount = " + PhotonNetwork.CurrentRoom.PlayerCount);
 
                     // select a number
                     for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
@@ -208,9 +205,10 @@ namespace Photon.Pun.UtilityScripts
         /// <returns>persistent index in room. -1 for no indexing</returns>
         public static int GetPlayerNumber(this Player player)
         {
-			if (player == null) {
-				return -1;
-			}
+            if (player == null)
+            {
+                return -1;
+            }
 
             if (PhotonNetwork.OfflineMode)
             {
@@ -222,23 +220,25 @@ namespace Photon.Pun.UtilityScripts
             }
 
             object value;
-			if (player.CustomProperties.TryGetValue (PlayerNumbering.RoomPlayerIndexedProp, out value)) {
-				return (byte)value;
-			}
+            if (player.CustomProperties.TryGetValue(PlayerNumbering.RoomPlayerIndexedProp, out value))
+            {
+                return (byte)value;
+            }
             return -1;
         }
 
-		/// <summary>
-		/// Sets the player number.
-		/// It's not recommanded to manually interfere with the playerNumbering, but possible.
-		/// </summary>
-		/// <param name="player">Player.</param>
-		/// <param name="playerNumber">Player number.</param>
+        /// <summary>
+        /// Sets the player number.
+        /// It's not recommanded to manually interfere with the playerNumbering, but possible.
+        /// </summary>
+        /// <param name="player">Player.</param>
+        /// <param name="playerNumber">Player number.</param>
         public static void SetPlayerNumber(this Player player, int playerNumber)
         {
-			if (player == null) {
-				return;
-			}
+            if (player == null)
+            {
+                return;
+            }
 
             if (PhotonNetwork.OfflineMode)
             {
@@ -259,7 +259,7 @@ namespace Photon.Pun.UtilityScripts
             int current = player.GetPlayerNumber();
             if (current != playerNumber)
             {
-				Debug.Log("PlayerNumbering: Set number "+playerNumber);
+                Debug.Log("PlayerNumbering: Set number " + playerNumber);
                 player.SetCustomProperties(new Hashtable() { { PlayerNumbering.RoomPlayerIndexedProp, (byte)playerNumber } });
             }
         }

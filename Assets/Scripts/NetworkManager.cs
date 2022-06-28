@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using PN = Photon.Pun.PhotonNetwork;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
@@ -43,7 +40,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PN.InRoom)   //현재 방에 들어와 있는 상태면 텍스트 업데이트
         {
             Text[] arr = new Text[2] { player1, player2 };
-            if(PN.PlayerList.Length == 1)
+            if (PN.PlayerList.Length == 1)
             {
                 player1.text = "";
                 player2.text = "";
@@ -93,12 +90,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
 
-    
+
     public void MakeRoomButton()    //로비에서 MakeRoom버튼 눌렀을 때
     {
         makeRoomPanel.SetActive(true);
         makeRoomNameOverlap.text = "";
-    }   
+    }
     public void MakeRoomButton2()   //MakeRoom 패널에서 실제 방만들기 버튼 눌렀을때
     {
         if (makeRoomNameInput.text == "")
@@ -137,12 +134,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
 
-    public void SearchRoomButton()    
+    public void SearchRoomButton()
     {
         searchRoomPanel.SetActive(true);
         searchRoomNameOverlap.text = "";
     }
-    public void SearchRoomButton2()   
+    public void SearchRoomButton2()
     {
         if (searchRoomNameInput.text == "")
         {
@@ -156,11 +153,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         JoinSearchRoom();
     }
-    public void JoinSearchRoom()      
+    public void JoinSearchRoom()
     {
         PN.JoinRoom(searchRoomNameInput.text);
     }
-    public void SearchRoomCancel()    
+    public void SearchRoomCancel()
     {
         searchRoomPanel.SetActive(false);
     }

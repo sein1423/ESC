@@ -24,7 +24,7 @@ namespace Photon.Pun.Demo.Cockpit
             {
                 if (PhotonNetwork.CurrentRoom.MasterClientId != _cache)
                 {
-					_cache = PhotonNetwork.CurrentRoom.MasterClientId;
+                    _cache = PhotonNetwork.CurrentRoom.MasterClientId;
                     Text.text = _cache.ToString();
                     this.OnValueChanged();
                 }

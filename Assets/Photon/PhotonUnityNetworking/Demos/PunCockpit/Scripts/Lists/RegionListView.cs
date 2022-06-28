@@ -5,11 +5,9 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
-using UnityEngine;
-
 using Photon.Realtime;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Photon.Pun.Demo.Cockpit
 {
@@ -21,7 +19,7 @@ namespace Photon.Pun.Demo.Cockpit
 
         public RegionListCell CellPrototype;
 
-		Dictionary<string, RegionListCell> regionCellList = new Dictionary<string, RegionListCell>();
+        Dictionary<string, RegionListCell> regionCellList = new Dictionary<string, RegionListCell>();
 
 
         public void OnEnable()
@@ -33,23 +31,23 @@ namespace Photon.Pun.Demo.Cockpit
 
         public void OnRegionListUpdate(List<Region> regionList)
         {
-			int i = 0;
-			foreach (Region entry in regionList)
+            int i = 0;
+            foreach (Region entry in regionList)
             {
                 // we create the cell
-				regionCellList[entry.Code] = Instantiate(CellPrototype);
-				regionCellList[entry.Code].gameObject.SetActive(true);
-				regionCellList[entry.Code].transform.SetParent(CellPrototype.transform.parent, false);
-				regionCellList[entry.Code].AddToList(entry,i);
+                regionCellList[entry.Code] = Instantiate(CellPrototype);
+                regionCellList[entry.Code].gameObject.SetActive(true);
+                regionCellList[entry.Code].transform.SetParent(CellPrototype.transform.parent, false);
+                regionCellList[entry.Code].AddToList(entry, i);
 
-				i++;
+                i++;
             }
 
         }
 
         public void ResetList()
         {
-			foreach (KeyValuePair<string, RegionListCell> entry in regionCellList)
+            foreach (KeyValuePair<string, RegionListCell> entry in regionCellList)
             {
 
                 if (entry.Value != null)
@@ -58,7 +56,7 @@ namespace Photon.Pun.Demo.Cockpit
                 }
 
             }
-			regionCellList = new Dictionary<string, RegionListCell>();
+            regionCellList = new Dictionary<string, RegionListCell>();
         }
     }
 }

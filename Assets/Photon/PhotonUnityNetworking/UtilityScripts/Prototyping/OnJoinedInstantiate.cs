@@ -126,25 +126,25 @@ namespace Photon.Pun.UtilityScripts
 
 #if UNITY_2018_3_OR_NEWER
 
-			GameObject validated = null;
+            GameObject validated = null;
 
-			if (unvalidated != null)
-			{
+            if (unvalidated != null)
+            {
 
-				if (PrefabUtility.IsPartOfPrefabAsset(unvalidated))
-					return unvalidated;
+                if (PrefabUtility.IsPartOfPrefabAsset(unvalidated))
+                    return unvalidated;
 
-				var prefabStatus = PrefabUtility.GetPrefabInstanceStatus(unvalidated);
-				var isValidPrefab = prefabStatus == PrefabInstanceStatus.Connected || prefabStatus == PrefabInstanceStatus.Disconnected;
+                var prefabStatus = PrefabUtility.GetPrefabInstanceStatus(unvalidated);
+                var isValidPrefab = prefabStatus == PrefabInstanceStatus.Connected || prefabStatus == PrefabInstanceStatus.Disconnected;
 
-				if (isValidPrefab)
-					validated = PrefabUtility.GetCorrespondingObjectFromSource(unvalidated) as GameObject;
-				else
-					return null;
+                if (isValidPrefab)
+                    validated = PrefabUtility.GetCorrespondingObjectFromSource(unvalidated) as GameObject;
+                else
+                    return null;
 
-				if (!PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(validated).Contains("/Resources"))
-					Debug.LogWarning("Player Prefab needs to be a Prefab in a Resource folder.");
-			}
+                if (!PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(validated).Contains("/Resources"))
+                    Debug.LogWarning("Player Prefab needs to be a Prefab in a Resource folder.");
+            }
 #else
             GameObject validated = unvalidated;
 
@@ -248,14 +248,14 @@ namespace Photon.Pun.UtilityScripts
                 spawnPos = new Vector3(0, 0, 0);
                 spawnRot = new Quaternion(0, 0, 0, 1);
             }
-            
+
             if (UseRandomOffset)
             {
                 Random.InitState((int)(Time.time * 10000));
                 spawnPos += GetRandomOffset();
             }
         }
-        
+
 
         /// <summary>
         /// Get the transform of the next SpawnPoint from the list, selected using the SpawnSequence setting. 
@@ -425,12 +425,12 @@ namespace Photon.Pun.UtilityScripts
                 }
 
                 EditorGUILayout.GetControlRect(false, 4);
-                
+
                 if (GUI.Button(EditorGUILayout.GetControlRect(), "Add", (GUIStyle)"minibutton"))
                     Add(list, count);
 
             }
-               
+
 
             EditorGUILayout.EndVertical();
         }
@@ -444,7 +444,7 @@ namespace Photon.Pun.UtilityScripts
             }
         }
     }
-   
+
 
 #endif
 }

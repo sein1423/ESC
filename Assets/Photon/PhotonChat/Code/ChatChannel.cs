@@ -13,10 +13,8 @@ namespace Photon.Chat
     using System.Collections.Generic;
     using System.Text;
 
-    #if SUPPORTED_UNITY || NETFX_CORE
-    using Hashtable = ExitGames.Client.Photon.Hashtable;
-    using SupportClass = ExitGames.Client.Photon.SupportClass;
-    #endif
+#if SUPPORTED_UNITY || NETFX_CORE
+#endif
 
 
     /// <summary>
@@ -72,7 +70,7 @@ namespace Photon.Chat
         {
             this.Name = name;
         }
-        
+
         /// <summary>Used internally to add messages to this channel.</summary>
         public void Add(string sender, object message, int msgId)
         {
@@ -166,7 +164,7 @@ namespace Photon.Chat
             }
         }
 
-        #if CHAT_EXTENDED
+#if CHAT_EXTENDED
         internal void ReadUserProperties(string userId, Dictionary<object, object> changedProperties)
         {
             throw new System.NotImplementedException();
@@ -188,6 +186,6 @@ namespace Photon.Chat
         {
             return this.TryGetChannelProperty(propertyKey, out propertyValue);
         }
-        #endif
+#endif
     }
 }

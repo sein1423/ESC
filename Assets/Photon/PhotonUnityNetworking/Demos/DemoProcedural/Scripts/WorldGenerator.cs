@@ -192,9 +192,9 @@ namespace Photon.Pun.Demo.Procedural
             int clusterId = 0;
 
             // Instantiating all necessary clusters at their target position
-            for (int x = 0; x < (int) WorldSize; x += (int) Mathf.Sqrt((int) ClusterSize))
+            for (int x = 0; x < (int)WorldSize; x += (int)Mathf.Sqrt((int)ClusterSize))
             {
-                for (int z = 0; z < (int) WorldSize; z += (int) Mathf.Sqrt((int) ClusterSize))
+                for (int z = 0; z < (int)WorldSize; z += (int)Mathf.Sqrt((int)ClusterSize))
                 {
                     GameObject cluster = new GameObject();
                     cluster.name = "Cluster " + clusterId;
@@ -218,14 +218,14 @@ namespace Photon.Pun.Demo.Procedural
 
                 int blockId = 0;
 
-                for (int x = 0; x < (int) Mathf.Sqrt((int) ClusterSize); ++x)
+                for (int x = 0; x < (int)Mathf.Sqrt((int)ClusterSize); ++x)
                 {
-                    for (int z = 0; z < (int) Mathf.Sqrt((int) ClusterSize); ++z)
+                    for (int z = 0; z < (int)Mathf.Sqrt((int)ClusterSize); ++z)
                     {
-                        float noiseValue = Simplex.Noise.CalcPixel2D((int) clusterPosition.x + x, (int) clusterPosition.z + z, 0.02f);
+                        float noiseValue = Simplex.Noise.CalcPixel2D((int)clusterPosition.x + x, (int)clusterPosition.z + z, 0.02f);
 
-                        int height = (int) noiseValue / (int) (256.0f / (float) WorldType);
-                        int materialIndex = (int) noiseValue / (int) (256.0f / WorldMaterials.Length);
+                        int height = (int)noiseValue / (int)(256.0f / (float)WorldType);
+                        int materialIndex = (int)noiseValue / (int)(256.0f / WorldMaterials.Length);
 
                         GameObject block = GameObject.CreatePrimitive(PrimitiveType.Cube);
                         block.name = "Block " + blockId;
@@ -273,7 +273,7 @@ namespace Photon.Pun.Demo.Procedural
 
                     if (c != null)
                     {
-                        Dictionary<int, float> clusterModifications = (Dictionary<int, float>) entry.Value;
+                        Dictionary<int, float> clusterModifications = (Dictionary<int, float>)entry.Value;
 
                         foreach (KeyValuePair<int, float> pair in clusterModifications)
                         {

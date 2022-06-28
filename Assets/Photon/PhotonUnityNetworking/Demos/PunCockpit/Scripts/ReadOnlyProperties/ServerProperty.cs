@@ -5,8 +5,8 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using UnityEngine.UI;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 namespace Photon.Pun.Demo.Cockpit
 {
@@ -18,16 +18,16 @@ namespace Photon.Pun.Demo.Cockpit
 
         public Text Text;
 
-		ServerConnection _cache;
+        ServerConnection _cache;
 
 
         void Update()
         {
 
-			if (PhotonNetwork.Server != _cache)
+            if (PhotonNetwork.Server != _cache)
             {
-				_cache = PhotonNetwork.Server;
-				Text.text = PhotonNetwork.Server.ToString();
+                _cache = PhotonNetwork.Server;
+                Text.text = PhotonNetwork.Server.ToString();
                 this.OnValueChanged();
             }
         }

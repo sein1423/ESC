@@ -41,11 +41,11 @@ namespace Photon.Pun.UtilityScripts
         public KeyCode ModifierKey;
 
         public bool DestroyByRpc;
-        
+
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
         {
-            if (!PhotonNetwork.InRoom || (this.ModifierKey != KeyCode.None && !Input.GetKey(this.ModifierKey)) || eventData.button != this.Button )
+            if (!PhotonNetwork.InRoom || (this.ModifierKey != KeyCode.None && !Input.GetKey(this.ModifierKey)) || eventData.button != this.Button)
             {
                 return;
             }
