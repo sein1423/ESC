@@ -1,10 +1,9 @@
 using Photon.Pun;
 using UnityEngine;
-//vr사용
-using UnityEngine.XR;
 
-public class Player : MonoBehaviourPunCallbacks
+public class MultiPlayer : MonoBehaviourPunCallbacks
 {
+
     // 스피드 조정 변수
     [SerializeField]
     private float walkSpeed;
@@ -19,6 +18,7 @@ public class Player : MonoBehaviourPunCallbacks
     private float jumpForce;
 
     // 상태 변수
+    private bool isRun = false;
     public bool isGround = true;
     private bool isCrouch = false;
 
@@ -42,6 +42,7 @@ public class Player : MonoBehaviourPunCallbacks
     [SerializeField]
     private Camera theCamera;
     private Rigidbody myRigid;
+    private CapsuleCollider capsuleCollider;
 
     Animator anim;
 
@@ -54,9 +55,10 @@ public class Player : MonoBehaviourPunCallbacks
 
     //플레이어의 기본적인 움직임 구현
     void Start()
-    {
+    { 
         anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
         originPosY = transform.position.y;
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
@@ -66,7 +68,7 @@ public class Player : MonoBehaviourPunCallbacks
     // Update is called once per frame
     private void Update()
     {
-        if(!isMenu)
+        if (!isMenu)
         {
             PlayerActive();
         }
@@ -80,30 +82,9 @@ public class Player : MonoBehaviourPunCallbacks
             isMenu = false;
         }
     }
-/*
-    public void VrPlayerActive()
-    {
-        //VR 컨트롤러 조이스틱으로 전후좌우 이동
-        float vrX = Input.GetAxis("Horizontal");
-        float vrZ = Input.GetAxis("Vertical");
-        Vector3 moveDirection = new Vector3(vrX, 0, vrZ);
-        moveDirection = transform.TransformDirection(moveDirection);
-        moveDirection.y = 0;
-        moveDirection *= applySpeed;
-        myRigid.MovePosition(myRigid.position + moveDirection * Time.deltaTime);
-
-        //VR헤드기어 움직임에 따라 카메라 회전
-        float vrY = Input.GetAxis("Rotation");
-        transform.Rotate(0, vrY, 0);
-        currentCameraRotationX -= vrY;
-        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
-    }*/
-    
+    [PunRPC]
     public void PlayerActive()
     {
-        //밑에거 Input.GetKeyDown을 "inputmanager"이런식으로 바꿔야함
-        
 
         //wasd로 전후좌우로 이동
         float v = Input.GetAxis("Vertical");
@@ -168,6 +149,7 @@ public class Player : MonoBehaviourPunCallbacks
     }
 
     //Move함수 구현
+    [PunRPC]
     public void Move(float h, float v)
     {
         //h와 v값으로 전후좌우 이동
@@ -216,7 +198,7 @@ public class Player : MonoBehaviourPunCallbacks
 
 
     }
-
+    [PunRPC]
     private void OnTriggerStay(Collider other)
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -231,4 +213,17 @@ public class Player : MonoBehaviourPunCallbacks
         }
 
     }
+
+    [PunRPC]
+    public void RPC_Light()
+    {
+        light.SetActive(true);
+    }
+
+    [PunRPC]
+    public void RPC_Lighter()
+    {
+        lighter.SetActive(true);
+    }
+
 }

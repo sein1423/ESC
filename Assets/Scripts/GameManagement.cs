@@ -228,14 +228,4 @@ public class GameManagement : MonoBehaviour
 
         }
     }
-    
-    public void PressBackButton(){
-        optionSet.SetActive(false);
-        menuSet.SetActive(true);
-    }
-
-    public void PushX()
-    {
-        optionSet.SetActive(false);
-    }
 }
