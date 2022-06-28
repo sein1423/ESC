@@ -90,7 +90,7 @@ public class GameManagement : MonoBehaviour
 
     public void RePlay()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Game");
     }
 
     public void GameExit()
@@ -137,7 +137,7 @@ public class GameManagement : MonoBehaviour
 
     public void TestCharacter()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Game");
         //DontDestroyOnLoad(timeManager);
         Destroy(GameObject.Find("SoundManager"));
     }
@@ -227,5 +227,15 @@ public class GameManagement : MonoBehaviour
         {
 
         }
+    }
+    
+    public void PressBackButton(){
+        optionSet.SetActive(false);
+        menuSet.SetActive(true);
+    }
+
+    public void PushX()
+    {
+        optionSet.SetActive(false);
     }
 }

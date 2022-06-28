@@ -51,12 +51,14 @@ public class Player : MonoBehaviourPunCallbacks
     public bool hasLighter = false;
     public GameObject light;
     public GameObject lighter;
+    public bool isMenu = false;
     bool sDown1;
     bool sDown2;
     bool sDown3;
     GameObject equipWeapon;
     bool isSwap;
     int equipWeaponIndex = -1;
+    public GameObject MenuSet, OptionSet;
 
     //플레이어의 기본적인 움직임 구현
     void Start()
@@ -75,6 +77,23 @@ public class Player : MonoBehaviourPunCallbacks
     // Update is called once per frame
     private void Update()
     {
+        if(!isMenu)
+        {
+            PlayerActive();
+        }
+
+        if (MenuSet.activeSelf || OptionSet.activeSelf)
+        {
+            isMenu = true;
+        }
+        else
+        {
+            isMenu = false;
+        }
+    }
+    public void PlayerActive()
+    {
+
         //wasd로 전후좌우로 이동
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
@@ -135,9 +154,7 @@ public class Player : MonoBehaviourPunCallbacks
                 light.SetActive(true);
             }
         }
-
     }
-
 
     //Move함수 구현
     public void Move(float h, float v)
