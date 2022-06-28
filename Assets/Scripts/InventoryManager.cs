@@ -17,7 +17,7 @@ public class InventoryManager : MonoBehaviour
         {
             activeInventory = !activeInventory;
             inventoryPanel.SetActive(activeInventory);
-            lighter.SetActive(player.hasWeapons);
+            lighter.SetActive(player.hasLighter);
         }
 
     }

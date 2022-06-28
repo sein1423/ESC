@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 5259854394793134028}
   m_Layer: 0
   m_Name: lighter
-  m_TagString: Weapon
+  m_TagString: Lighter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -241,7 +241,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 5
   m_Center: {x: 0, y: 3, z: 0}
 --- !u!114 &5259854394793134028
 MonoBehaviour:
@@ -299,8 +299,8 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.9056604, g: 0.47333568, b: 0.47333568, a: 1}
+  m_Intensity: 3
   m_Range: 100
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

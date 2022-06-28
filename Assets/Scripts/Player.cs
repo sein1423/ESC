@@ -1,5 +1,4 @@
 using Photon.Pun;
-using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviourPunCallbacks
@@ -35,7 +34,8 @@ public class Player : MonoBehaviourPunCallbacks
     // 카메라 한계
     [SerializeField]
     private float cameraRotationLimit;
-    private float currentCameraRotationX;
+    private float currentCameraRotationX = 0;
+    private float currentCameraRotationY = 0;
 
     // 필요한 컴포넌트
     [SerializeField]
@@ -47,8 +47,8 @@ public class Player : MonoBehaviourPunCallbacks
 
     GameObject nearObject;
     bool iDown;
-    public GameObject weapons;
-    public bool hasWeapons;
+    //public GameObject weapons;
+    public bool hasLighter = false;
     public GameObject light;
     public GameObject lighter;
     bool sDown1;
@@ -58,198 +58,75 @@ public class Player : MonoBehaviourPunCallbacks
     bool isSwap;
     int equipWeaponIndex = -1;
 
-    void Awake()
-    {
-        anim = GetComponentInChildren<Animator>();
-    }
-
-
+    //플레이어의 기본적인 움직임 구현
     void Start()
     {
-        // 컴포넌트 할당
-        capsuleCollider = GetComponent<CapsuleCollider>();
+        anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
-
-        // 초기화
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        originPosY = transform.position.y;
+        applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
+        isSwap = false;
+        equipWeaponIndex = -1;
 
-        originPosY = theCamera.transform.localPosition.y;
-        applyCrouchPosY = originPosY;
     }
 
-    void Update()
+    // Update is called once per frame
+    private void Update()
     {
-        GetInput();
-        IsGround();
-        TryJump();
-        TryRun();
-        TryCrouch();
-        Move();
-        GetLighter();
-        CameraRotation();
-        CharacterRotation();
-        Interaction();
-    }
+        //wasd로 전후좌우로 이동
+        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxis("Horizontal");
 
-    void GetInput()
-    {
-        iDown = Input.GetButtonDown("Interaction");
-        sDown1 = Input.GetButtonDown("Swap1");
-    }
+        //마우스의 회전값
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
 
-    // 지면 체크
-    private void IsGround()
-    {
-        isGround = Physics.Raycast(transform.position, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
-    }
+        //PlayerCamera에 마우스 회전값 대입
+        currentCameraRotationX -= mouseY * lookSensitivity;
+        currentCameraRotationY += mouseX * lookSensitivity;
+        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
+        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
 
-    // 점프 시도
-    private void TryJump()
-    {
+        //플레이어의 Y회전값은 카메라 Y회전값과 같음
+        transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
+
+
+
+        // 점프
         if (Input.GetKeyDown(KeyCode.Space) && isGround)
         {
-            Jump();
+            myRigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGround = false;
         }
-    }
 
-    // 점프
-    private void Jump()
-    {
-        if (isCrouch)
-            Crouch();
-
-        myRigid.velocity = transform.up * jumpForce;
-    }
-
-    // 달리기 시도
-    private void TryRun()
-    {
-        if (Input.GetKey(KeyCode.LeftShift))
+        // 앉기
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            Running();
+            isCrouch = !isCrouch;
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            RunningCancel();
-        }
-    }
 
-    // 달리기
-    private void Running()
-    {
-        if (isCrouch)
-            Crouch();
-
-        isRun = true;
-        applySpeed = runSpeed;
-        float _moveDirX = Input.GetAxisRaw("Horizontal");
-        float _moveDirZ = Input.GetAxisRaw("Vertical");
-
-        Vector3 _moveHorizontal = transform.right * _moveDirX;
-        Vector3 _moveVertical = transform.forward * _moveDirZ;
-
-        Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
-        anim.SetBool("isRun", _velocity != Vector3.zero);
-    }
-
-    // 달리기 취소
-    private void RunningCancel()
-    {
-        isRun = false;
-        applySpeed = walkSpeed;
-        float _moveDirX = Input.GetAxisRaw("Horizontal");
-        float _moveDirZ = Input.GetAxisRaw("Vertical");
-
-        Vector3 _moveHorizontal = transform.right * _moveDirX;
-        Vector3 _moveVertical = transform.forward * _moveDirZ;
-
-        Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
-        anim.SetBool("isWalk", _velocity != Vector3.zero);
-    }
-
-    // 앉기 시도
-    private void TryCrouch()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            Crouch();
-        }
-    }
-
-    // 앉기 동작
-    private void Crouch()
-    {
-        isCrouch = !isCrouch;
+        // 앉기 상태에서 움직임 제한
         if (isCrouch)
         {
-            applySpeed = crouchSpeed;
             applyCrouchPosY = crouchPosY;
+            applySpeed = crouchSpeed;
         }
         else
         {
-            applySpeed = walkSpeed;
             applyCrouchPosY = originPosY;
+            applySpeed = walkSpeed;
         }
 
-        StartCoroutine(CrouchCoroutine());
-    }
+        // 이동
+        Move(h, v);
 
-    // 부드러운 앉기 동작
-    IEnumerator CrouchCoroutine()
-    {
-        float _posY = theCamera.transform.localPosition.y;
-        int count = 0;
 
-        while (_posY != applyCrouchPosY)
-        {
-            count++;
-            _posY = Mathf.Lerp(_posY, applyCrouchPosY, 0.2f);
-            theCamera.transform.localPosition = new Vector3(0, _posY, 0);
-            if (count > 15)
-                break;
-            yield return null;
-        }
-        theCamera.transform.localPosition = new Vector3(0, applyCrouchPosY, 0);
-    }
-
-    private void Move()
-    {
-        float _moveDirX = Input.GetAxisRaw("Horizontal");
-        float _moveDirZ = Input.GetAxisRaw("Vertical");
-
-        Vector3 _moveHorizontal = transform.right * _moveDirX;
-        Vector3 _moveVertical = transform.forward * _moveDirZ;
-
-        Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
-
-        myRigid.MovePosition(transform.position + _velocity * Time.deltaTime);
-
-        anim.SetBool("isWalk", _velocity != Vector3.zero);
-    }
-
-    private void CameraRotation()
-    {
-        float _xRotation = Input.GetAxisRaw("Mouse Y");
-        float _cameraRotationX = _xRotation * lookSensitivity;
-
-        currentCameraRotationX -= _cameraRotationX;
-        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-
-        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
-    }
-
-    private void CharacterRotation()
-    {
-        float _yRotation = Input.GetAxisRaw("Mouse X");
-        Vector3 _characterRotationY = new Vector3(0f, _yRotation, 0f) * lookSensitivity;
-        myRigid.MoveRotation(myRigid.rotation * Quaternion.Euler(_characterRotationY));
-    }
-
-    void GetLighter()
-    {
+        //g키 입력시 라이터의 불을 켜고 끈다.
         if (Input.GetKeyDown(KeyCode.G))
         {
-            if (light.activeSelf == true)
+            if (light.activeSelf)
             {
                 light.SetActive(false);
             }
@@ -260,41 +137,71 @@ public class Player : MonoBehaviourPunCallbacks
         }
 
     }
-    void Interaction()
-    {
-        if (iDown && nearObject != null)
-        {
-            if (nearObject.tag == "Weapon")
-            {
-                Item item = nearObject.GetComponent<Item>();
-                int weaponIndex = item.value;
-                hasWeapons = true;
 
-                Destroy(nearObject);
+
+    //Move함수 구현
+    public void Move(float h, float v)
+    {
+        //h와 v값으로 전후좌우 이동
+        Vector3 moveVelocity = Vector3.zero;
+
+        //shift키를 누르면 전진속도가 증가한다.
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            applySpeed = runSpeed;
+        }
+        else
+        {
+            applySpeed = walkSpeed;
+        }
+
+        moveVelocity.x = h * applySpeed;
+        moveVelocity.z = v * applySpeed;
+        moveVelocity = transform.TransformDirection(moveVelocity);
+        myRigid.MovePosition(myRigid.position + moveVelocity * Time.deltaTime);
+
+        //전진,후진 애니메이션 실행
+        if (v != 0)
+        {
+            anim.SetBool("isWalk", true);
+        }
+        else
+        {
+            anim.SetBool("isWalk", false);
+        }
+        /*
+                //좌우 방향에 따라 캐릭터를 회전시키는 구현
+                if (h != 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(moveVelocity.x, moveVelocity.z) * Mathf.Rad2Deg, 0);
+                }*/
+
+        //좌우 움직임 애니메이션 실행
+        if (h != 0)
+        {
+            anim.SetBool("isRun", true);
+        }
+        else
+        {
+            anim.SetBool("isRun", false);
+        }
+
+
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (other.tag == "Lighter")
+            {
+                Destroy(other.gameObject);
+                light.SetActive(false);
                 lighter.SetActive(true);
+                hasLighter = true;
             }
         }
+
     }
-
-    void SwapOut()
-    {
-        isSwap = false;
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        Debug.Log(other.name);
-        if (other.tag == "Weapon")
-            nearObject = other.gameObject;
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Weapon")
-            nearObject = null;
-    }
-
-
-    
 
 }
