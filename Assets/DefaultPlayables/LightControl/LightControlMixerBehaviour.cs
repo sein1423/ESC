@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 public class LightControlMixerBehaviour : PlayableBehaviour
 {
@@ -29,7 +27,7 @@ public class LightControlMixerBehaviour : PlayableBehaviour
             m_FirstFrameHappened = true;
         }
 
-        int inputCount = playable.GetInputCount ();
+        int inputCount = playable.GetInputCount();
 
         Color blendedColor = Color.clear;
         float blendedIntensity = 0f;
@@ -43,8 +41,8 @@ public class LightControlMixerBehaviour : PlayableBehaviour
         {
             float inputWeight = playable.GetInputWeight(i);
             ScriptPlayable<LightControlBehaviour> inputPlayable = (ScriptPlayable<LightControlBehaviour>)playable.GetInput(i);
-            LightControlBehaviour input = inputPlayable.GetBehaviour ();
-            
+            LightControlBehaviour input = inputPlayable.GetBehaviour();
+
             blendedColor += input.color * inputWeight;
             blendedIntensity += input.intensity * inputWeight;
             blendedBounceIntensity += input.bounceIntensity * inputWeight;
@@ -56,7 +54,7 @@ public class LightControlMixerBehaviour : PlayableBehaviour
                 greatestWeight = inputWeight;
             }
 
-            if (!Mathf.Approximately (inputWeight, 0f))
+            if (!Mathf.Approximately(inputWeight, 0f))
                 currentInputs++;
         }
 
@@ -66,11 +64,11 @@ public class LightControlMixerBehaviour : PlayableBehaviour
         m_TrackBinding.range = blendedRange + m_DefaultRange * (1f - totalWeight);
     }
 
-    public override void OnPlayableDestroy (Playable playable)
+    public override void OnPlayableDestroy(Playable playable)
     {
         m_FirstFrameHappened = false;
 
-        if(m_TrackBinding == null)
+        if (m_TrackBinding == null)
             return;
 
         m_TrackBinding.color = m_DefaultColor;

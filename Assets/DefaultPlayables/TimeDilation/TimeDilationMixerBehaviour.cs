@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 public class TimeDilationMixerBehaviour : PlayableBehaviour
 {
@@ -9,7 +7,7 @@ public class TimeDilationMixerBehaviour : PlayableBehaviour
 
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
-        int inputCount = playable.GetInputCount ();
+        int inputCount = playable.GetInputCount();
 
         float mixedTimeScale = 0f;
         float totalWeight = 0f;
@@ -21,11 +19,11 @@ public class TimeDilationMixerBehaviour : PlayableBehaviour
 
             if (inputWeight > 0f)
                 currentInputCount++;
-            
+
             totalWeight += inputWeight;
 
-            ScriptPlayable<TimeDilationBehaviour> playableInput = (ScriptPlayable<TimeDilationBehaviour>)playable.GetInput (i);
-            TimeDilationBehaviour input = playableInput.GetBehaviour ();
+            ScriptPlayable<TimeDilationBehaviour> playableInput = (ScriptPlayable<TimeDilationBehaviour>)playable.GetInput(i);
+            TimeDilationBehaviour input = playableInput.GetBehaviour();
 
             mixedTimeScale += inputWeight * input.timeScale;
         }
@@ -36,17 +34,17 @@ public class TimeDilationMixerBehaviour : PlayableBehaviour
             Time.timeScale = defaultTimeScale;
     }
 
-    public override void OnBehaviourPause (Playable playable, FrameData info)
+    public override void OnBehaviourPause(Playable playable, FrameData info)
     {
         Time.timeScale = defaultTimeScale;
     }
 
-    public override void OnGraphStop (Playable playable)
+    public override void OnGraphStop(Playable playable)
     {
         Time.timeScale = defaultTimeScale;
     }
 
-    public override void OnPlayableDestroy (Playable playable)
+    public override void OnPlayableDestroy(Playable playable)
     {
         Time.timeScale = defaultTimeScale;
     }

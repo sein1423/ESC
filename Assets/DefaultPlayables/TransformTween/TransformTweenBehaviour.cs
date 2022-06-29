@@ -1,8 +1,6 @@
 using System;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 [Serializable]
 public class TransformTweenBehaviour : PlayableBehaviour
@@ -21,7 +19,7 @@ public class TransformTweenBehaviour : PlayableBehaviour
     public bool tweenRotation = true;
     public TweenType tweenType;
     public AnimationCurve customCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-    
+
     public Vector3 startingPosition;
     public Quaternion startingRotation = Quaternion.identity;
 
@@ -35,7 +33,7 @@ public class TransformTweenBehaviour : PlayableBehaviour
 
     const float k_RightAngleInRads = Mathf.PI * 0.5f;
 
-    public override void PrepareFrame (Playable playable, FrameData info)
+    public override void PrepareFrame(Playable playable, FrameData info)
     {
         if (startLocation)
         {
@@ -44,38 +42,38 @@ public class TransformTweenBehaviour : PlayableBehaviour
         }
     }
 
-    public float EvaluateCurrentCurve (float time)
+    public float EvaluateCurrentCurve(float time)
     {
-        if (tweenType == TweenType.Custom && !IsCustomCurveNormalised ())
+        if (tweenType == TweenType.Custom && !IsCustomCurveNormalised())
         {
             Debug.LogError("Custom Curve is not normalised.  Curve must start at 0,0 and end at 1,1.");
             return 0f;
         }
-        
+
         switch (tweenType)
         {
             case TweenType.Linear:
-                return m_LinearCurve.Evaluate (time);
+                return m_LinearCurve.Evaluate(time);
             case TweenType.Deceleration:
-                return m_DecelerationCurve.Evaluate (time);
+                return m_DecelerationCurve.Evaluate(time);
             case TweenType.Harmonic:
-                return m_HarmonicCurve.Evaluate (time);
+                return m_HarmonicCurve.Evaluate(time);
             default:
-                return customCurve.Evaluate (time);
+                return customCurve.Evaluate(time);
         }
     }
 
-    bool IsCustomCurveNormalised ()
+    bool IsCustomCurveNormalised()
     {
-        if (!Mathf.Approximately (customCurve[0].time, 0f))
+        if (!Mathf.Approximately(customCurve[0].time, 0f))
             return false;
-        
-        if (!Mathf.Approximately (customCurve[0].value, 0f))
+
+        if (!Mathf.Approximately(customCurve[0].value, 0f))
             return false;
-        
-        if (!Mathf.Approximately (customCurve[customCurve.length - 1].time, 1f))
+
+        if (!Mathf.Approximately(customCurve[customCurve.length - 1].time, 1f))
             return false;
-        
-        return Mathf.Approximately (customCurve[customCurve.length - 1].value, 1f);
+
+        return Mathf.Approximately(customCurve[customCurve.length - 1].value, 1f);
     }
 }

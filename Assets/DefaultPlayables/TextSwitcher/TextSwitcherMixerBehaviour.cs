@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class TextSwitcherMixerBehaviour : PlayableBehaviour
@@ -28,7 +26,7 @@ public class TextSwitcherMixerBehaviour : PlayableBehaviour
             m_FirstFrameHappened = true;
         }
 
-        int inputCount = playable.GetInputCount ();
+        int inputCount = playable.GetInputCount();
 
         Color blendedColor = Color.clear;
         float blendedFontSize = 0f;
@@ -40,8 +38,8 @@ public class TextSwitcherMixerBehaviour : PlayableBehaviour
         {
             float inputWeight = playable.GetInputWeight(i);
             ScriptPlayable<TextSwitcherBehaviour> inputPlayable = (ScriptPlayable<TextSwitcherBehaviour>)playable.GetInput(i);
-            TextSwitcherBehaviour input = inputPlayable.GetBehaviour ();
-            
+            TextSwitcherBehaviour input = inputPlayable.GetBehaviour();
+
             blendedColor += input.color * inputWeight;
             blendedFontSize += input.fontSize * inputWeight;
             totalWeight += inputWeight;
@@ -52,19 +50,19 @@ public class TextSwitcherMixerBehaviour : PlayableBehaviour
                 greatestWeight = inputWeight;
             }
 
-            if (!Mathf.Approximately (inputWeight, 0f))
+            if (!Mathf.Approximately(inputWeight, 0f))
                 currentInputs++;
         }
 
         m_TrackBinding.color = blendedColor + m_DefaultColor * (1f - totalWeight);
-        m_TrackBinding.fontSize = Mathf.RoundToInt (blendedFontSize + m_DefaultFontSize * (1f - totalWeight));
+        m_TrackBinding.fontSize = Mathf.RoundToInt(blendedFontSize + m_DefaultFontSize * (1f - totalWeight));
         if (currentInputs != 1 && 1f - totalWeight > greatestWeight)
         {
             m_TrackBinding.text = m_DefaultText;
         }
     }
 
-    public override void OnPlayableDestroy (Playable playable)
+    public override void OnPlayableDestroy(Playable playable)
     {
         m_FirstFrameHappened = false;
 

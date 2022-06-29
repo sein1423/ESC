@@ -1,8 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -16,19 +16,19 @@ public class TimelinePlayableWizard : EditorWindow
         public UsableType usableType;
 
         int m_TypeIndex;
-        
-        public Variable (string name, UsableType usableType)
+
+        public Variable(string name, UsableType usableType)
         {
             this.name = name;
             this.usableType = usableType;
         }
 
-        public bool GUI (UsableType[] usableTypes)
+        public bool GUI(UsableType[] usableTypes)
         {
             bool removeThis = false;
             EditorGUILayout.BeginHorizontal();
             name = EditorGUILayout.TextField(name);
-            m_TypeIndex = EditorGUILayout.Popup(m_TypeIndex, UsableType.GetNamewithSortingArray (usableTypes));
+            m_TypeIndex = EditorGUILayout.Popup(m_TypeIndex, UsableType.GetNamewithSortingArray(usableTypes));
             usableType = usableTypes[m_TypeIndex];
             if (GUILayout.Button("Remove", GUILayout.Width(60f)))
             {
@@ -39,7 +39,7 @@ public class TimelinePlayableWizard : EditorWindow
             return removeThis;
         }
 
-        public int CompareTo (object obj)
+        public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
@@ -52,7 +52,7 @@ public class TimelinePlayableWizard : EditorWindow
             return name.ToLower().CompareTo(other.name.ToLower());
         }
 
-        public static UsableType[] GetUsableTypesFromVariableArray (Variable[] variables)
+        public static UsableType[] GetUsableTypesFromVariableArray(Variable[] variables)
         {
             UsableType[] usableTypes = new UsableType[variables.Length];
             for (int i = 0; i < usableTypes.Length; i++)
@@ -82,15 +82,15 @@ public class TimelinePlayableWizard : EditorWindow
 
         const string k_NameForNullType = "None";
 
-        public UsableType (Type usableType)
+        public UsableType(Type usableType)
         {
             type = usableType;
 
             if (type != null)
             {
                 name = usableType.Name;
-                nameWithSorting = name.ToUpper ()[0] + "/" + name;
-                additionalNamespace = unrequiredNamespaces.All (t => usableType.Namespace != t) ? usableType.Namespace : blankAdditionalNamespace;
+                nameWithSorting = name.ToUpper()[0] + "/" + name;
+                additionalNamespace = unrequiredNamespaces.All(t => usableType.Namespace != t) ? usableType.Namespace : blankAdditionalNamespace;
             }
             else
             {
@@ -102,7 +102,7 @@ public class TimelinePlayableWizard : EditorWindow
             guiContentWithSorting = new GUIContent(nameWithSorting);
         }
 
-        public UsableType (string name)
+        public UsableType(string name)
         {
             this.name = name;
             nameWithSorting = name.ToUpper()[0] + "/" + name;
@@ -110,36 +110,36 @@ public class TimelinePlayableWizard : EditorWindow
             guiContentWithSorting = new GUIContent(nameWithSorting);
         }
 
-        public int CompareTo (object obj)
+        public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
 
             UsableType other = (UsableType)obj;
-            
-            if(other == null)
+
+            if (other == null)
                 throw new ArgumentException("This object is not a UsableType.");
 
-            return name.ToLower().CompareTo (other.name.ToLower());
+            return name.ToLower().CompareTo(other.name.ToLower());
         }
 
-        public static UsableType[] GetUsableTypeArray (Type[] types, params UsableType[] additionalUsableTypes)
+        public static UsableType[] GetUsableTypeArray(Type[] types, params UsableType[] additionalUsableTypes)
         {
-            List<UsableType> usableTypeList = new List<UsableType> ();
+            List<UsableType> usableTypeList = new List<UsableType>();
             for (int i = 0; i < types.Length; i++)
             {
-                usableTypeList.Add (new UsableType (types[i]));
+                usableTypeList.Add(new UsableType(types[i]));
             }
-            usableTypeList.AddRange (additionalUsableTypes);
-            return usableTypeList.ToArray ();
+            usableTypeList.AddRange(additionalUsableTypes);
+            return usableTypeList.ToArray();
         }
 
-        public static UsableType[] AmalgamateUsableTypes (UsableType[] usableTypeArray, params UsableType[] usableTypes)
+        public static UsableType[] AmalgamateUsableTypes(UsableType[] usableTypeArray, params UsableType[] usableTypes)
         {
-            List<UsableType> usableTypeList = new List<UsableType> ();
+            List<UsableType> usableTypeList = new List<UsableType>();
             for (int i = 0; i < usableTypes.Length; i++)
             {
-                usableTypeList.Add (usableTypes[i]);
+                usableTypeList.Add(usableTypes[i]);
             }
             usableTypeList.AddRange(usableTypeArray);
             return usableTypeList.ToArray();
@@ -158,9 +158,9 @@ public class TimelinePlayableWizard : EditorWindow
             return displayNames;
         }
 
-        public static GUIContent[] GetGUIContentWithSortingArray (UsableType[] usableTypes)
+        public static GUIContent[] GetGUIContentWithSortingArray(UsableType[] usableTypes)
         {
-            if(usableTypes == null || usableTypes.Length == 0)
+            if (usableTypes == null || usableTypes.Length == 0)
                 return new GUIContent[0];
 
             GUIContent[] guiContents = new GUIContent[usableTypes.Length];
@@ -171,7 +171,7 @@ public class TimelinePlayableWizard : EditorWindow
             return guiContents;
         }
 
-        public static string[] GetDistinctAdditionalNamespaces (UsableType[] usableTypes)
+        public static string[] GetDistinctAdditionalNamespaces(UsableType[] usableTypes)
         {
             if (usableTypes == null || usableTypes.Length == 0)
                 return new string[0];
@@ -192,12 +192,12 @@ public class TimelinePlayableWizard : EditorWindow
         {
             Blendable, Assignable, Not
         }
-        
+
         public enum UsablePropertyType
         {
             Property, Field
         }
-        
+
         public string type;
         public string name;
         public string defaultValue;
@@ -207,7 +207,7 @@ public class TimelinePlayableWizard : EditorWindow
         public FieldInfo fieldInfo;
 
         int m_TypeIndex;
-        
+
         public string NameWithCaptial
         {
             get { return name.First().ToString().ToUpper() + name.Substring(1); }
@@ -237,8 +237,8 @@ public class TimelinePlayableWizard : EditorWindow
         {
             get { return name + "Prop"; }
         }
-        
-        public UsableProperty (PropertyInfo propertyInfo)
+
+        public UsableProperty(PropertyInfo propertyInfo)
         {
             usablePropertyType = UsablePropertyType.Property;
             this.propertyInfo = propertyInfo;
@@ -266,11 +266,11 @@ public class TimelinePlayableWizard : EditorWindow
                 usability = Usability.Not;
         }
 
-        public UsableProperty (FieldInfo fieldInfo)
+        public UsableProperty(FieldInfo fieldInfo)
         {
             usablePropertyType = UsablePropertyType.Field;
             this.fieldInfo = fieldInfo;
-            
+
             if (fieldInfo.FieldType.Name == "Single")
                 type = "float";
             else if (fieldInfo.FieldType.Name == "Int32")
@@ -285,7 +285,7 @@ public class TimelinePlayableWizard : EditorWindow
                 type = fieldInfo.FieldType.Name;
 
             name = fieldInfo.Name;
-            
+
             if (IsTypeBlendable(fieldInfo.FieldType))
                 usability = Usability.Blendable;
             else if (IsTypeAssignable(fieldInfo.FieldType))
@@ -294,9 +294,9 @@ public class TimelinePlayableWizard : EditorWindow
                 usability = Usability.Not;
         }
 
-        public string ZeroValueAsString ()
+        public string ZeroValueAsString()
         {
-            if(usability != Usability.Blendable)
+            if (usability != Usability.Blendable)
                 throw new UnityException("UsableType is not blendable, shouldn't be looking for zero value as string.");
 
             switch (type)
@@ -317,16 +317,16 @@ public class TimelinePlayableWizard : EditorWindow
             return "";
         }
 
-        public void CreateSettingDefaultValueString (Component defaultValuesComponent)
+        public void CreateSettingDefaultValueString(Component defaultValuesComponent)
         {
             if (defaultValuesComponent == null)
             {
                 defaultValue = "";
                 return;
             }
-            
-            object defaultValueObj = usablePropertyType == UsablePropertyType.Property ? propertyInfo.GetValue (defaultValuesComponent, null) : fieldInfo.GetValue (defaultValuesComponent);
-            
+
+            object defaultValueObj = usablePropertyType == UsablePropertyType.Property ? propertyInfo.GetValue(defaultValuesComponent, null) : fieldInfo.GetValue(defaultValuesComponent);
+
             switch (type)
             {
                 case "float":
@@ -358,24 +358,24 @@ public class TimelinePlayableWizard : EditorWindow
                     break;
                 case "bool":
                     bool defaultBoolValue = (bool)defaultValueObj;
-                    defaultValue = defaultBoolValue.ToString ().ToLower();
+                    defaultValue = defaultBoolValue.ToString().ToLower();
                     break;
                 default:
                     Enum defaultEnumValue = (Enum)defaultValueObj;
-                    Type enumSystemType = defaultEnumValue.GetType ();
+                    Type enumSystemType = defaultEnumValue.GetType();
                     string[] splits = enumSystemType.ToString().Split('+');
                     string enumType = splits[splits.Length - 1];
-                    string enumConstantName = Enum.GetName (enumSystemType, defaultEnumValue);
+                    string enumConstantName = Enum.GetName(enumSystemType, defaultEnumValue);
                     defaultValue = enumType + "." + enumConstantName;
                     break;
             }
         }
 
-        public bool GUI (List<UsableProperty> allUsableProperties)
+        public bool GUI(List<UsableProperty> allUsableProperties)
         {
             bool removeThis = false;
             EditorGUILayout.BeginHorizontal();
-            m_TypeIndex = EditorGUILayout.Popup(m_TypeIndex, GetNameWithSortingArray (allUsableProperties));
+            m_TypeIndex = EditorGUILayout.Popup(m_TypeIndex, GetNameWithSortingArray(allUsableProperties));
             type = allUsableProperties[m_TypeIndex].type;
             name = allUsableProperties[m_TypeIndex].name;
             usablePropertyType = allUsableProperties[m_TypeIndex].usablePropertyType;
@@ -403,7 +403,7 @@ public class TimelinePlayableWizard : EditorWindow
             return name.ToLower().CompareTo(other.name.ToLower());
         }
 
-        public static string[] GetNameWithSortingArray (List<UsableProperty> usableProperties)
+        public static string[] GetNameWithSortingArray(List<UsableProperty> usableProperties)
         {
             string[] returnVal = new string[usableProperties.Count];
             for (int i = 0; i < returnVal.Length; i++)
@@ -413,9 +413,9 @@ public class TimelinePlayableWizard : EditorWindow
             return returnVal;
         }
 
-        public UsableProperty GetDuplicate ()
+        public UsableProperty GetDuplicate()
         {
-            UsableProperty duplicate = usablePropertyType == UsablePropertyType.Property ? new UsableProperty (propertyInfo) : new UsableProperty (fieldInfo);
+            UsableProperty duplicate = usablePropertyType == UsablePropertyType.Property ? new UsableProperty(propertyInfo) : new UsableProperty(fieldInfo);
             duplicate.defaultValue = defaultValue;
             return duplicate;
         }
@@ -437,9 +437,9 @@ public class TimelinePlayableWizard : EditorWindow
     public bool isStandardBlendPlayable;
     public UsableType trackBinding;
     public Component defaultValuesComponent;
-    public List<Variable> exposedReferences = new List<Variable> ();
-    public List<Variable> playableBehaviourVariables = new List<Variable> ();
-    public List<UsableProperty> standardBlendPlayableProperties = new List<UsableProperty> ();
+    public List<Variable> exposedReferences = new List<Variable>();
+    public List<Variable> playableBehaviourVariables = new List<Variable>();
+    public List<UsableProperty> standardBlendPlayableProperties = new List<UsableProperty>();
     public ClipCaps clipCaps;
     /*public bool setClipDefaults;
     public float clipDefaultDurationSeconds = 5f;
@@ -453,12 +453,12 @@ public class TimelinePlayableWizard : EditorWindow
     int m_ComponentBindingTypeIndex;
     PropertyInfo[] m_TrackBindingProperties;
     FieldInfo[] m_TrackBindingFields;
-    List<UsableProperty> m_TrackBindingUsableProperties = new List<UsableProperty> ();
+    List<UsableProperty> m_TrackBindingUsableProperties = new List<UsableProperty>();
     bool m_CreateDrawer;
     bool m_CreateButtonPressed;
     Vector2 m_ScrollViewPos;
     CreationError m_CreationError;
-    
+
     readonly GUIContent m_ShowHelpBoxesContent = new GUIContent("Show Help", "Do you want to see the help boxes as part of this wizard?");
     readonly GUIContent m_PlayableNameContent = new GUIContent("Playable Name", "This is the name that will represent the playable.  E.G. TransformTween.  It will be the basis for the class names so it is best not to use the postfixes: 'Clip', 'Behaviour', 'MixerBehaviour' or 'Drawer'.");
     readonly GUIContent m_StandardBlendPlayableContent = new GUIContent("Standard Blend Playable", "Often when creating a playable it's intended purpose is just to briefly override the properties of a component for the playable's duration and then blend back to the defaults.  For example a playable that changes the color of a Light but changes it back.  To make a playable with this functionality, check this box.");
@@ -504,7 +504,7 @@ public class TimelinePlayableWizard : EditorWindow
     static UsableType[] s_BehaviourVariableTypes;
     static Type[] s_BlendableTypes =
     {
-        typeof(float), typeof(int), typeof(double), typeof(Vector2), typeof(Vector3), typeof(Color), 
+        typeof(float), typeof(int), typeof(double), typeof(Vector2), typeof(Vector3), typeof(Color),
     };
     static Type[] s_AssignableTypes =
     {
@@ -516,34 +516,34 @@ public class TimelinePlayableWizard : EditorWindow
     };
 
     [MenuItem("Window/Timeline Playable Wizard...")]
-    static void CreateWindow ()
+    static void CreateWindow()
     {
         TimelinePlayableWizard wizard = GetWindow<TimelinePlayableWizard>(true, "Timeline Playable Wizard", true);
-        
+
         Vector2 position = Vector2.zero;
         SceneView sceneView = SceneView.lastActiveSceneView;
         if (sceneView != null)
             position = new Vector2(sceneView.position.x, sceneView.position.y);
         wizard.position = new Rect(position.x + k_ScreenSizeWindowBuffer, position.y + k_ScreenSizeWindowBuffer, k_WindowWidth, Mathf.Min(Screen.currentResolution.height - k_ScreenSizeWindowBuffer, k_MaxWindowHeight));
-        
-        wizard.showHelpBoxes = EditorPrefs.GetBool (k_ShowHelpBoxesKey);
+
+        wizard.showHelpBoxes = EditorPrefs.GetBool(k_ShowHelpBoxesKey);
         wizard.Show();
-        
-        Init ();
+
+        Init();
     }
 
-    static void Init ()
+    static void Init()
     {
-        Type[] componentTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => typeof(Component).IsAssignableFrom(t)).Where (t => t.IsPublic).ToArray();
-        
+        Type[] componentTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => typeof(Component).IsAssignableFrom(t)).Where(t => t.IsPublic).ToArray();
+
         List<UsableType> componentUsableTypesList = UsableType.GetUsableTypeArray(componentTypes).ToList();
         componentUsableTypesList.Sort();
-        s_ComponentTypes = componentUsableTypesList.ToArray ();
+        s_ComponentTypes = componentUsableTypesList.ToArray();
 
         UsableType gameObjectUsableType = new UsableType(typeof(GameObject));
         UsableType[] defaultUsableTypes = UsableType.GetUsableTypeArray(componentTypes, gameObjectUsableType);
 
-        List<UsableType> exposedRefTypeList = defaultUsableTypes.ToList ();
+        List<UsableType> exposedRefTypeList = defaultUsableTypes.ToList();
         exposedRefTypeList.Sort();
         s_ExposedReferenceTypes = exposedRefTypeList.ToArray();
 
@@ -569,25 +569,25 @@ public class TimelinePlayableWizard : EditorWindow
         s_BehaviourVariableTypes = scriptVariableTypeList.ToArray();
     }
 
-    void OnGUI ()
+    void OnGUI()
     {
-        if(s_ComponentTypes == null || s_TrackBindingTypes == null || s_ExposedReferenceTypes == null || s_BehaviourVariableTypes == null)
-            Init ();
+        if (s_ComponentTypes == null || s_TrackBindingTypes == null || s_ExposedReferenceTypes == null || s_BehaviourVariableTypes == null)
+            Init();
 
         if (s_ComponentTypes == null || s_TrackBindingTypes == null || s_ExposedReferenceTypes == null || s_BehaviourVariableTypes == null)
         {
-            EditorGUILayout.HelpBox ("Failed to initialise.", MessageType.Error);
+            EditorGUILayout.HelpBox("Failed to initialise.", MessageType.Error);
             return;
         }
 
-        m_ScrollViewPos = EditorGUILayout.BeginScrollView (m_ScrollViewPos);
+        m_ScrollViewPos = EditorGUILayout.BeginScrollView(m_ScrollViewPos);
 
         bool oldShowHelpBoxes = showHelpBoxes;
-        showHelpBoxes = EditorGUILayout.Toggle (m_ShowHelpBoxesContent, showHelpBoxes);
+        showHelpBoxes = EditorGUILayout.Toggle(m_ShowHelpBoxesContent, showHelpBoxes);
         if (oldShowHelpBoxes != showHelpBoxes)
         {
-            EditorPrefs.SetBool (k_ShowHelpBoxesKey, showHelpBoxes);
-            EditorGUILayout.Space ();
+            EditorPrefs.SetBool(k_ShowHelpBoxesKey, showHelpBoxes);
+            EditorGUILayout.Space();
         }
 
         if (showHelpBoxes)
@@ -599,48 +599,48 @@ public class TimelinePlayableWizard : EditorWindow
             EditorGUILayout.Space();
         }
 
-        EditorGUILayout.Space ();
+        EditorGUILayout.Space();
         EditorGUILayout.Space();
 
-        EditorGUILayout.BeginVertical (GUI.skin.box);
+        EditorGUILayout.BeginVertical(GUI.skin.box);
         if (showHelpBoxes)
         {
             EditorGUILayout.HelpBox(m_PlayableNameContent.tooltip, MessageType.Info);
             EditorGUILayout.Space();
         }
-        playableName = EditorGUILayout.TextField (m_PlayableNameContent, playableName);
+        playableName = EditorGUILayout.TextField(m_PlayableNameContent, playableName);
 
-        bool playableNameNotEmpty = !string.IsNullOrEmpty (playableName);
+        bool playableNameNotEmpty = !string.IsNullOrEmpty(playableName);
         bool playableNameFormatted = CodeGenerator.IsValidLanguageIndependentIdentifier(playableName);
         if (!playableNameNotEmpty || !playableNameFormatted)
         {
-            EditorGUILayout.HelpBox ("The Playable needs a name which starts with a capital letter and contains no spaces or special characters.", MessageType.Error);
+            EditorGUILayout.HelpBox("The Playable needs a name which starts with a capital letter and contains no spaces or special characters.", MessageType.Error);
         }
         bool playableNameTooLong = playableName.Length > k_PlayableNameCharLimit;
         if (playableNameTooLong)
         {
-            EditorGUILayout.HelpBox ("The Playable needs a name which is fewer than " + k_PlayableNameCharLimit + " characters long.", MessageType.Error);
+            EditorGUILayout.HelpBox("The Playable needs a name which is fewer than " + k_PlayableNameCharLimit + " characters long.", MessageType.Error);
         }
-        EditorGUILayout.EndVertical ();
+        EditorGUILayout.EndVertical();
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
         EditorGUILayout.BeginVertical(GUI.skin.box);
-        if(showHelpBoxes)
+        if (showHelpBoxes)
         {
             EditorGUILayout.HelpBox(m_StandardBlendPlayableContent.tooltip, MessageType.Info);
             EditorGUILayout.Space();
         }
         bool oldStandardBlendPlayable = isStandardBlendPlayable;
-        isStandardBlendPlayable = EditorGUILayout.Toggle (m_StandardBlendPlayableContent, isStandardBlendPlayable);
-        EditorGUILayout.EndVertical ();
+        isStandardBlendPlayable = EditorGUILayout.Toggle(m_StandardBlendPlayableContent, isStandardBlendPlayable);
+        EditorGUILayout.EndVertical();
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
         EditorGUILayout.BeginVertical(GUI.skin.box);
-        if(showHelpBoxes)
+        if (showHelpBoxes)
         {
             EditorGUILayout.HelpBox(m_TrackBindingTypeContent.tooltip, MessageType.Info);
             EditorGUILayout.Space();
@@ -650,24 +650,24 @@ public class TimelinePlayableWizard : EditorWindow
         {
             oldIndex = m_ComponentBindingTypeIndex;
 
-            m_ComponentBindingTypeIndex = EditorGUILayout.Popup (m_TrackBindingTypeContent, m_ComponentBindingTypeIndex, UsableType.GetGUIContentWithSortingArray (s_ComponentTypes));
+            m_ComponentBindingTypeIndex = EditorGUILayout.Popup(m_TrackBindingTypeContent, m_ComponentBindingTypeIndex, UsableType.GetGUIContentWithSortingArray(s_ComponentTypes));
             trackBinding = s_ComponentTypes[m_ComponentBindingTypeIndex];
 
-            EditorGUILayout.Space ();
+            EditorGUILayout.Space();
 
-            defaultValuesComponent = EditorGUILayout.ObjectField (m_DefaultValuesComponentContent, defaultValuesComponent, trackBinding.type, true) as Component;
+            defaultValuesComponent = EditorGUILayout.ObjectField(m_DefaultValuesComponentContent, defaultValuesComponent, trackBinding.type, true) as Component;
         }
         else
         {
             m_TrackBindingTypeIndex = EditorGUILayout.Popup(m_TrackBindingTypeContent, m_TrackBindingTypeIndex, UsableType.GetGUIContentWithSortingArray(s_TrackBindingTypes));
             trackBinding = s_TrackBindingTypes[m_TrackBindingTypeIndex];
         }
-        EditorGUILayout.EndVertical ();
-        
+        EditorGUILayout.EndVertical();
+
         bool exposedVariablesNamesValid = true;
         bool scriptVariablesNamesValid = true;
         bool allUniqueVariableNames = true;
-        
+
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
@@ -714,7 +714,7 @@ public class TimelinePlayableWizard : EditorWindow
             EditorGUILayout.Space();
         }
         trackColor = EditorGUILayout.ColorField(m_TrackColorContent, trackColor);
-        EditorGUILayout.EndVertical ();
+        EditorGUILayout.EndVertical();
 
         if (!isStandardBlendPlayable)
         {
@@ -728,12 +728,12 @@ public class TimelinePlayableWizard : EditorWindow
                 EditorGUILayout.Space();
             }
             m_CreateDrawer = EditorGUILayout.Toggle(m_CreateDrawerContent, m_CreateDrawer);
-            EditorGUILayout.EndVertical ();
+            EditorGUILayout.EndVertical();
         }
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
-        
+
         if (playableNameNotEmpty && playableNameFormatted && allUniqueVariableNames && exposedVariablesNamesValid && scriptVariablesNamesValid && !playableNameTooLong)
         {
             if (GUILayout.Button("Create", GUILayout.Width(60f)))
@@ -742,85 +742,85 @@ public class TimelinePlayableWizard : EditorWindow
 
                 for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
                 {
-                    standardBlendPlayableProperties[i].CreateSettingDefaultValueString (defaultValuesComponent);
+                    standardBlendPlayableProperties[i].CreateSettingDefaultValueString(defaultValuesComponent);
                 }
 
                 m_CreationError = CreateScripts();
 
                 if (m_CreationError == CreationError.NoError)
                 {
-                    Close ();
+                    Close();
                 }
             }
         }
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
-        
+
         if (m_CreateButtonPressed)
         {
             switch (m_CreationError)
             {
                 case CreationError.NoError:
-                    EditorGUILayout.HelpBox ("Playable was successfully created.", MessageType.Info);
+                    EditorGUILayout.HelpBox("Playable was successfully created.", MessageType.Info);
                     break;
                 case CreationError.PlayableAssetAlreadyExists:
-                    EditorGUILayout.HelpBox ("The type " + playableName + k_TimelineClipAssetSuffix + " already exists, no files were created.", MessageType.Error);
+                    EditorGUILayout.HelpBox("The type " + playableName + k_TimelineClipAssetSuffix + " already exists, no files were created.", MessageType.Error);
                     break;
                 case CreationError.PlayableBehaviourAlreadyExists:
-                    EditorGUILayout.HelpBox ("The type " + playableName + k_TimelineClipBehaviourSuffix + " already exists, no files were created.", MessageType.Error);
+                    EditorGUILayout.HelpBox("The type " + playableName + k_TimelineClipBehaviourSuffix + " already exists, no files were created.", MessageType.Error);
                     break;
                 case CreationError.PlayableBehaviourMixerAlreadyExists:
-                    EditorGUILayout.HelpBox ("The type " + playableName + k_PlayableBehaviourMixerSuffix + " already exists, no files were created.", MessageType.Error);
+                    EditorGUILayout.HelpBox("The type " + playableName + k_PlayableBehaviourMixerSuffix + " already exists, no files were created.", MessageType.Error);
                     break;
                 case CreationError.TrackAssetAlreadyExists:
-                    EditorGUILayout.HelpBox ("The type " + playableName + k_TrackAssetSuffix + " already exists, no files were created.", MessageType.Error);
+                    EditorGUILayout.HelpBox("The type " + playableName + k_TrackAssetSuffix + " already exists, no files were created.", MessageType.Error);
                     break;
                 case CreationError.PlayableDrawerAlreadyExists:
-                    EditorGUILayout.HelpBox ("The type " + playableName + k_PropertyDrawerSuffix + " already exists, no files were created.", MessageType.Error);
+                    EditorGUILayout.HelpBox("The type " + playableName + k_PropertyDrawerSuffix + " already exists, no files were created.", MessageType.Error);
                     break;
             }
         }
 
-        if (GUILayout.Button ("Reset", GUILayout.Width (60f)))
+        if (GUILayout.Button("Reset", GUILayout.Width(60f)))
         {
-            ResetWindow ();
+            ResetWindow();
         }
 
-        EditorGUILayout.EndScrollView ();
+        EditorGUILayout.EndScrollView();
     }
 
-    void StandardBlendPlayablePropertyGUI (bool findNewProperties)
+    void StandardBlendPlayablePropertyGUI(bool findNewProperties)
     {
         if (findNewProperties || m_TrackBindingProperties == null && m_TrackBindingFields == null)
         {
-            m_TrackBindingUsableProperties.Clear ();
-            
-            IEnumerable<PropertyInfo> propertyInfos = trackBinding.type.GetProperties (BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.GetProperty);
-            propertyInfos = propertyInfos.Where (x => IsTypeBlendable(x.PropertyType) || IsTypeAssignable(x.PropertyType));
-            propertyInfos = propertyInfos.Where (x => x.CanWrite && x.CanRead);
-            propertyInfos = propertyInfos.Where (x => HasAllowedName (x));
+            m_TrackBindingUsableProperties.Clear();
+
+            IEnumerable<PropertyInfo> propertyInfos = trackBinding.type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.GetProperty);
+            propertyInfos = propertyInfos.Where(x => IsTypeBlendable(x.PropertyType) || IsTypeAssignable(x.PropertyType));
+            propertyInfos = propertyInfos.Where(x => x.CanWrite && x.CanRead);
+            propertyInfos = propertyInfos.Where(x => HasAllowedName(x));
             // Uncomment the below to stop Obsolete properties being selectable.
             //propertyInfos = propertyInfos.Where (x => !Attribute.IsDefined (x, typeof(ObsoleteAttribute)));
             m_TrackBindingProperties = propertyInfos.ToArray();
             foreach (PropertyInfo trackBindingProperty in m_TrackBindingProperties)
             {
-                m_TrackBindingUsableProperties.Add (new UsableProperty (trackBindingProperty));
+                m_TrackBindingUsableProperties.Add(new UsableProperty(trackBindingProperty));
             }
-            
-            IEnumerable<FieldInfo> fieldInfos = trackBinding.type.GetFields (BindingFlags.Instance | BindingFlags.Public);
+
+            IEnumerable<FieldInfo> fieldInfos = trackBinding.type.GetFields(BindingFlags.Instance | BindingFlags.Public);
             fieldInfos = fieldInfos.Where(x => IsTypeBlendable(x.FieldType) || IsTypeAssignable(x.FieldType));
-            m_TrackBindingFields = fieldInfos.ToArray ();
+            m_TrackBindingFields = fieldInfos.ToArray();
             foreach (FieldInfo trackBindingField in m_TrackBindingFields)
             {
-                m_TrackBindingUsableProperties.Add (new UsableProperty (trackBindingField));
+                m_TrackBindingUsableProperties.Add(new UsableProperty(trackBindingField));
             }
 
-            m_TrackBindingUsableProperties = m_TrackBindingUsableProperties.OrderBy (x => x.name).ToList ();
-            standardBlendPlayableProperties.Clear ();
+            m_TrackBindingUsableProperties = m_TrackBindingUsableProperties.OrderBy(x => x.name).ToList();
+            standardBlendPlayableProperties.Clear();
         }
 
-        EditorGUILayout.BeginVertical (GUI.skin.box);
+        EditorGUILayout.BeginVertical(GUI.skin.box);
 
         if (showHelpBoxes)
         {
@@ -840,15 +840,15 @@ public class TimelinePlayableWizard : EditorWindow
             standardBlendPlayableProperties.RemoveAt(indexToRemove);
 
         if (GUILayout.Button("Add", GUILayout.Width(40f)))
-            standardBlendPlayableProperties.Add(m_TrackBindingUsableProperties[0].GetDuplicate ());
+            standardBlendPlayableProperties.Add(m_TrackBindingUsableProperties[0].GetDuplicate());
 
         if (standardBlendPlayableProperties.Any(IsObsolete))
-            EditorGUILayout.HelpBox ("One or more of your chosen properties are marked 'Obsolete'.  Consider changing them to avoid deprecation with future versions of Unity.", MessageType.Warning);
+            EditorGUILayout.HelpBox("One or more of your chosen properties are marked 'Obsolete'.  Consider changing them to avoid deprecation with future versions of Unity.", MessageType.Warning);
 
-        EditorGUILayout.EndVertical ();
+        EditorGUILayout.EndVertical();
     }
 
-    static bool IsTypeBlendable (Type type)
+    static bool IsTypeBlendable(Type type)
     {
         for (int i = 0; i < s_BlendableTypes.Length; i++)
         {
@@ -858,7 +858,7 @@ public class TimelinePlayableWizard : EditorWindow
         return false;
     }
 
-    static bool IsTypeAssignable (Type type)
+    static bool IsTypeAssignable(Type type)
     {
         for (int i = 0; i < s_AssignableTypes.Length; i++)
         {
@@ -868,7 +868,7 @@ public class TimelinePlayableWizard : EditorWindow
         return false;
     }
 
-    static bool HasAllowedName (PropertyInfo propertyInfo)
+    static bool HasAllowedName(PropertyInfo propertyInfo)
     {
         for (int i = 0; i < s_DisallowedPropertyNames.Length; i++)
         {
@@ -878,14 +878,14 @@ public class TimelinePlayableWizard : EditorWindow
         return true;
     }
 
-    static bool IsObsolete (UsableProperty usableProperty)
+    static bool IsObsolete(UsableProperty usableProperty)
     {
         if (usableProperty.usablePropertyType == UsableProperty.UsablePropertyType.Field)
-            return Attribute.IsDefined (usableProperty.fieldInfo, typeof(ObsoleteAttribute));
-        return Attribute.IsDefined (usableProperty.propertyInfo, typeof(ObsoleteAttribute));
+            return Attribute.IsDefined(usableProperty.fieldInfo, typeof(ObsoleteAttribute));
+        return Attribute.IsDefined(usableProperty.propertyInfo, typeof(ObsoleteAttribute));
     }
 
-    bool VariableListGUI (List<Variable> variables, UsableType[] usableTypes, GUIContent guiContent, string newName)
+    bool VariableListGUI(List<Variable> variables, UsableType[] usableTypes, GUIContent guiContent, string newName)
     {
         EditorGUILayout.BeginVertical(GUI.skin.box);
 
@@ -924,7 +924,7 @@ public class TimelinePlayableWizard : EditorWindow
         return allNamesValid;
     }
 
-    bool AllVariablesUniquelyNamed ()
+    bool AllVariablesUniquelyNamed()
     {
         for (int i = 0; i < exposedReferences.Count; i++)
         {
@@ -962,9 +962,9 @@ public class TimelinePlayableWizard : EditorWindow
         return true;
     }
 
-    void ClipCapsGUI ()
+    void ClipCapsGUI()
     {
-        EditorGUILayout.BeginVertical (GUI.skin.box);
+        EditorGUILayout.BeginVertical(GUI.skin.box);
 
         if (showHelpBoxes)
         {
@@ -972,7 +972,7 @@ public class TimelinePlayableWizard : EditorWindow
             EditorGUILayout.Space();
         }
 
-        EditorGUILayout.LabelField (m_ClipCapsContent);
+        EditorGUILayout.LabelField(m_ClipCapsContent);
 
         bool isLooping = (clipCaps & ClipCaps.Looping) == ClipCaps.Looping;
         bool isExtrapolation = (clipCaps & ClipCaps.Extrapolation) == ClipCaps.Extrapolation;
@@ -983,9 +983,9 @@ public class TimelinePlayableWizard : EditorWindow
         bool isNone = !isLooping && !isExtrapolation && !isClipIn && !isSpeedMultiplier && !isBlending;
         bool isAll = isLooping && isExtrapolation && isClipIn && isSpeedMultiplier && isBlending;
 
-        EditorGUI.BeginChangeCheck ();
-        isNone = EditorGUILayout.ToggleLeft (m_CCNoneContent, isNone);
-        if (EditorGUI.EndChangeCheck ())
+        EditorGUI.BeginChangeCheck();
+        isNone = EditorGUILayout.ToggleLeft(m_CCNoneContent, isNone);
+        if (EditorGUI.EndChangeCheck())
         {
             if (isNone)
             {
@@ -998,21 +998,21 @@ public class TimelinePlayableWizard : EditorWindow
             }
         }
 
-        EditorGUI.BeginChangeCheck ();
-        isLooping = EditorGUILayout.ToggleLeft (m_CCLoopingContent, isLooping);
-        isExtrapolation = EditorGUILayout.ToggleLeft (m_CCExtrapolationContent, isExtrapolation);
-        isClipIn = EditorGUILayout.ToggleLeft (m_CCClipInContent, isClipIn);
-        isSpeedMultiplier = EditorGUILayout.ToggleLeft (m_CCSpeedMultiplierContent, isSpeedMultiplier);
-        isBlending = EditorGUILayout.ToggleLeft (m_CCBlendingContent, isBlending);
-        if (EditorGUI.EndChangeCheck ())
+        EditorGUI.BeginChangeCheck();
+        isLooping = EditorGUILayout.ToggleLeft(m_CCLoopingContent, isLooping);
+        isExtrapolation = EditorGUILayout.ToggleLeft(m_CCExtrapolationContent, isExtrapolation);
+        isClipIn = EditorGUILayout.ToggleLeft(m_CCClipInContent, isClipIn);
+        isSpeedMultiplier = EditorGUILayout.ToggleLeft(m_CCSpeedMultiplierContent, isSpeedMultiplier);
+        isBlending = EditorGUILayout.ToggleLeft(m_CCBlendingContent, isBlending);
+        if (EditorGUI.EndChangeCheck())
         {
             isNone = !isLooping && !isExtrapolation && !isClipIn && !isSpeedMultiplier && !isBlending;
             isAll = isLooping && isExtrapolation && isClipIn && isSpeedMultiplier && isBlending;
         }
 
-        EditorGUI.BeginChangeCheck ();
-        isAll = EditorGUILayout.ToggleLeft (m_CCAllContent, isAll);
-        if (EditorGUI.EndChangeCheck ())
+        EditorGUI.BeginChangeCheck();
+        isAll = EditorGUILayout.ToggleLeft(m_CCAllContent, isAll);
+        if (EditorGUI.EndChangeCheck())
         {
             if (isAll)
             {
@@ -1102,7 +1102,7 @@ public class TimelinePlayableWizard : EditorWindow
         EditorGUILayout.EndVertical();
     }*/
 
-    CreationError CreateScripts ()
+    CreationError CreateScripts()
     {
         if (ScriptAlreadyExists(playableName + k_TimelineClipAssetSuffix))
             return CreationError.PlayableAssetAlreadyExists;
@@ -1119,21 +1119,21 @@ public class TimelinePlayableWizard : EditorWindow
         if (m_CreateDrawer && ScriptAlreadyExists(playableName + k_PropertyDrawerSuffix))
             return CreationError.PlayableDrawerAlreadyExists;
 
-        AssetDatabase.CreateFolder ("Assets", playableName);
+        AssetDatabase.CreateFolder("Assets", playableName);
 
         if (isStandardBlendPlayable)
         {
-            CreateScript (playableName + k_TimelineClipAssetSuffix, StandardBlendPlayableAsset());
-            CreateScript (playableName + k_TimelineClipBehaviourSuffix, StandardBlendPlayableBehaviour ());
-            CreateScript (playableName + k_PlayableBehaviourMixerSuffix, StandardBlendPlayableBehaviourMixer ());
-            CreateScript (playableName + k_TrackAssetSuffix, StandardBlendTrackAssetScript ());
+            CreateScript(playableName + k_TimelineClipAssetSuffix, StandardBlendPlayableAsset());
+            CreateScript(playableName + k_TimelineClipBehaviourSuffix, StandardBlendPlayableBehaviour());
+            CreateScript(playableName + k_PlayableBehaviourMixerSuffix, StandardBlendPlayableBehaviourMixer());
+            CreateScript(playableName + k_TrackAssetSuffix, StandardBlendTrackAssetScript());
 
-            AssetDatabase.CreateFolder ("Assets/" + playableName, "Editor");
+            AssetDatabase.CreateFolder("Assets/" + playableName, "Editor");
 
             string path = Application.dataPath + "/" + playableName + "/Editor/" + playableName + k_PropertyDrawerSuffix + ".cs";
-            using (StreamWriter writer = File.CreateText (path))
+            using (StreamWriter writer = File.CreateText(path))
             {
-                writer.Write (StandardBlendPlayableDrawer ());
+                writer.Write(StandardBlendPlayableDrawer());
             }
         }
         else
@@ -1155,8 +1155,8 @@ public class TimelinePlayableWizard : EditorWindow
             }
         }
 
-        AssetDatabase.SaveAssets ();
-        AssetDatabase.Refresh ();
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
 
         return CreationError.NoError;
     }
@@ -1179,14 +1179,14 @@ public class TimelinePlayableWizard : EditorWindow
         return false;
     }
 
-    void CreateScript (string fileName, string content)
+    void CreateScript(string fileName, string content)
     {
         string path = Application.dataPath + "/" + playableName + "/" + fileName + ".cs";
-        using (StreamWriter writer = File.CreateText (path))
-            writer.Write (content);
+        using (StreamWriter writer = File.CreateText(path))
+            writer.Write(content);
     }
 
-    void ResetWindow ()
+    void ResetWindow()
     {
         playableName = "";
         isStandardBlendPlayable = false;
@@ -1212,17 +1212,17 @@ public class TimelinePlayableWizard : EditorWindow
         m_CreateDrawer = false;
     }
 
-    string TrackAssetScript ()
+    string TrackAssetScript()
     {
-        return 
+        return
             "using UnityEngine;\n" +
             "using UnityEngine.Playables;\n" +
             "using UnityEngine.Timeline;\n" +
-            AdditionalNamespacesToString() + 
+            AdditionalNamespacesToString() +
             "\n" +
             "[TrackColor(" + trackColor.r + "f, " + trackColor.g + "f, " + trackColor.b + "f)]\n" +
             "[TrackClipType(typeof(" + playableName + k_TimelineClipAssetSuffix + "))]\n" +
-            TrackBindingToString () +
+            TrackBindingToString() +
             "public class " + playableName + k_TrackAssetSuffix + " : TrackAsset\n" +
             "{\n" +
             k_Tab + "public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)\n" +
@@ -1232,9 +1232,9 @@ public class TimelinePlayableWizard : EditorWindow
             "}\n";
     }
 
-    string PlayableAsset ()
+    string PlayableAsset()
     {
-        return 
+        return
             "using System;\n" +
             "using UnityEngine;\n" +
             "using UnityEngine.Playables;\n" +
@@ -1245,25 +1245,25 @@ public class TimelinePlayableWizard : EditorWindow
             "public class " + playableName + k_TimelineClipAssetSuffix + " : PlayableAsset, ITimelineClipAsset\n" +
             "{\n" +
             k_Tab + "public " + playableName + k_TimelineClipBehaviourSuffix + " template = new " + playableName + k_TimelineClipBehaviourSuffix + " ();\n" +
-            ExposedReferencesToString () +
+            ExposedReferencesToString() +
             "\n" +
             k_Tab + "public ClipCaps clipCaps\n" +
             k_Tab + "{\n" +
-            k_Tab + k_Tab + "get { return " + ClipCapsToString () + "; }\n" +
+            k_Tab + k_Tab + "get { return " + ClipCapsToString() + "; }\n" +
             k_Tab + "}\n" +
             "\n" +
             k_Tab + "public override Playable CreatePlayable (PlayableGraph graph, GameObject owner)\n" +
             k_Tab + "{\n" +
             k_Tab + k_Tab + "var playable = ScriptPlayable<" + playableName + k_TimelineClipBehaviourSuffix + ">.Create (graph, template);\n" +
-            ExposedReferencesResolvingToString () +
+            ExposedReferencesResolvingToString() +
             k_Tab + k_Tab + "return playable;\n" +
             k_Tab + "}\n" +
             "}\n";
     }
 
-    string PlayableBehaviour ()
+    string PlayableBehaviour()
     {
-        return 
+        return
             "using System;\n" +
             "using UnityEngine;\n" +
             "using UnityEngine.Playables;\n" +
@@ -1273,8 +1273,8 @@ public class TimelinePlayableWizard : EditorWindow
             "[Serializable]\n" +
             "public class " + playableName + k_TimelineClipBehaviourSuffix + " : PlayableBehaviour\n" +
             "{\n" +
-            ExposedReferencesAsScriptVariablesToString () +
-            PlayableBehaviourVariablesToString () +
+            ExposedReferencesAsScriptVariablesToString() +
+            PlayableBehaviourVariablesToString() +
             "\n" +
             k_Tab + "public override void OnPlayableCreate (Playable playable)\n" +
             k_Tab + "{\n" +
@@ -1283,9 +1283,9 @@ public class TimelinePlayableWizard : EditorWindow
             "}\n";
     }
 
-    string PlayableBehaviourMixer ()
+    string PlayableBehaviourMixer()
     {
-        return 
+        return
             "using System;\n" +
             "using UnityEngine;\n" +
             "using UnityEngine.Playables;\n" +
@@ -1297,7 +1297,7 @@ public class TimelinePlayableWizard : EditorWindow
             k_Tab + "// NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.\n" +
             k_Tab + "public override void ProcessFrame(Playable playable, FrameData info, object playerData)\n" +
             k_Tab + "{\n" +
-            MixerTrackBindingLocalVariableToString () +
+            MixerTrackBindingLocalVariableToString() +
             k_Tab + k_Tab + "int inputCount = playable.GetInputCount ();\n" +
             "\n" +
             k_Tab + k_Tab + "for (int i = 0; i < inputCount; i++)\n" +
@@ -1313,9 +1313,9 @@ public class TimelinePlayableWizard : EditorWindow
             "}\n";
     }
 
-    string PlayableDrawer ()
+    string PlayableDrawer()
     {
-        return 
+        return
             "using UnityEditor;\n" +
             "using UnityEngine;\n" +
             "\n" +
@@ -1324,31 +1324,31 @@ public class TimelinePlayableWizard : EditorWindow
             "{\n" +
             k_Tab + "public override float GetPropertyHeight (SerializedProperty property, GUIContent label)\n" +
             k_Tab + "{\n" +
-            k_Tab + k_Tab + "int fieldCount = " + playableBehaviourVariables.Count +";\n" +
+            k_Tab + k_Tab + "int fieldCount = " + playableBehaviourVariables.Count + ";\n" +
             k_Tab + k_Tab + "return fieldCount * EditorGUIUtility.singleLineHeight;\n" +
             k_Tab + "}\n" +
             "\n" +
             k_Tab + "public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)\n" +
             k_Tab + "{\n" +
-            ScriptVariablesAsSerializedPropAssignmentToString () +
-            "\n" + 
+            ScriptVariablesAsSerializedPropAssignmentToString() +
+            "\n" +
             k_Tab + k_Tab + "Rect singleFieldRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);\n" +
-            ScriptVariablesAsSerializedPropGUIToString () +
+            ScriptVariablesAsSerializedPropGUIToString() +
             k_Tab + "}\n" +
             "}\n";
     }
 
-    string TrackBindingToString ()
+    string TrackBindingToString()
     {
         if (m_TrackBindingTypeIndex != 0)
             return "[TrackBindingType(typeof(" + trackBinding.name + "))]\n";
         return "";
     }
 
-    string AdditionalNamespacesToString ()
+    string AdditionalNamespacesToString()
     {
-        UsableType[] exposedReferenceTypes = Variable.GetUsableTypesFromVariableArray (exposedReferences.ToArray ());
-        UsableType[] behaviourVariableTypes = Variable.GetUsableTypesFromVariableArray (playableBehaviourVariables.ToArray ());
+        UsableType[] exposedReferenceTypes = Variable.GetUsableTypesFromVariableArray(exposedReferences.ToArray());
+        UsableType[] behaviourVariableTypes = Variable.GetUsableTypesFromVariableArray(playableBehaviourVariables.ToArray());
         UsableType[] allUsedTypes = new UsableType[exposedReferenceTypes.Length + behaviourVariableTypes.Length + 1];
         for (int i = 0; i < exposedReferenceTypes.Length; i++)
         {
@@ -1360,7 +1360,7 @@ public class TimelinePlayableWizard : EditorWindow
         }
         allUsedTypes[allUsedTypes.Length - 1] = trackBinding;
 
-        string[] distinctNamespaces = UsableType.GetDistinctAdditionalNamespaces (allUsedTypes).Where (x => !string.IsNullOrEmpty (x)).ToArray ();
+        string[] distinctNamespaces = UsableType.GetDistinctAdditionalNamespaces(allUsedTypes).Where(x => !string.IsNullOrEmpty(x)).ToArray();
         string returnVal = "";
         for (int i = 0; i < distinctNamespaces.Length; i++)
         {
@@ -1369,7 +1369,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string ExposedReferencesToString ()
+    string ExposedReferencesToString()
     {
         string expRefText = "";
         foreach (var expRef in exposedReferences)
@@ -1377,7 +1377,7 @@ public class TimelinePlayableWizard : EditorWindow
         return expRefText;
     }
 
-    string ExposedReferencesResolvingToString ()
+    string ExposedReferencesResolvingToString()
     {
         string returnVal = "";
         returnVal += k_Tab + k_Tab + playableName + k_TimelineClipBehaviourSuffix + " clone = playable.GetBehaviour ();\n";
@@ -1405,15 +1405,15 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }*/
 
-    string ClipCapsToString ()
+    string ClipCapsToString()
     {
-        string message = clipCaps.ToString ();
-        string[] splits = message.Split (' ');
+        string message = clipCaps.ToString();
+        string[] splits = message.Split(' ');
 
         for (int i = 0; i < splits.Length; i++)
         {
             if (splits[i][splits[i].Length - 1] == ',')
-                splits[i] = splits[i].Substring (0, splits[i].Length - 1);
+                splits[i] = splits[i].Substring(0, splits[i].Length - 1);
         }
 
         string returnVal = "";
@@ -1429,7 +1429,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string ExposedReferencesAsScriptVariablesToString ()
+    string ExposedReferencesAsScriptVariablesToString()
     {
         string returnVal = "";
         for (int i = 0; i < exposedReferences.Count; i++)
@@ -1439,7 +1439,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string PlayableBehaviourVariablesToString ()
+    string PlayableBehaviourVariablesToString()
     {
         string returnVal = "";
         for (int i = 0; i < playableBehaviourVariables.Count; i++)
@@ -1449,7 +1449,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string MixerTrackBindingLocalVariableToString ()
+    string MixerTrackBindingLocalVariableToString()
     {
         if (m_TrackBindingTypeIndex != 0)
             return
@@ -1460,7 +1460,7 @@ public class TimelinePlayableWizard : EditorWindow
         return "";
     }
 
-    string ScriptVariablesAsSerializedPropAssignmentToString ()
+    string ScriptVariablesAsSerializedPropAssignmentToString()
     {
         string returnVal = "";
         for (int i = 0; i < playableBehaviourVariables.Count; i++)
@@ -1470,7 +1470,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string ScriptVariablesAsSerializedPropGUIToString ()
+    string ScriptVariablesAsSerializedPropGUIToString()
     {
         string returnVal = "";
         for (int i = 0; i < playableBehaviourVariables.Count; i++)
@@ -1486,7 +1486,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendPlayableAsset ()
+    string StandardBlendPlayableAsset()
     {
         return
             "using System;\n" +
@@ -1512,7 +1512,7 @@ public class TimelinePlayableWizard : EditorWindow
             "}\n";
     }
 
-    string StandardBlendPlayableBehaviour ()
+    string StandardBlendPlayableBehaviour()
     {
         return
             "using System;\n" +
@@ -1524,11 +1524,11 @@ public class TimelinePlayableWizard : EditorWindow
             "[Serializable]\n" +
             "public class " + playableName + k_TimelineClipBehaviourSuffix + " : PlayableBehaviour\n" +
             "{\n" +
-            StandardBlendScriptPlayablePropertiesToString () +
+            StandardBlendScriptPlayablePropertiesToString() +
             "}\n";
     }
 
-    string StandardBlendPlayableBehaviourMixer ()
+    string StandardBlendPlayableBehaviourMixer()
     {
         return
             "using System;\n" +
@@ -1539,9 +1539,9 @@ public class TimelinePlayableWizard : EditorWindow
             "\n" +
             "public class " + playableName + k_PlayableBehaviourMixerSuffix + " : PlayableBehaviour\n" +
             "{\n" +
-            StandardBlendTrackBindingPropertiesDefaultsDeclarationToString () +
+            StandardBlendTrackBindingPropertiesDefaultsDeclarationToString() +
             "\n" +
-            StandardBlendTrackBindingPropertiesBlendedDeclarationToString () +
+            StandardBlendTrackBindingPropertiesBlendedDeclarationToString() +
             "\n" +
             k_Tab + trackBinding.name + " m_TrackBinding;\n" +
             "\n" +
@@ -1552,14 +1552,14 @@ public class TimelinePlayableWizard : EditorWindow
             k_Tab + k_Tab + "if (m_TrackBinding == null)\n" +
             k_Tab + k_Tab + k_Tab + "return;\n" +
             "\n" +
-            StandardBlendTrackBindingPropertiesDefaultsAssignmentToString () +
+            StandardBlendTrackBindingPropertiesDefaultsAssignmentToString() +
             "\n" +
             k_Tab + k_Tab + "int inputCount = playable.GetInputCount ();\n" +
             "\n" +
-            StandardBlendBlendedVariablesCreationToString () +
+            StandardBlendBlendedVariablesCreationToString() +
             k_Tab + k_Tab + "float totalWeight = 0f;\n" +
             k_Tab + k_Tab + "float greatestWeight = 0f;\n" +
-            StandardBlendPlayableCurrentInputsDeclarationToString () +
+            StandardBlendPlayableCurrentInputsDeclarationToString() +
             "\n" +
             k_Tab + k_Tab + "for (int i = 0; i < inputCount; i++)\n" +
             k_Tab + k_Tab + "{\n" +
@@ -1567,19 +1567,19 @@ public class TimelinePlayableWizard : EditorWindow
             k_Tab + k_Tab + k_Tab + "ScriptPlayable<" + playableName + k_TimelineClipBehaviourSuffix + "> inputPlayable = (ScriptPlayable<" + playableName + k_TimelineClipBehaviourSuffix + ">)playable.GetInput(i);\n" +
             k_Tab + k_Tab + k_Tab + playableName + k_TimelineClipBehaviourSuffix + " input = inputPlayable.GetBehaviour ();\n" +
             k_Tab + k_Tab + k_Tab + "\n" +
-            StandardBlendBlendedVariablesWeightedIncrementationToString () +
+            StandardBlendBlendedVariablesWeightedIncrementationToString() +
             k_Tab + k_Tab + k_Tab + "totalWeight += inputWeight;\n" +
             "\n" +
-            StandardBlendAssignableVariablesAssignedBasedOnGreatestWeightToString () +
-            StandardBlendPlayableCurrentInputIterationToString () + 
+            StandardBlendAssignableVariablesAssignedBasedOnGreatestWeightToString() +
+            StandardBlendPlayableCurrentInputIterationToString() +
             k_Tab + k_Tab + "}\n" +
-            StandardBlendTrackBindingPropertiesBlendedAssignmentToString () +
-            StandardBlendTrackBindingPropertiesAssignableAssignmentToString () +
+            StandardBlendTrackBindingPropertiesBlendedAssignmentToString() +
+            StandardBlendTrackBindingPropertiesAssignableAssignmentToString() +
             k_Tab + "}\n" +
             "}\n";
     }
 
-    string StandardBlendTrackAssetScript ()
+    string StandardBlendTrackAssetScript()
     {
         return
             "using UnityEngine;\n" +
@@ -1590,7 +1590,7 @@ public class TimelinePlayableWizard : EditorWindow
             "\n" +
             "[TrackColor(" + trackColor.r + "f, " + trackColor.g + "f, " + trackColor.b + "f)]\n" +
             "[TrackClipType(typeof(" + playableName + k_TimelineClipAssetSuffix + "))]\n" +
-            StandardBlendComponentBindingToString () +
+            StandardBlendComponentBindingToString() +
             "public class " + playableName + k_TrackAssetSuffix + " : TrackAsset\n" +
             "{\n" +
             k_Tab + "public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)\n" +
@@ -1615,14 +1615,14 @@ public class TimelinePlayableWizard : EditorWindow
             //"\n" +
             //k_Tab + k_Tab + k_Tab + "driver.AddFromName<" + trackBinding.name + ">(trackBinding.gameObject, iterator.propertyPath);\n" +
             //k_Tab + k_Tab + "}\n" +
-            StandardBlendPropertiesAssignedToPropertyDriverToString () +
+            StandardBlendPropertiesAssignedToPropertyDriverToString() +
             "#endif\n" +
             k_Tab + k_Tab + "base.GatherProperties (director, driver);\n" +
             k_Tab + "}\n" +
             "}\n";
     }
-    
-    string StandardBlendPlayableDrawer ()
+
+    string StandardBlendPlayableDrawer()
     {
         return
             "using UnityEditor;\n" +
@@ -1641,21 +1641,21 @@ public class TimelinePlayableWizard : EditorWindow
             "\n" +
             k_Tab + "public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)\n" +
             k_Tab + "{\n" +
-            StandardBlendTrackBindingPropertiesAsSerializedPropsDeclarationToString () +
+            StandardBlendTrackBindingPropertiesAsSerializedPropsDeclarationToString() +
             "\n" +
             k_Tab + k_Tab + "Rect singleFieldRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);\n" +
-            StandardBlendSerializedPropertyGUIToString () +
+            StandardBlendSerializedPropertyGUIToString() +
             k_Tab + "}\n" +
             "}\n";
     }
-    
-    string StandardBlendScriptPlayablePropertiesToString ()
+
+    string StandardBlendScriptPlayablePropertiesToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
         {
             UsableProperty prop = standardBlendPlayableProperties[i];
-            if(prop.defaultValue == "")
+            if (prop.defaultValue == "")
                 returnVal += k_Tab + "public " + prop.type + " " + prop.name + ";\n";
             else
             {
@@ -1665,7 +1665,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendTrackBindingPropertiesDefaultsDeclarationToString ()
+    string StandardBlendTrackBindingPropertiesDefaultsDeclarationToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
@@ -1676,19 +1676,19 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendTrackBindingPropertiesBlendedDeclarationToString ()
+    string StandardBlendTrackBindingPropertiesBlendedDeclarationToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
         {
             UsableProperty prop = standardBlendPlayableProperties[i];
-            
+
             returnVal += k_Tab + prop.type + " " + prop.NameAsPrivateAssigned + ";\n";
         }
         return returnVal;
     }
 
-    string StandardBlendTrackBindingPropertiesDefaultsAssignmentToString ()
+    string StandardBlendTrackBindingPropertiesDefaultsAssignmentToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
@@ -1714,47 +1714,47 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendBlendedVariablesCreationToString ()
+    string StandardBlendBlendedVariablesCreationToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
         {
             UsableProperty prop = standardBlendPlayableProperties[i];
-            
-            if(prop.usability != UsableProperty.Usability.Blendable)
+
+            if (prop.usability != UsableProperty.Usability.Blendable)
                 continue;
-            
+
             string type = prop.type == "int" ? "float" : prop.type;
-            string zeroVal = prop.type == "int" ? "0f" : prop.ZeroValueAsString ();
+            string zeroVal = prop.type == "int" ? "0f" : prop.ZeroValueAsString();
             returnVal += k_Tab + k_Tab + type + " " + prop.NameAsLocalBlended + " = " + zeroVal + ";\n";
         }
         return returnVal;
     }
 
-    string StandardBlendPlayableCurrentInputsDeclarationToString ()
+    string StandardBlendPlayableCurrentInputsDeclarationToString()
     {
-        if (standardBlendPlayableProperties.Any (x => x.usability == UsableProperty.Usability.Assignable))
+        if (standardBlendPlayableProperties.Any(x => x.usability == UsableProperty.Usability.Assignable))
         {
             return k_Tab + k_Tab + "int currentInputs = 0;\n";
         }
         return "";
     }
 
-    string StandardBlendBlendedVariablesWeightedIncrementationToString ()
+    string StandardBlendBlendedVariablesWeightedIncrementationToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
         {
             UsableProperty prop = standardBlendPlayableProperties[i];
-            
+
             if (prop.usability == UsableProperty.Usability.Blendable)
                 returnVal += k_Tab + k_Tab + k_Tab + prop.NameAsLocalBlended + " += input." + prop.name + " * inputWeight;\n";
-            
+
         }
         return returnVal;
     }
 
-    string StandardBlendAssignableVariablesAssignedBasedOnGreatestWeightToString ()
+    string StandardBlendAssignableVariablesAssignedBasedOnGreatestWeightToString()
     {
         if (standardBlendPlayableProperties.Count == 0)
             return "";
@@ -1775,9 +1775,9 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendPlayableCurrentInputIterationToString ()
+    string StandardBlendPlayableCurrentInputIterationToString()
     {
-        if (standardBlendPlayableProperties.Any (x => x.usability == UsableProperty.Usability.Assignable))
+        if (standardBlendPlayableProperties.Any(x => x.usability == UsableProperty.Usability.Assignable))
         {
             string returnVal = "\n";
             returnVal += k_Tab + k_Tab + k_Tab + "if (!Mathf.Approximately (inputWeight, 0f))\n";
@@ -1787,7 +1787,7 @@ public class TimelinePlayableWizard : EditorWindow
         return "";
     }
 
-    string StandardBlendTrackBindingPropertiesBlendedAssignmentToString ()
+    string StandardBlendTrackBindingPropertiesBlendedAssignmentToString()
     {
         string returnVal = "";
         bool firstNewLine = false;
@@ -1802,7 +1802,7 @@ public class TimelinePlayableWizard : EditorWindow
                 firstNewLine = true;
                 returnVal += "\n";
             }
-            
+
             if (prop.type == "int")
                 returnVal += k_Tab + k_Tab + prop.NameAsPrivateAssigned + " = Mathf.RoundToInt (" + prop.NameAsLocalBlended + " + " + prop.NameAsPrivateDefault + " * (1f - totalWeight));\n";
             else
@@ -1813,12 +1813,12 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendTrackBindingPropertiesAssignableAssignmentToString ()
+    string StandardBlendTrackBindingPropertiesAssignableAssignmentToString()
     {
         if (standardBlendPlayableProperties.Count == 0)
             return "";
 
-        if (standardBlendPlayableProperties.Any (x => x.usability == UsableProperty.Usability.Assignable))
+        if (standardBlendPlayableProperties.Any(x => x.usability == UsableProperty.Usability.Assignable))
         {
             string returnVal = "\n" + k_Tab + k_Tab + "if (currentInputs != 1 && 1f - totalWeight > greatestWeight)\n";
             returnVal += k_Tab + k_Tab + "{\n";
@@ -1837,12 +1837,12 @@ public class TimelinePlayableWizard : EditorWindow
         return "";
     }
 
-    string StandardBlendComponentBindingToString ()
+    string StandardBlendComponentBindingToString()
     {
         return "[TrackBindingType(typeof(" + trackBinding.name + "))]\n";
     }
 
-    string StandardBlendPropertiesAssignedToPropertyDriverToString ()
+    string StandardBlendPropertiesAssignedToPropertyDriverToString()
     {
         if (standardBlendPlayableProperties.Count == 0)
             return "";
@@ -1872,7 +1872,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendTrackBindingPropertiesAsSerializedPropsDeclarationToString ()
+    string StandardBlendTrackBindingPropertiesAsSerializedPropsDeclarationToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)
@@ -1883,7 +1883,7 @@ public class TimelinePlayableWizard : EditorWindow
         return returnVal;
     }
 
-    string StandardBlendSerializedPropertyGUIToString ()
+    string StandardBlendSerializedPropertyGUIToString()
     {
         string returnVal = "";
         for (int i = 0; i < standardBlendPlayableProperties.Count; i++)

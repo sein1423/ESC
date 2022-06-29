@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 
 public class TransformTweenMixerBehaviour : PlayableBehaviour
@@ -10,13 +9,13 @@ public class TransformTweenMixerBehaviour : PlayableBehaviour
     {
         Transform trackBinding = playerData as Transform;
 
-        if(trackBinding == null)
+        if (trackBinding == null)
             return;
 
         Vector3 defaultPosition = trackBinding.position;
         Quaternion defaultRotation = trackBinding.rotation;
 
-        int inputCount = playable.GetInputCount ();
+        int inputCount = playable.GetInputCount();
 
         float positionTotalWeight = 0f;
         float rotationTotalWeight = 0f;
@@ -26,10 +25,10 @@ public class TransformTweenMixerBehaviour : PlayableBehaviour
 
         for (int i = 0; i < inputCount; i++)
         {
-            ScriptPlayable<TransformTweenBehaviour> playableInput = (ScriptPlayable<TransformTweenBehaviour>)playable.GetInput (i);
-            TransformTweenBehaviour input = playableInput.GetBehaviour ();
+            ScriptPlayable<TransformTweenBehaviour> playableInput = (ScriptPlayable<TransformTweenBehaviour>)playable.GetInput(i);
+            TransformTweenBehaviour input = playableInput.GetBehaviour();
 
-            if(input.endLocation == null)
+            if (input.endLocation == null)
                 continue;
 
             float inputWeight = playable.GetInputWeight(i);
@@ -40,7 +39,7 @@ public class TransformTweenMixerBehaviour : PlayableBehaviour
                 input.startingRotation = defaultRotation;
             }
 
-            float normalisedTime = (float)(playableInput.GetTime() / playableInput.GetDuration ());
+            float normalisedTime = (float)(playableInput.GetTime() / playableInput.GetDuration());
             float tweenProgress = input.EvaluateCurrentCurve(normalisedTime);
 
             if (input.tweenPosition)
@@ -57,33 +56,33 @@ public class TransformTweenMixerBehaviour : PlayableBehaviour
                 Quaternion desiredRotation = Quaternion.Lerp(input.startingRotation, input.endLocation.rotation, tweenProgress);
                 desiredRotation = NormalizeQuaternion(desiredRotation);
 
-                if (Quaternion.Dot (blendedRotation, desiredRotation) < 0f)
+                if (Quaternion.Dot(blendedRotation, desiredRotation) < 0f)
                 {
-                    desiredRotation = ScaleQuaternion (desiredRotation, -1f);
+                    desiredRotation = ScaleQuaternion(desiredRotation, -1f);
                 }
 
                 desiredRotation = ScaleQuaternion(desiredRotation, inputWeight);
 
-                blendedRotation = AddQuaternions (blendedRotation, desiredRotation);
+                blendedRotation = AddQuaternions(blendedRotation, desiredRotation);
             }
         }
 
         blendedPosition += defaultPosition * (1f - positionTotalWeight);
-        Quaternion weightedDefaultRotation = ScaleQuaternion (defaultRotation, 1f - rotationTotalWeight);
-        blendedRotation = AddQuaternions (blendedRotation, weightedDefaultRotation);
+        Quaternion weightedDefaultRotation = ScaleQuaternion(defaultRotation, 1f - rotationTotalWeight);
+        blendedRotation = AddQuaternions(blendedRotation, weightedDefaultRotation);
 
         trackBinding.position = blendedPosition;
         trackBinding.rotation = blendedRotation;
-        
+
         m_FirstFrameHappened = true;
     }
 
-    public override void OnPlayableDestroy (Playable playable)
+    public override void OnPlayableDestroy(Playable playable)
     {
         m_FirstFrameHappened = false;
     }
 
-    static Quaternion AddQuaternions (Quaternion first, Quaternion second)
+    static Quaternion AddQuaternions(Quaternion first, Quaternion second)
     {
         first.w += second.w;
         first.x += second.x;
@@ -92,7 +91,7 @@ public class TransformTweenMixerBehaviour : PlayableBehaviour
         return first;
     }
 
-    static Quaternion ScaleQuaternion (Quaternion rotation, float multiplier)
+    static Quaternion ScaleQuaternion(Quaternion rotation, float multiplier)
     {
         rotation.w *= multiplier;
         rotation.x *= multiplier;
@@ -101,19 +100,19 @@ public class TransformTweenMixerBehaviour : PlayableBehaviour
         return rotation;
     }
 
-    static float QuaternionMagnitude (Quaternion rotation)
+    static float QuaternionMagnitude(Quaternion rotation)
     {
-        return Mathf.Sqrt ((Quaternion.Dot (rotation, rotation)));
+        return Mathf.Sqrt((Quaternion.Dot(rotation, rotation)));
     }
 
-    static Quaternion NormalizeQuaternion (Quaternion rotation)
+    static Quaternion NormalizeQuaternion(Quaternion rotation)
     {
-        float magnitude = QuaternionMagnitude (rotation);
+        float magnitude = QuaternionMagnitude(rotation);
 
         if (magnitude > 0f)
-            return ScaleQuaternion (rotation, 1f / magnitude);
+            return ScaleQuaternion(rotation, 1f / magnitude);
 
-        Debug.LogWarning ("Cannot normalize a quaternion with zero magnitude.");
+        Debug.LogWarning("Cannot normalize a quaternion with zero magnitude.");
         return Quaternion.identity;
     }
 }

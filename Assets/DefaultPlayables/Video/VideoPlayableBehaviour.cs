@@ -1,13 +1,12 @@
-using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Video;
 
 namespace UnityEngine.Timeline
 {
-	public class VideoPlayableBehaviour : PlayableBehaviour
+    public class VideoPlayableBehaviour : PlayableBehaviour
     {
         public VideoPlayer videoPlayer;
-		public VideoClip videoClip;
+        public VideoClip videoClip;
         public bool mute = false;
         public bool loop = true;
         public double preloadTime = 0.3;
@@ -33,7 +32,7 @@ namespace UnityEngine.Timeline
             videoPlayer.clip = videoClip;
             videoPlayer.playOnAwake = false;
             videoPlayer.waitForFirstFrame = true;
-		    videoPlayer.isLooping = loop;
+            videoPlayer.isLooping = loop;
 
             for (ushort i = 0; i < videoClip.audioTrackCount; ++i)
             {
@@ -59,15 +58,15 @@ namespace UnityEngine.Timeline
         }
 
         public override void PrepareFrame(Playable playable, FrameData info)
-		{
-			if (videoPlayer == null || videoClip == null)
-				return;
+        {
+            if (videoPlayer == null || videoClip == null)
+                return;
 
             videoPlayer.timeReference = Application.isPlaying ? VideoTimeReference.ExternalTime :
                                                                 VideoTimeReference.Freerun;
-																
-		    if (videoPlayer.isPlaying && Application.isPlaying)
-			    videoPlayer.externalReferenceTime = playable.GetTime();
+
+            if (videoPlayer.isPlaying && Application.isPlaying)
+                videoPlayer.externalReferenceTime = playable.GetTime();
             else if (!Application.isPlaying)
                 SyncVideoToPlayable(playable);
         }
@@ -95,39 +94,39 @@ namespace UnityEngine.Timeline
                 StopVideo();
         }
 
-		public override void ProcessFrame(Playable playable, FrameData info, object playerData)
-		{
-			if (videoPlayer == null || videoPlayer.clip == null)
-				return;
+        public override void ProcessFrame(Playable playable, FrameData info, object playerData)
+        {
+            if (videoPlayer == null || videoPlayer.clip == null)
+                return;
 
             videoPlayer.targetCameraAlpha = info.weight;
 
-		    if (Application.isPlaying)
-		    {
-		        for (ushort i = 0; i < videoPlayer.clip.audioTrackCount; ++i)
-		        {
-		            if (videoPlayer.audioOutputMode == VideoAudioOutputMode.Direct)
-		                videoPlayer.SetDirectAudioVolume(i, info.weight);
-		            else if (videoPlayer.audioOutputMode == VideoAudioOutputMode.AudioSource)
-		            {
-		                AudioSource audioSource = videoPlayer.GetTargetAudioSource(i);
-		                if (audioSource != null)
-		                    audioSource.volume = info.weight;
-		            }
-		        }
-		    }
-		}
+            if (Application.isPlaying)
+            {
+                for (ushort i = 0; i < videoPlayer.clip.audioTrackCount; ++i)
+                {
+                    if (videoPlayer.audioOutputMode == VideoAudioOutputMode.Direct)
+                        videoPlayer.SetDirectAudioVolume(i, info.weight);
+                    else if (videoPlayer.audioOutputMode == VideoAudioOutputMode.AudioSource)
+                    {
+                        AudioSource audioSource = videoPlayer.GetTargetAudioSource(i);
+                        if (audioSource != null)
+                            audioSource.volume = info.weight;
+                    }
+                }
+            }
+        }
 
-		public override void OnGraphStart(Playable playable)
-		{
-		    playedOnce = false;
-		}
+        public override void OnGraphStart(Playable playable)
+        {
+            playedOnce = false;
+        }
 
-		public override void OnGraphStop(Playable playable)
-		{
-		    if (!Application.isPlaying)
-		        StopVideo();
-		}
+        public override void OnGraphStop(Playable playable)
+        {
+            if (!Application.isPlaying)
+                StopVideo();
+        }
 
         public override void OnPlayableDestroy(Playable playable)
         {

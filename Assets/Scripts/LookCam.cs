@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LookCam : MonoBehaviour
@@ -19,7 +17,7 @@ public class LookCam : MonoBehaviour
         float dist = Vector3.Distance(Cam.transform.position, transform.position);
         Vector3 newScale = startScale * dist / distance;
         transform.localScale = newScale;
-        
-        transform.rotation = Cam.transform.rotation;        
+
+        transform.rotation = Cam.transform.rotation;
     }
 }

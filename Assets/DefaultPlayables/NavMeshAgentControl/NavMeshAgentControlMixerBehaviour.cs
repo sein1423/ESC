@@ -1,8 +1,5 @@
-using System;
-using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Timeline;
 using UnityEngine.AI;
+using UnityEngine.Playables;
 
 public class NavMeshAgentControlMixerBehaviour : PlayableBehaviour
 {
@@ -26,7 +23,7 @@ public class NavMeshAgentControlMixerBehaviour : PlayableBehaviour
                 if (!trackBinding.isOnNavMesh)
                     continue;
 
-                trackBinding.SetDestination (input.destination.position);
+                trackBinding.SetDestination(input.destination.position);
                 input.destinationSet = true;
             }
         }

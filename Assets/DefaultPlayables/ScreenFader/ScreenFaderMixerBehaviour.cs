@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class ScreenFaderMixerBehaviour : PlayableBehaviour
@@ -24,7 +22,7 @@ public class ScreenFaderMixerBehaviour : PlayableBehaviour
             m_FirstFrameHappened = true;
         }
 
-        int inputCount = playable.GetInputCount ();
+        int inputCount = playable.GetInputCount();
 
         Color blendedColor = Color.clear;
         float totalWeight = 0f;
@@ -35,8 +33,8 @@ public class ScreenFaderMixerBehaviour : PlayableBehaviour
         {
             float inputWeight = playable.GetInputWeight(i);
             ScriptPlayable<ScreenFaderBehaviour> inputPlayable = (ScriptPlayable<ScreenFaderBehaviour>)playable.GetInput(i);
-            ScreenFaderBehaviour input = inputPlayable.GetBehaviour ();
-            
+            ScreenFaderBehaviour input = inputPlayable.GetBehaviour();
+
             blendedColor += input.color * inputWeight;
             totalWeight += inputWeight;
 
@@ -45,14 +43,14 @@ public class ScreenFaderMixerBehaviour : PlayableBehaviour
                 greatestWeight = inputWeight;
             }
 
-            if (!Mathf.Approximately (inputWeight, 0f))
+            if (!Mathf.Approximately(inputWeight, 0f))
                 currentInputs++;
         }
 
         m_TrackBinding.color = blendedColor + m_DefaultColor * (1f - totalWeight);
     }
 
-    public override void OnPlayableDestroy (Playable playable)
+    public override void OnPlayableDestroy(Playable playable)
     {
         m_FirstFrameHappened = false;
 

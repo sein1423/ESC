@@ -218,19 +218,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     //
-    
-    
+
+
 
     public void GameStartButton()    //게임 시작
-     {
-         if (PN.CurrentRoom.PlayerCount == maxPlayer)
-         {
-             PN.IsMessageQueueRunning = false;
-             SceneManager.LoadScene("Game");
-         }
-         else if (PN.CurrentRoom.PlayerCount != PN.CurrentRoom.MaxPlayers)
-         {
-             playerCountError.text = "플레이어 수가 2명이 되어야 게임이 시작됩니다";
-         }
-     }
+    {
+        if (PN.CurrentRoom.PlayerCount == maxPlayer)
+        {
+            PN.IsMessageQueueRunning = false;
+            SceneManager.LoadScene("Game");
+        }
+        else if (PN.CurrentRoom.PlayerCount != PN.CurrentRoom.MaxPlayers)
+        {
+            playerCountError.text = "플레이어 수가 2명이 되어야 게임이 시작됩니다";
+        }
+    }
 }

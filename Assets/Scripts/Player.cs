@@ -1,9 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
 //vr사용
-using UnityEngine.XR;
-using UnityEngine.UI;
-using Photon.Realtime;
 
 public class Player : MonoBehaviourPunCallbacks
 {
@@ -53,17 +50,19 @@ public class Player : MonoBehaviourPunCallbacks
     public bool isMenu = false;
     public GameObject MenuSet, OptionSet;
     public TextMesh PlayerNameTextBox;
+    public float mouseX;
+    public float mouseY;
 
     //플레이어의 기본적인 움직임 구현
     void Start()
     {
-        anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
+        anim = gameObject.transform.GetChild(0).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
         originPosY = transform.position.y;
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
         PlayerNameTextBox =
-            gameObject.transform.GetChild(4).GetComponent<TextMesh>();
+            gameObject.transform.GetChild(3).GetComponent<TextMesh>();
         PlayerNameTextBox.text = PhotonNetwork.NickName;
 
     }
@@ -71,7 +70,7 @@ public class Player : MonoBehaviourPunCallbacks
     // Update is called once per frame
     private void Update()
     {
-        if(!isMenu)
+        if (!isMenu)
         {
             PlayerActive();
         }
@@ -108,21 +107,21 @@ public class Player : MonoBehaviourPunCallbacks
     public void PlayerActive()
     {
         //밑에거 Input.GetKeyDown을 "inputmanager"이런식으로 바꿔야함
-        
+
 
         //wasd로 전후좌우로 이동
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
         //마우스의 회전값
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
 
         //PlayerCamera에 마우스 회전값 대입
         currentCameraRotationX -= mouseY * lookSensitivity;
         currentCameraRotationY += mouseX * lookSensitivity;
         currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-        
+
         //플레이어의 Y회전값은 카메라 Y회전값과 같음
         transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
 

@@ -56,7 +56,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
     //플레이어의 기본적인 움직임 구현
     void Start()
-    { 
+    {
         anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();

@@ -1,17 +1,16 @@
 using System;
-using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Video;
 
 namespace UnityEngine.Timeline
 {
-	[Serializable]
+    [Serializable]
     public class VideoScriptPlayableAsset : PlayableAsset
-	{
+    {
         public ExposedReference<VideoPlayer> videoPlayer;
 
         [SerializeField, NotKeyable]
-		public VideoClip videoClip;
+        public VideoClip videoClip;
 
         [SerializeField, NotKeyable]
         public bool mute = false;
@@ -26,7 +25,7 @@ namespace UnityEngine.Timeline
         public double clipInTime = 0.0;
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject go)
-		{
+        {
             ScriptPlayable<VideoPlayableBehaviour> playable =
                 ScriptPlayable<VideoPlayableBehaviour>.Create(graph);
 
@@ -40,6 +39,6 @@ namespace UnityEngine.Timeline
             playableBehaviour.clipInTime = clipInTime;
 
             return playable;
-		}
-	}
+        }
+    }
 }
