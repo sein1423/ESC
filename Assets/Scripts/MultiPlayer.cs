@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
+
 public class MultiPlayer : MonoBehaviourPunCallbacks
 {
 
@@ -70,7 +71,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     {
         if (!isMenu)
         {
-            PlayerActive();
+            RPC_PlayerActive();
         }
 
         if (MenuSet.activeSelf || OptionSet.activeSelf)
@@ -82,7 +83,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             isMenu = false;
         }
     }
-    [PunRPC]
     public void PlayerActive()
     {
 
@@ -149,7 +149,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     }
 
     //Move함수 구현
-    [PunRPC]
     public void Move(float h, float v)
     {
         //h와 v값으로 전후좌우 이동
@@ -226,4 +225,10 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         lighter.SetActive(true);
     }
 
+    //2명의 플레이어가 서로 각자 클라이언트에서 따로 동작하기 위한 함수
+    [PunRPC]
+    public void RPC_PlayerActive()
+    {
+        PlayerActive();
+    }
 }

@@ -2,6 +2,8 @@ using Photon.Pun;
 using UnityEngine;
 //vr사용
 using UnityEngine.XR;
+using UnityEngine.UI;
+using Photon.Realtime;
 
 public class Player : MonoBehaviourPunCallbacks
 {
@@ -40,7 +42,6 @@ public class Player : MonoBehaviourPunCallbacks
 
     // 필요한 컴포넌트
     [SerializeField]
-    private Camera theCamera;
     private Rigidbody myRigid;
 
     Animator anim;
@@ -51,6 +52,7 @@ public class Player : MonoBehaviourPunCallbacks
     public GameObject lighter;
     public bool isMenu = false;
     public GameObject MenuSet, OptionSet;
+    public TextMesh PlayerNameTextBox;
 
     //플레이어의 기본적인 움직임 구현
     void Start()
@@ -60,6 +62,9 @@ public class Player : MonoBehaviourPunCallbacks
         originPosY = transform.position.y;
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
+        PlayerNameTextBox =
+            gameObject.transform.GetChild(4).GetComponent<TextMesh>();
+        PlayerNameTextBox.text = PhotonNetwork.NickName;
 
     }
 
@@ -80,26 +85,26 @@ public class Player : MonoBehaviourPunCallbacks
             isMenu = false;
         }
     }
-/*
-    public void VrPlayerActive()
-    {
-        //VR 컨트롤러 조이스틱으로 전후좌우 이동
-        float vrX = Input.GetAxis("Horizontal");
-        float vrZ = Input.GetAxis("Vertical");
-        Vector3 moveDirection = new Vector3(vrX, 0, vrZ);
-        moveDirection = transform.TransformDirection(moveDirection);
-        moveDirection.y = 0;
-        moveDirection *= applySpeed;
-        myRigid.MovePosition(myRigid.position + moveDirection * Time.deltaTime);
+    /*
+        public void VrPlayerActive()
+        {
+            //VR 컨트롤러 조이스틱으로 전후좌우 이동
+            float vrX = Input.GetAxis("Horizontal");
+            float vrZ = Input.GetAxis("Vertical");
+            Vector3 moveDirection = new Vector3(vrX, 0, vrZ);
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection.y = 0;
+            moveDirection *= applySpeed;
+            myRigid.MovePosition(myRigid.position + moveDirection * Time.deltaTime);
 
-        //VR헤드기어 움직임에 따라 카메라 회전
-        float vrY = Input.GetAxis("Rotation");
-        transform.Rotate(0, vrY, 0);
-        currentCameraRotationX -= vrY;
-        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
-    }*/
-    
+            //VR헤드기어 움직임에 따라 카메라 회전
+            float vrY = Input.GetAxis("Rotation");
+            transform.Rotate(0, vrY, 0);
+            currentCameraRotationX -= vrY;
+            currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
+            theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
+        }*/
+    [PunRPC]
     public void PlayerActive()
     {
         //밑에거 Input.GetKeyDown을 "inputmanager"이런식으로 바꿔야함
@@ -117,8 +122,7 @@ public class Player : MonoBehaviourPunCallbacks
         currentCameraRotationX -= mouseY * lookSensitivity;
         currentCameraRotationY += mouseX * lookSensitivity;
         currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
-
+        
         //플레이어의 Y회전값은 카메라 Y회전값과 같음
         transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
 
@@ -168,6 +172,7 @@ public class Player : MonoBehaviourPunCallbacks
     }
 
     //Move함수 구현
+    [PunRPC]
     public void Move(float h, float v)
     {
         //h와 v값으로 전후좌우 이동
@@ -188,15 +193,6 @@ public class Player : MonoBehaviourPunCallbacks
         moveVelocity = transform.TransformDirection(moveVelocity);
         myRigid.MovePosition(myRigid.position + moveVelocity * Time.deltaTime);
 
-        //전진,후진 애니메이션 실행
-        if (v != 0)
-        {
-            anim.SetBool("isWalk", true);
-        }
-        else
-        {
-            anim.SetBool("isWalk", false);
-        }
         /*
                 //좌우 방향에 따라 캐릭터를 회전시키는 구현
                 if (h != 0)
@@ -204,8 +200,8 @@ public class Player : MonoBehaviourPunCallbacks
                     transform.rotation = Quaternion.Euler(0, Mathf.Atan2(moveVelocity.x, moveVelocity.z) * Mathf.Rad2Deg, 0);
                 }*/
 
-        //좌우 움직임 애니메이션 실행
-        if (h != 0)
+        //움직임 애니메이션 실행
+        if (h != 0 || v != 0)
         {
             anim.SetBool("isRun", true);
         }

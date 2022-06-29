@@ -71,7 +71,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void SoloplayButton()
     {
         GameManagement.staticPlaymode = "soloplay";
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Game");
     }
     public void MultiplayButton()       //2인용 버튼을 누르면 OnConnectedToMaster() 함수 콜백
     {

@@ -44,6 +44,7 @@ MonoBehaviour:
   - Move
   - OnTriggerStay
   - PlayerActive
+  - RPC_PlayerActive
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
