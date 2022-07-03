@@ -108,6 +108,7 @@ public class Player : MonoBehaviourPunCallbacks
     {
         //밑에거 Input.GetKeyDown을 "inputmanager"이런식으로 바꿔야함
 
+        
 
         //wasd로 전후좌우로 이동
         float v = Input.GetAxis("Vertical");
