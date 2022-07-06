@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -17,7 +19,7 @@ public class InventoryManager : MonoBehaviour
         {
             activeInventory = !activeInventory;
             inventoryPanel.SetActive(activeInventory);
-            lighter.SetActive(player.hasLighter);
+            lighter.SetActive(player.hasWeapons);
         }
 
     }

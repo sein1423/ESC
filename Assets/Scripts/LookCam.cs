@@ -1,15 +1,19 @@
 using UnityEngine;
+using TMPro;
 
 public class LookCam : MonoBehaviour
 {
     public GameObject Cam;
-
+    public Player py;
     Vector3 startScale;
     public float distance = 3;
+    public TextMeshPro tmp;
 
     private void Start()
     {
+        tmp = gameObject.GetComponent<TextMeshPro>();
         startScale = transform.localScale;
+        
     }
     // Update is called once per frame
     void Update()
@@ -19,5 +23,7 @@ public class LookCam : MonoBehaviour
         transform.localScale = newScale;
 
         transform.rotation = Cam.transform.rotation;
+
+        //tmp.text =
     }
 }

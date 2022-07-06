@@ -1,15 +1,16 @@
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
 public class ResultNameInput : MonoBehaviour
 {
     public GameObject dbManager;
     public GameObject inputNamePanel;
-    public GameObject connectFailPanel;
     public GameObject playModePanel;
+    public GameObject connectFailPanel;
     public InputField playerNameInput;
     public Text inputNameWarning;
     public string inputName = null;
@@ -28,7 +29,7 @@ public class ResultNameInput : MonoBehaviour
     }
 
 
-    public async void InputNameInsertButton()
+    public void InputNameInsertButton()
     {
         inputName = playerNameInput.text;
         inputName = Regex.Replace(inputName, @"[^0-9a-z]", "");
@@ -44,42 +45,19 @@ public class ResultNameInput : MonoBehaviour
             return;
         }
 
+        inputNameWarning.text = "잠시만 기다려주세요";
         DBManager db = dbManager.GetComponent<DBManager>();
         db.DBCommand("insertName", inputName, "", "");
-        await Task.Delay(1000);
-        if (GameManagement.staticQueryResult == "success")
-        {
-            GameManagement.staticPlayerName = inputName;
-            inputNameWarning.text = "";
-            playModePanel.SetActive(true);
-            inputNamePanel.SetActive(false);
-            Destroy(GameObject.Find("SoundManager"));
-        }
-        else if (GameManagement.staticQueryResult == "connectFail")
-        {
-            GameManagement.staticPlayerName = inputName;
-            inputNameWarning.text = "";
-            connectFailPanel.SetActive(true);
-            inputNamePanel.SetActive(false);
-            Destroy(GameObject.Find("SoundManager"));
-        }
-        else if (GameManagement.staticQueryResult == "overlap")
-        {
-            inputNameWarning.text = "중복된 이름입니다";
-            return;
-        }
-        else if (GameManagement.staticQueryResult == "fail")
-        {
-            inputNameWarning.text = "잠시 후 다시시도 바랍니다";
-            return;
-        }
     }
 
     public void InputNameCloseButton()
     {
-        GameManagement.staticPlayerName = null;
-        DBManager db = dbManager.GetComponent<DBManager>();
-        db.DBCommand("deleteName", GameManagement.staticPlayerName, "", "");
+        if (GameManagement.staticPlayerName != null)
+        {
+            DBManager db = dbManager.GetComponent<DBManager>();
+            db.DBCommand("deleteName", GameManagement.staticPlayerName, "", "");
+            GameManagement.staticPlayerName = null;
+        }
         SceneManager.LoadScene("Main");
     }
 

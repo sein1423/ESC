@@ -1643,6 +1643,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   url: https://jaay8vk6s3.execute-api.ap-northeast-2.amazonaws.com/default/can2022-lambda
+  connectFailPanel: {fileID: 1871601506}
+  inputNamePanel: {fileID: 0}
+  playModePanel: {fileID: 0}
+  inputNameWarning: {fileID: 0}
+  text0: {fileID: 604482285}
+  text1: {fileID: 1313926734}
+  text2: {fileID: 1320868624}
+  text3: {fileID: 125351217}
+  text4: {fileID: 2127263892}
+  text5: {fileID: 2097490760}
+  text6: {fileID: 29592456}
+  text7: {fileID: 1976746823}
+  text8: {fileID: 1552328303}
+  text9: {fileID: 327531580}
+  text10: {fileID: 511036833}
+  text11: {fileID: 828360100}
+  text12: {fileID: 1763561723}
+  text13: {fileID: 581766658}
+  text14: {fileID: 1112344707}
+  text15: {fileID: 1365519963}
+  text16: {fileID: 861692103}
+  text17: {fileID: 1618647573}
+  text18: {fileID: 7519003}
+  text19: {fileID: 1874158929}
 --- !u!1 &431735673
 GameObject:
   m_ObjectHideFlags: 0
@@ -7297,26 +7321,6 @@ MonoBehaviour:
   rankingPanel: {fileID: 1820717586}
   connectFailPanel: {fileID: 1871601506}
   myRecord: {fileID: 876030779}
-  text0: {fileID: 604482285}
-  text1: {fileID: 1313926734}
-  text2: {fileID: 1320868624}
-  text3: {fileID: 125351217}
-  text4: {fileID: 2127263892}
-  text5: {fileID: 2097490760}
-  text6: {fileID: 29592456}
-  text7: {fileID: 1976746823}
-  text8: {fileID: 1552328303}
-  text9: {fileID: 327531580}
-  text10: {fileID: 511036833}
-  text11: {fileID: 828360100}
-  text12: {fileID: 1763561723}
-  text13: {fileID: 581766658}
-  text14: {fileID: 1112344707}
-  text15: {fileID: 1365519963}
-  text16: {fileID: 861692103}
-  text17: {fileID: 1618647573}
-  text18: {fileID: 7519003}
-  text19: {fileID: 1874158929}
 --- !u!4 &1968659644
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
@@ -35,5 +38,5 @@ public class SoundManager : MonoBehaviour
         AudioListener.volume = volumeValue;
     }
 
-
+   
 }

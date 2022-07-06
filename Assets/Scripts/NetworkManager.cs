@@ -1,8 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using PN = Photon.Pun.PhotonNetwork;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
@@ -24,6 +27,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Text roomText;
     public Text player1;
     public Text player2;
+    public Text masterPlayer;
     public Text playerCount;
     public byte maxPlayer = 2;          //최대 플레이어 수
     private string gameVersion = "1.0";
@@ -40,7 +44,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PN.InRoom)   //현재 방에 들어와 있는 상태면 텍스트 업데이트
         {
             Text[] arr = new Text[2] { player1, player2 };
-            if (PN.PlayerList.Length == 1)
+            if(PN.PlayerList.Length == 1)
             {
                 player1.text = "";
                 player2.text = "";
@@ -61,7 +65,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void PlayModeCloseButton()
     {
-        GameManagement.staticPlayerName = null;
         DBManager db = dbManager.GetComponent<DBManager>();
         db.DBCommand("deleteName", GameManagement.staticPlayerName, "", "");
         GameManagement.staticPlayerName = null;
@@ -88,6 +91,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PN.Disconnect();
     }
+    public override void OnDisconnected(DisconnectCause cause)  //서버에서 나가지면 콜백되어 실행
+    {
+        GameManagement.staticPlaymode = null;
+        multiplayLobbyPanel.SetActive(false);
+        playModePanel.SetActive(true);
+    }
 
 
 
@@ -95,7 +104,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         makeRoomPanel.SetActive(true);
         makeRoomNameOverlap.text = "";
-    }
+    }   
     public void MakeRoomButton2()   //MakeRoom 패널에서 실제 방만들기 버튼 눌렀을때
     {
         if (makeRoomNameInput.text == "")
@@ -134,12 +143,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
 
-    public void SearchRoomButton()
+    public void SearchRoomButton()    
     {
         searchRoomPanel.SetActive(true);
         searchRoomNameOverlap.text = "";
     }
-    public void SearchRoomButton2()
+    public void SearchRoomButton2()   
     {
         if (searchRoomNameInput.text == "")
         {
@@ -153,11 +162,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         JoinSearchRoom();
     }
-    public void JoinSearchRoom()
+    public void JoinSearchRoom()      
     {
         PN.JoinRoom(searchRoomNameInput.text);
     }
-    public void SearchRoomCancel()
+    public void SearchRoomCancel()    
     {
         searchRoomPanel.SetActive(false);
     }
@@ -207,26 +216,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         joinRoomFailPanel.SetActive(false);
     }
-    public override void OnDisconnected(DisconnectCause cause)  //서버에서 나가지면 콜백되어 실행
-    {
-        multiplayLobbyPanel.SetActive(false);
-        playModePanel.SetActive(true);
-    }
     static public void StaticNetworkDisconnect()    //게임 실행중에 게임에서 나갈 시 실행될 함수
     {
         PN.Disconnect();
     }
 
-    //
-
 
 
     public void GameStartButton()    //게임 시작
     {
-        if (PN.CurrentRoom.PlayerCount == maxPlayer)
+        if (PN.CurrentRoom.PlayerCount == maxPlayer && PN.IsMasterClient)
         {
-            PN.IsMessageQueueRunning = false;
+            //PN.IsMessageQueueRunning = false;
             SceneManager.LoadScene("Game");
+        }
+        else if(PN.CurrentRoom.PlayerCount == maxPlayer && !PN.IsMasterClient)
+        {
+            playerCountError.text = "방장만 게임을 시작할 수 있습니다";
         }
         else if (PN.CurrentRoom.PlayerCount != PN.CurrentRoom.MaxPlayers)
         {

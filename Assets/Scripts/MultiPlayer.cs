@@ -43,7 +43,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     [SerializeField]
     private Camera theCamera;
     private Rigidbody myRigid;
-    private CapsuleCollider capsuleCollider;
 
     Animator anim;
 
@@ -53,34 +52,27 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public GameObject lighter;
     public bool isMenu = false;
     public GameObject MenuSet, OptionSet;
-
+    public GameManagement gm;
+    public string nickname;
     //플레이어의 기본적인 움직임 구현
     void Start()
     {
+        gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
         anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
         originPosY = transform.position.y;
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
-
+        theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
+        
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (!isMenu)
+        if (!gm.isMenu)
         {
             RPC_PlayerActive();
-        }
-
-        if (MenuSet.activeSelf || OptionSet.activeSelf)
-        {
-            isMenu = true;
-        }
-        else
-        {
-            isMenu = false;
         }
     }
     public void PlayerActive()
@@ -99,6 +91,8 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         currentCameraRotationY += mouseX * lookSensitivity;
         currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
         theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
+
+
 
         //플레이어의 Y회전값은 카메라 Y회전값과 같음
         transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
@@ -197,7 +191,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
 
     }
-    [PunRPC]
     private void OnTriggerStay(Collider other)
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -213,20 +206,17 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
     }
 
-    [PunRPC]
     public void RPC_Light()
     {
         light.SetActive(true);
     }
 
-    [PunRPC]
     public void RPC_Lighter()
     {
         lighter.SetActive(true);
     }
 
     //2명의 플레이어가 서로 각자 클라이언트에서 따로 동작하기 위한 함수
-    [PunRPC]
     public void RPC_PlayerActive()
     {
         PlayerActive();

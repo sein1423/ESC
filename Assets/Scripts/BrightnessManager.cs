@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BrightnessManager : MonoBehaviour
@@ -9,14 +12,14 @@ public class BrightnessManager : MonoBehaviour
 
     public GameObject BrightnessManagers;
     public GameObject BackgroundImage;
-
+    
 
     public void Start()
     {
         LoadValues();
         Color color = BackgroundImage.GetComponent<Image>().color;
         BackgroundImage.GetComponent<Image>().color = color;
-
+        
     }
     public void BrightnessSlider(float brightness)
     {

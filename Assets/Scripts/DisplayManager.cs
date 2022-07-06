@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DisplayManager : MonoBehaviour
 {
@@ -10,7 +13,7 @@ public class DisplayManager : MonoBehaviour
     void Start()
     {
         LoadValues();
-
+        
     }
 
     public void SaveToggleButton()
@@ -20,7 +23,7 @@ public class DisplayManager : MonoBehaviour
             Screen.sleepTimeout = SleepTimeout.NeverSleep; // 화면이 꺼지지 않게 하는 함수
             Screen.SetResolution(1920, 1080, true); //전체화면
             PlayerPrefs.SetString("DisplayValue", GameManagement.staticDisplay);
-
+            
 
         }
         else if (GameManagement.staticDisplay == "창모드")
@@ -37,7 +40,7 @@ public class DisplayManager : MonoBehaviour
     void LoadValues()
     {
         string displayValue = PlayerPrefs.GetString("DisplayValue");
-        if (displayValue == "전체화면")
+        if(displayValue == "전체화면")
         {
             Screen.sleepTimeout = SleepTimeout.NeverSleep; // 화면이 꺼지지 않게 하는 함수
             Screen.SetResolution(1920, 1080, true); //전체화면

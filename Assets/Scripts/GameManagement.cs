@@ -1,6 +1,8 @@
-using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManagement : MonoBehaviour
 {
@@ -11,11 +13,11 @@ public class GameManagement : MonoBehaviour
     public GameObject optionSet;
     public GameObject timeManager;
     public GameObject dbManager;
+    public bool isMenu = false;
 
     public static string staticPlayerName;
     public static string staticPlayTime;
     public static string staticDisplay;
-    public static string staticQueryResult;
     public static string staticPlaymode;
 
     private void Awake()
@@ -29,11 +31,13 @@ public class GameManagement : MonoBehaviour
             if (menuSet.activeSelf) //켜져있으면
             {
                 menuSet.SetActive(false); //끔
+                isMenu = false;
                 Time.timeScale = 1.0f; //시간을 다시 재생
             }
             else
             {                    //꺼져있으면
                 menuSet.SetActive(true); //킴
+                isMenu = true;
                 Time.timeScale = 0f; //시간을 멈춤
             }
 
@@ -77,6 +81,29 @@ public class GameManagement : MonoBehaviour
         SceneManager.LoadScene("Login");
     }
 
+    public void Dead()
+    {
+        SceneManager.LoadScene("Die");
+    }
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "Game")
+        {
+            menuSet.SetActive(false);
+            optionSet.SetActive(false);
+        }
+    }
+
+    void OnDisable()
+    {
+        // 델리게이트 체인 제거
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     public void Manager()
     {
         helpSet.SetActive(true);
@@ -108,7 +135,7 @@ public class GameManagement : MonoBehaviour
         configurationSet.SetActive(false);
     }
 
-    public async void GameClear()
+    public void GameClear()
     {
         DBManager db = dbManager.GetComponent<DBManager>();
         TimeManager timer = timeManager.GetComponent<TimeManager>();
@@ -119,20 +146,8 @@ public class GameManagement : MonoBehaviour
         string minute = (timeInt / 60).ToString();      //분 계산
         string second = (timeInt % 60).ToString();      //초 계산
         string timeStr = minute + "m" + second + "s";
-        db.DBCommand("updateTime", staticPlayerName, timeStr, timeNum);      //플레이타임을 업데이트하는 DB함수
-        await Task.Delay(1000);
         staticPlayTime = timeStr;
-
-        if (staticQueryResult == "success")
-        {
-            SceneManager.LoadScene("Escape");
-            Destroy(GameObject.Find("SoundManager"));
-        }
-        else
-        {
-            SceneManager.LoadScene("Escape");
-            Destroy(GameObject.Find("SoundManager"));
-        }
+        db.DBCommand("updateTime", staticPlayerName, timeStr, timeNum);      //플레이타임을 업데이트하는 DB함수
     }
 
     public void TestCharacter()
