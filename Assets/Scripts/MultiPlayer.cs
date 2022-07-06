@@ -63,7 +63,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         originPosY = transform.position.y;
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
-        //theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
+        theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
         
     }
 
@@ -86,16 +86,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             }
         }
 
-        if (Input.GetMouseButton(0))
-        {
-            if (GameObject.Find("MultiplayManager") as GameObject)
-            {
-                Debug.Log(photonView.Owner.NickName);
-
-            }
-            Debug.Log(gameObject.transform.GetChild(0).transform.position);
-            Debug.Log(gameObject.transform.position);
-        }
     }
 
     public void PlayerActive()
@@ -110,16 +100,14 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         float mouseY = Input.GetAxis("Mouse Y");
 
         //PlayerCamera에 마우스 회전값 대입
-        theCamera.transform.position = new Vector3(transform.position.x, transform.position.y + 3.5f, transform.position.z);
 
         currentCameraRotationX -= mouseY * lookSensitivity;
         currentCameraRotationY += mouseX * lookSensitivity;
         currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
         transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
 
-
-        //플레이어의 Y회전값은 카메라 Y회전값과 같음
         transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
+
 
 
         // 점프

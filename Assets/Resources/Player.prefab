@@ -183,10 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775c906d9f3762b4a88069d2ac77a265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cam: {fileID: 7750980882142578559}
-  py: {fileID: 0}
-  distance: 3
-  tmp: {fileID: 0}
+  distance: 20
 --- !u!1 &1329025067245344712
 GameObject:
   m_ObjectHideFlags: 0

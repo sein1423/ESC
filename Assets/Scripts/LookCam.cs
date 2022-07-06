@@ -4,18 +4,27 @@ using Photon.Pun;
 
 public class LookCam : MonoBehaviourPunCallbacks
 {
-    public GameObject Cam;
-    public MultiPlayer py;
+    GameObject Cam;
+    MultiPlayer py;
     Vector3 startScale;
-    public float distance = 3;
-    public TextMeshPro tmp;
+    public float distance = 20;
+    TextMeshPro tmp;
 
+
+    private void Awake()
+    {
+        if (GameManagement.staticPlaymode == "soloplay" || GameManagement.staticPlaymode == null)
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
         tmp = gameObject.GetComponent<TextMeshPro>();
         startScale = transform.localScale;
         py = gameObject.transform.parent.GetComponent<MultiPlayer>();
         tmp.text = py.photonView.Owner.NickName;
+        Cam = GameObject.Find("Main Camera");
     }
 
 
