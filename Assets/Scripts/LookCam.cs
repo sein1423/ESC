@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
-public class LookCam : MonoBehaviour
+public class LookCam : MonoBehaviourPunCallbacks
 {
     public GameObject Cam;
     public MultiPlayer py;
@@ -13,17 +14,18 @@ public class LookCam : MonoBehaviour
     {
         tmp = gameObject.GetComponent<TextMeshPro>();
         startScale = transform.localScale;
-        
+        py = gameObject.transform.parent.GetComponent<MultiPlayer>();
+        tmp.text = py.photonView.Owner.NickName;
     }
+
+
     // Update is called once per frame
     void Update()
     {
         float dist = Vector3.Distance(Cam.transform.position, transform.position);
         Vector3 newScale = startScale * dist / distance;
         transform.localScale = newScale;
-
         transform.rotation = Cam.transform.rotation;
 
-        //tmp.text =
     }
 }

@@ -36,8 +36,8 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     // 카메라 한계
     [SerializeField]
     private float cameraRotationLimit;
-    private float currentCameraRotationX = 0;
-    private float currentCameraRotationY = 0;
+    public float currentCameraRotationX = 0;
+    public float currentCameraRotationY = 0;
 
     // 필요한 컴포넌트
     [SerializeField]
@@ -63,18 +63,41 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         originPosY = transform.position.y;
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
-        theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
+        //theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
         
     }
 
     // Update is called once per frame
     private void Update()
     {
+        //자신의 클라이언트 일때만 PlayerActive 함수를 실행함
         if (!gm.isMenu)
         {
-            RPC_PlayerActive();
+            if(GameObject.Find("MultiplayManager") as GameObject)
+            {
+                if (photonView.IsMine)
+                {
+                    PlayerActive();
+                }
+            }
+            else
+            {
+                PlayerActive();
+            }
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            if (GameObject.Find("MultiplayManager") as GameObject)
+            {
+                Debug.Log(photonView.Owner.NickName);
+
+            }
+            Debug.Log(gameObject.transform.GetChild(0).transform.position);
+            Debug.Log(gameObject.transform.position);
         }
     }
+
     public void PlayerActive()
     {
 
@@ -87,16 +110,16 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         float mouseY = Input.GetAxis("Mouse Y");
 
         //PlayerCamera에 마우스 회전값 대입
+        theCamera.transform.position = new Vector3(transform.position.x, transform.position.y + 3.5f, transform.position.z);
+
         currentCameraRotationX -= mouseY * lookSensitivity;
         currentCameraRotationY += mouseX * lookSensitivity;
         currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
-
+        transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
 
 
         //플레이어의 Y회전값은 카메라 Y회전값과 같음
         transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
-
 
 
         // 점프
@@ -140,6 +163,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
                 light.SetActive(true);
             }
         }
+
     }
 
     //Move함수 구현
@@ -214,11 +238,5 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public void RPC_Lighter()
     {
         lighter.SetActive(true);
-    }
-
-    //2명의 플레이어가 서로 각자 클라이언트에서 따로 동작하기 위한 함수
-    public void RPC_PlayerActive()
-    {
-        PlayerActive();
     }
 }

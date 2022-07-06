@@ -25,13 +25,6 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
             CreateMultiPlayer();
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void CreateMultiPlayer()
     {
         Transform[] points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();

@@ -6759,6 +6759,7 @@ MonoBehaviour:
   optionSet: {fileID: 0}
   timeManager: {fileID: 0}
   dbManager: {fileID: 1782157823}
+  isMenu: 0
 --- !u!4 &1815633960
 Transform:
   m_ObjectHideFlags: 0
