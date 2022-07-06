@@ -4,7 +4,7 @@ using TMPro;
 public class LookCam : MonoBehaviour
 {
     public GameObject Cam;
-    public Player py;
+    public MultiPlayer py;
     Vector3 startScale;
     public float distance = 3;
     public TextMeshPro tmp;

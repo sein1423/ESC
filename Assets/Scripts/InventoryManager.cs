@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public GameObject inventoryPanel;
     bool activeInventory = false;
-    public Player player;
+    public MultiPlayer player;
     public GameObject lighter;
 
     private void Start()
@@ -19,7 +19,7 @@ public class InventoryManager : MonoBehaviour
         {
             activeInventory = !activeInventory;
             inventoryPanel.SetActive(activeInventory);
-            lighter.SetActive(player.hasWeapons);
+            lighter.SetActive(player.lighter);
         }
 
     }
