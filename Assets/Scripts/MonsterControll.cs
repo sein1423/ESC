@@ -11,7 +11,7 @@ public class MonsterControll : MonoBehaviour
     
 
     private Transform _transform;
-    private Transform playerTransform;
+    public GameObject player;
     private NavMeshAgent nvAgent;
     Animator anim;
     int HP = 100;
@@ -26,7 +26,8 @@ public class MonsterControll : MonoBehaviour
     private void Start()
     {
         _transform = gameObject.GetComponent<Transform>(); //몬스터의 위치
-        playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>(); //플레이어의 위치
+
+
         nvAgent = gameObject.GetComponent<NavMeshAgent>(); //몬스터의 navNMeshAgent 컴포넌트
         
         
@@ -48,7 +49,7 @@ public class MonsterControll : MonoBehaviour
         {
             yield return new WaitForSeconds(0.2f);
 
-            float dist = Vector3.Distance(playerTransform.position, _transform.position); //몬스터와 플레이어의 거리
+            float dist = Vector3.Distance(player.transform.position, _transform.position); //몬스터와 플레이어의 거리
 
             if(dist <= attackDist)
             {
@@ -80,7 +81,7 @@ public class MonsterControll : MonoBehaviour
                     nvAgent.Stop();
                     break;
                 case CurrentState.Walk:
-                    nvAgent.destination = playerTransform.position;
+                    nvAgent.destination = player.transform.position;
                     nvAgent.Resume();
                     break;
                 case CurrentState.attack:
@@ -94,6 +95,10 @@ public class MonsterControll : MonoBehaviour
 
     void Update()
     {
-       
+        if(player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player"); //플레이어의 위치
+        }
+
     }
 }
