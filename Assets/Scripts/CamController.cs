@@ -6,7 +6,7 @@ using Photon.Realtime;
 using PN = Photon.Pun.PhotonNetwork;
 using PV = Photon.Pun.PhotonView;
 
-public class Camcontroller : MonoBehaviourPunCallbacks
+public class CamController : MonoBehaviourPunCallbacks
 {
     public Transform cam;
     public GameObject player;
