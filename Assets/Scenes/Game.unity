@@ -1419,6 +1419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
+  player: {fileID: 0}
 --- !u!81 &344115419
 AudioListener:
   m_ObjectHideFlags: 0

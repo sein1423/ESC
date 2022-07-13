@@ -111,14 +111,14 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
 
         // 점프
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
+        if (Input.GetButtonDown("Jump") && isGround)
         {
             myRigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGround = false;
         }
 
         // 앉기
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetButtonDown("Crouch"))
         {
             isCrouch = !isCrouch;
         }
@@ -140,7 +140,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
 
         //g키 입력시 라이터의 불을 켜고 끈다.
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetButtonDown("Light"))
         {
             if (light.activeSelf)
             {
@@ -161,7 +161,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         Vector3 moveVelocity = Vector3.zero;
 
         //shift키를 누르면 전진속도가 증가한다.
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Dash"))
         {
             applySpeed = runSpeed;
         }
@@ -205,7 +205,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     }
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetButtonDown("Get"))
         {
             if (other.tag == "Lighter")
             {
