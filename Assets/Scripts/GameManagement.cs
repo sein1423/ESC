@@ -13,6 +13,7 @@ public class GameManagement : MonoBehaviour
     public GameObject optionSet;
     public GameObject timeManager;
     public GameObject dbManager;
+    public GameObject Mainmenu;
     public bool isMenu = false;
 
     public static string staticPlayerName;
@@ -20,13 +21,36 @@ public class GameManagement : MonoBehaviour
     public static string staticDisplay;
     public static string staticPlaymode;
 
+    private static GameManagement _instance;
+    public static GameManagement Instance
+    {
+        get
+        {
+            if (!_instance)
+            {
+                _instance = FindObjectOfType(typeof(GameManagement)) as GameManagement;
+
+                if (_instance == null)
+                    Debug.Log("no Singleton obj");
+            }
+            return _instance;
+        }
+    }
+
+
+
+
+
+
     private void Awake()
     {
 
     }
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel")) //esc 버튼을 눌렀을 때
+
+
+        /*if (Input.GetButtonDown("Cancel")) //esc 버튼을 눌렀을 때
         {
             if (menuSet.activeSelf) //켜져있으면
             {
@@ -61,7 +85,7 @@ public class GameManagement : MonoBehaviour
             Screen.sleepTimeout = SleepTimeout.NeverSleep; //화면이 꺼지지 않게 하는 함수
             Screen.SetResolution(1280, 720, false); //창모드
 
-        }
+        }*/
     }
 
     public void SetPlayerName(string name)
@@ -106,6 +130,7 @@ public class GameManagement : MonoBehaviour
     }
     public void Manager()
     {
+        Mainmenu.SetActive(false);
         helpSet.SetActive(true);
     }
 
@@ -127,12 +152,14 @@ public class GameManagement : MonoBehaviour
 
     public void GameConfiguration()
     {
+        Mainmenu.SetActive(false);
         configurationSet.SetActive(true);
     }
 
     public void ConfigurationCloseButton()
     {
         configurationSet.SetActive(false);
+        Mainmenu.SetActive(true);
     }
 
     public void GameClear()
@@ -189,6 +216,7 @@ public class GameManagement : MonoBehaviour
     public void HelpCloseButton()
     {
         helpSet.SetActive(false);
+        Mainmenu.SetActive(true);
     }
 
     public void FullToggleClick()

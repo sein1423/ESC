@@ -30,6 +30,7 @@ public class RankingManager : MonoBehaviour
 
     public void RankButton()
     {
+        GameManagement.Instance.Mainmenu.SetActive(false);
         rankingPanel.SetActive(true);
         DBManager db = dbManager.GetComponent<DBManager>();
         db.DBCommand("rank", "", "", "");
@@ -39,6 +40,7 @@ public class RankingManager : MonoBehaviour
     public void RankingCloseButton()
     {
         rankingPanel.SetActive(false);
+        GameManagement.Instance.Mainmenu.SetActive(true);
     }
 
     public void ConnectFailCloseButton()
