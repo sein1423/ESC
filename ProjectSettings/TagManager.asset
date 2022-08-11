@@ -9,6 +9,8 @@ TagManager:
   - Map
   - Button
   - Popup
+  - Light
+  - Candle
   layers:
   - Default
   - TransparentFX

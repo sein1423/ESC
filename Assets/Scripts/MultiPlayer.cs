@@ -54,6 +54,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public GameObject MenuSet, OptionSet;
     public GameManagement gm;
     public string nickname;
+
     //플레이어의 기본적인 움직임 구현
     void Start()
     {
@@ -64,7 +65,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
         theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
-        
     }
 
     // Update is called once per frame
@@ -138,7 +138,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         // 이동
         Move(h, v);
 
-
         //g키 입력시 라이터의 불을 켜고 끈다.
         if (Input.GetButtonDown("Light"))
         {
@@ -151,7 +150,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
                 light.SetActive(true);
             }
         }
-
     }
 
     //Move함수 구현
@@ -203,8 +201,9 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
 
     }
-    private void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
+        
         if (Input.GetButtonDown("Get"))
         {
             if (other.tag == "Lighter")
@@ -214,8 +213,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
                 lighter.SetActive(true);
                 hasLighter = true;
             }
-        }
-
+        }      
     }
 
     public void RPC_Light()
