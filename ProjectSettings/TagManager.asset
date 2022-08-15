@@ -11,6 +11,10 @@ TagManager:
   - Popup
   - Light
   - Candle
+  - vrkb_image0
+  - vrkb_label0
+  - vrkb_mallet
+  - InputField
   layers:
   - Default
   - TransparentFX

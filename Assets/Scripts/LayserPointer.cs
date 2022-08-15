@@ -10,6 +10,8 @@ public class LayserPointer : MonoBehaviour
     private GameObject currentObject;   // 가장 최근에 충돌한 객체를 저장하기 위한 객체
 
     public float raycastDistance = 100f; // 레이저 포인터 감지 거리
+    private TouchScreenKeyboard overlayKeyboard;
+    public static string inputText = "";
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +57,15 @@ public class LayserPointer : MonoBehaviour
                 {
                     Collided_object.collider.gameObject.GetComponent<Button>().OnPointerEnter(null);
                     currentObject = Collided_object.collider.gameObject;
+                }
+            }
+            else if (Collided_object.collider.gameObject.CompareTag("InputField"))
+            {
+                overlayKeyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+                if (overlayKeyboard != null)
+                {
+                    inputText = overlayKeyboard.text;
+                    Collided_object.collider.gameObject.transform.GetChild(1).gameObject.GetComponent<Text>().text = inputText;
                 }
             }
         }
