@@ -8,6 +8,7 @@ public class LayserPointer : MonoBehaviour
     private LineRenderer layser;        // 레이저
     private RaycastHit Collided_object; // 충돌된 객체
     private GameObject currentObject;   // 가장 최근에 충돌한 객체를 저장하기 위한 객체
+    public GameObject KeyboardPrefabs;
 
     public float raycastDistance = 100f; // 레이저 포인터 감지 거리
     private TouchScreenKeyboard overlayKeyboard;
@@ -47,7 +48,7 @@ public class LayserPointer : MonoBehaviour
             if (Collided_object.collider.gameObject.CompareTag("Button"))
             {
                 // 오큘러스 고 리모콘에 큰 동그라미 부분을 누를 경우
-                if (OVRInput.GetDown(OVRInput.Button.One))
+                if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
                 {
                     // 버튼에 등록된 onClick 메소드를 실행한다.
                     Collided_object.collider.gameObject.GetComponent<Button>().onClick.Invoke();
@@ -61,11 +62,11 @@ public class LayserPointer : MonoBehaviour
             }
             else if (Collided_object.collider.gameObject.CompareTag("InputField"))
             {
-                overlayKeyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-                if (overlayKeyboard != null)
+                // 오큘러스 고 리모콘에 큰 동그라미 부분을 누를 경우
+                if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
                 {
-                    inputText = overlayKeyboard.text;
-                    Collided_object.collider.gameObject.transform.GetChild(1).gameObject.GetComponent<Text>().text = inputText;
+                    var keyboard = Instantiate(KeyboardPrefabs);
+                    keyboard.transform.position = new Vector3(0, -5.5f, 8.13f);
                 }
             }
         }
