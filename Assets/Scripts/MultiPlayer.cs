@@ -54,8 +54,15 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public GameObject MenuSet, OptionSet;
     public GameManagement gm;
     public string nickname;
+    public GameObject Oculus;
 
     //플레이어의 기본적인 움직임 구현
+
+    private void Awake()
+    {
+        Oculus = GameObject.Find("OVRCameraRig");
+        Oculus.transform.parent = this.transform;
+    }
     void Start()
     {
         gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
@@ -99,14 +106,15 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+        gameObject.transform.rotation = Quaternion.LookRotation(GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position);
         //PlayerCamera에 마우스 회전값 대입
 
-        currentCameraRotationX -= mouseY * lookSensitivity;
+        /*currentCameraRotationX -= mouseY * lookSensitivity;
         currentCameraRotationY += mouseX * lookSensitivity;
         currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
         transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
 
-        transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
+        transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);*/
 
 
 
@@ -176,11 +184,11 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         //전진,후진 애니메이션 실행
         if (v != 0)
         {
-            anim.SetBool("isWalk", true);
+            //anim.SetBool("isWalk", true);
         }
         else
         {
-            anim.SetBool("isWalk", false);
+            //anim.SetBool("isWalk", false);
         }
         /*
                 //좌우 방향에 따라 캐릭터를 회전시키는 구현
@@ -192,11 +200,11 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         //좌우 움직임 애니메이션 실행
         if (h != 0)
         {
-            anim.SetBool("isRun", true);
+            //anim.SetBool("isRun", true);
         }
         else
         {
-            anim.SetBool("isRun", false);
+            //anim.SetBool("isRun", false);
         }
 
 

@@ -15,6 +15,8 @@ TagManager:
   - vrkb_label0
   - vrkb_mallet
   - InputField
+  - Item
+  - PlayerTransform
   layers:
   - Default
   - TransparentFX
