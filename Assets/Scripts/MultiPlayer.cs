@@ -61,7 +61,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     private void Awake()
     {
         Oculus = GameObject.Find("OVRCameraRig");
-        Oculus.transform.parent = this.transform;
+        this.transform.parent = Oculus.transform;
     }
     void Start()
     {
@@ -103,10 +103,13 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         float h = Input.GetAxis("Horizontal");
 
         //마우스의 회전값
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        //Vector3 JoyMove = 
 
-        gameObject.transform.rotation = Quaternion.LookRotation(GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position);
+        float mouseX = Input.GetAxis("XRI_Right_Secondary2DAxis_Vertical");
+        float mouseY = Input.GetAxis("XRI_Right_Secondary2DAxis_Horizontal");
+
+        gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position.x,0, GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position.z));
+        
         //PlayerCamera에 마우스 회전값 대입
 
         /*currentCameraRotationX -= mouseY * lookSensitivity;
