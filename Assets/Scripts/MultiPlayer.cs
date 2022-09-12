@@ -61,6 +61,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     private void Awake()
     {
         Oculus = GameObject.Find("OVRCameraRig");
+        Oculus.transform.position = this.transform.position;
         this.transform.parent = Oculus.transform;
     }
     void Start()
@@ -107,7 +108,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
         float mouseX = Input.GetAxis("XRI_Right_Secondary2DAxis_Vertical");
         float mouseY = Input.GetAxis("XRI_Right_Secondary2DAxis_Horizontal");
-
         gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position.x,0, GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position.z));
         
         //PlayerCamera에 마우스 회전값 대입
