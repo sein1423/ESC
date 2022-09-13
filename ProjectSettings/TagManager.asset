@@ -17,6 +17,9 @@ TagManager:
   - InputField
   - Item
   - PlayerTransform
+  - RoomLight
+  - Bullet
+  - WayPoint
   layers:
   - Default
   - TransparentFX
@@ -27,7 +30,7 @@ TagManager:
   - Popup
   - 
   - 
-  - 
+  - Player
   - 
   - 
   - 
