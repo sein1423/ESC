@@ -56,7 +56,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public string nickname;
     public GameObject Oculus;
     public bool GetLight = false;
-    public GameObject target;
 
     //플레이어의 기본적인 움직임 구현
 
@@ -72,7 +71,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
         theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
-        target = GameObject.FindWithTag("PlayerMovePoint");
     }
 
     // Update is called once per frame
