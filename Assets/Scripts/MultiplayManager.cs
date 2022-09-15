@@ -15,9 +15,10 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
 
         if (GameManagement.staticPlaymode == "soloplay" || GameManagement.staticPlaymode == null)
         {
-            GameObject player;
-            player = Instantiate(playerPrefab) as GameObject;
-            player.transform.position = new Vector3(0,0,-10);
+            GameObject go;
+            go = Instantiate(playerPrefab) as GameObject;
+            go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down*7f);
+            go.transform.parent = GameObject.Find("OVRCameraRig").transform;
             Destroy(multiplayManager);
         }
         else if(GameManagement.staticPlaymode == "multiplay")
@@ -29,6 +30,8 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
     {
         Transform[] points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();
         int idx = Random.Range(1, points.Length);
-        PhotonNetwork.Instantiate("Player", points[idx].position, Quaternion.identity);
+        GameObject go =  PhotonNetwork.Instantiate("Player", points[idx].position, Quaternion.identity);
+        go.transform.position = GameObject.Find("OVRCameraRig").transform.position;
+        go.transform.parent = GameObject.Find("OVRCameraRig").transform;
     }
 }

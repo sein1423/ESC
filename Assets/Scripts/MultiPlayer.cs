@@ -56,14 +56,12 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public string nickname;
     public GameObject Oculus;
     public bool GetLight = false;
+    public GameObject target;
 
     //플레이어의 기본적인 움직임 구현
 
     private void Awake()
     {
-        Oculus = GameObject.Find("OVRCameraRig");
-        Oculus.transform.position = this.transform.position;
-        this.transform.parent = Oculus.transform;
     }
     void Start()
     {
@@ -74,6 +72,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
         theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
+        target = GameObject.FindWithTag("PlayerMovePoint");
     }
 
     // Update is called once per frame
@@ -109,7 +108,8 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
         float mouseX = Input.GetAxis("XRI_Right_Secondary2DAxis_Vertical");
         float mouseY = Input.GetAxis("XRI_Right_Secondary2DAxis_Horizontal");
-       
+
+        GameObject.FindWithTag("Player").transform.eulerAngles = new Vector3(0, GameObject.Find("CenterEyeAnchor").transform.eulerAngles.y, 0);
         //PlayerCamera에 마우스 회전값 대입
 
         /*currentCameraRotationX -= mouseY * lookSensitivity;
@@ -179,36 +179,21 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             applySpeed = walkSpeed;
         }
 
-        moveVelocity.x = h * applySpeed;
-        moveVelocity.z = v * applySpeed;
-        moveVelocity = transform.TransformDirection(moveVelocity);
-        myRigid.MovePosition(myRigid.position + moveVelocity * Time.deltaTime);
+
+        Vector3 dir = GameObject.Find("CenterEyeAnchor").transform.TransformDirection(Vector3.forward);
+        Debug.Log(dir);
+
+        moveVelocity.x = dir.x * h * applySpeed;
+        moveVelocity.y = 0;
+        moveVelocity.z = dir.z  * applySpeed;
+        //moveVelocity = transform.TransformDirection(moveVelocity);
+
+        Debug.Log(moveVelocity);
+        if (h != 0 || v != 0)
+        gameObject.transform.Translate(moveVelocity.normalized * 0.05f);
+        //myRigid.MovePosition(myRigid.position + moveVelocity * Time.deltaTime);
 
         //전진,후진 애니메이션 실행
-        if (v != 0)
-        {
-            //anim.SetBool("isWalk", true);
-        }
-        else
-        {
-            //anim.SetBool("isWalk", false);
-        }
-        /*
-                //좌우 방향에 따라 캐릭터를 회전시키는 구현
-                if (h != 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(moveVelocity.x, moveVelocity.z) * Mathf.Rad2Deg, 0);
-                }*/
-
-        //좌우 움직임 애니메이션 실행
-        if (h != 0)
-        {
-            //anim.SetBool("isRun", true);
-        }
-        else
-        {
-            //anim.SetBool("isRun", false);
-        }
 
 
     }

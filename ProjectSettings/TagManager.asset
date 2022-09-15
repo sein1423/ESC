@@ -20,6 +20,7 @@ TagManager:
   - RoomLight
   - Bullet
   - WayPoint
+  - PlayerMovePoint
   layers:
   - Default
   - TransparentFX
