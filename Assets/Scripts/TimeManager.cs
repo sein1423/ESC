@@ -52,9 +52,4 @@ public class TimeManager : MonoBehaviour
         text_Timer.text = $"{time_current:N2}";
         isEnded = false;
     }
-
-    public float getTimeCurrent()
-    {
-        return time_current;
-    }
 }
