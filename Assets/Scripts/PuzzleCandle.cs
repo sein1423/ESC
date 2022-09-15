@@ -7,7 +7,7 @@ public class PuzzleCandle : MonoBehaviour
     GameObject fire;
     GameObject pairObject;
     GameObject puzzleDirector;
-    bool fire_state;
+    public bool fire_state;
 
     // Start is called before the first frame update
     void Start()
@@ -27,21 +27,25 @@ public class PuzzleCandle : MonoBehaviour
     {
         if (Input.GetButtonDown("Interaction"))
         {
-            if (fire.GetComponent<ParticleSystem>().isPlaying == true && fire_state)
-            {
-                fire.GetComponent<ParticleSystem>().Stop();
-                pairObject.GetComponent<Light>().enabled = false;
-                puzzleDirector.GetComponent<PuzzleDirector>().Decrease();
-            }
-            else if(fire.GetComponent<ParticleSystem>().isPlaying == false && fire_state)
-            {
-                fire.GetComponent<ParticleSystem>().Play();
-                pairObject.GetComponent<Light>().enabled = true;
-                puzzleDirector.GetComponent<PuzzleDirector>().Increase();
-            }
+            PuzzleControl();
         }
     }
 
+    public void PuzzleControl()
+    {
+        if (fire.GetComponent<ParticleSystem>().isPlaying == true && fire_state)
+        {
+            fire.GetComponent<ParticleSystem>().Stop();
+            pairObject.GetComponent<Light>().enabled = false;
+            puzzleDirector.GetComponent<PuzzleDirector>().Decrease();
+        }
+        else if (fire.GetComponent<ParticleSystem>().isPlaying == false && fire_state)
+        {
+            fire.GetComponent<ParticleSystem>().Play();
+            pairObject.GetComponent<Light>().enabled = true;
+            puzzleDirector.GetComponent<PuzzleDirector>().Increase();
+        }
+    }
 
     void OnTriggerStay(Collider other)
     {

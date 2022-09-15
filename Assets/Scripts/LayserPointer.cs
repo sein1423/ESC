@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class LayserPointer : MonoBehaviour
 {
     private LineRenderer layser;        // ∑π¿Ã¿˙
@@ -67,6 +67,32 @@ public class LayserPointer : MonoBehaviour
                 {
                     var keyboard = Instantiate(KeyboardPrefabs);
                     keyboard.transform.position = new Vector3(0, -5.5f, 8.13f);
+                }
+            }
+            else
+            {
+                if(SceneManager.GetActiveScene().name == "Game")
+                {
+                    if (Collided_object.collider.gameObject.CompareTag("Lighter"))
+                    {
+                        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
+                        {
+                            GameObject.Find("OVRCameraRig").GetComponent<MultiPlayer>().GetLighter(Collided_object.collider.gameObject);
+                        }
+                    }
+                    else if (Collided_object.collider.gameObject.CompareTag("Candle"))
+                    {
+                        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
+                        {
+                            if (GameObject.Find("OVRCameraRig").GetComponent<MultiPlayer>().light.activeSelf)
+                            {
+                                Collided_object.collider.gameObject.GetComponent<PuzzleCandle>().fire_state = true;
+                                Collided_object.collider.gameObject.GetComponent<PuzzleCandle>().PuzzleControl();
+                                Collided_object.collider.gameObject.GetComponent<PuzzleCandle>().fire_state = false;
+                            }
+                        }
+
+                    }
                 }
             }
         }

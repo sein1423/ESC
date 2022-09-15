@@ -55,6 +55,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public GameManagement gm;
     public string nickname;
     public GameObject Oculus;
+    public bool GetLight = false;
 
     //플레이어의 기본적인 움직임 구현
 
@@ -67,7 +68,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     void Start()
     {
         gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
-        anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
+        //anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
         originPosY = transform.position.y;
         applyCrouchPosY = crouchPosY;
@@ -108,8 +109,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
         float mouseX = Input.GetAxis("XRI_Right_Secondary2DAxis_Vertical");
         float mouseY = Input.GetAxis("XRI_Right_Secondary2DAxis_Horizontal");
-        gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position.x,0, GameObject.FindWithTag("PlayerTransform").transform.GetChild(0).transform.position.z));
-        
+       
         //PlayerCamera에 마우스 회전값 대입
 
         /*currentCameraRotationX -= mouseY * lookSensitivity;
@@ -150,7 +150,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         Move(h, v);
 
         //g키 입력시 라이터의 불을 켜고 끈다.
-        if (Input.GetButtonDown("Light"))
+        if (Input.GetButtonDown("Light") || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
         {
             if (light.activeSelf)
             {
@@ -217,14 +217,19 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         
         if (Input.GetButtonDown("Get"))
         {
-            if (other.tag == "Lighter")
-            {
                 Destroy(other.gameObject);
                 light.SetActive(false);
                 lighter.SetActive(true);
                 hasLighter = true;
-            }
         }      
+    }
+
+    public void GetLighter(GameObject other)
+    {
+            Destroy(other.gameObject);
+            light.SetActive(false);
+            lighter.SetActive(true);
+            hasLighter = true;
     }
 
     public void RPC_Light()
