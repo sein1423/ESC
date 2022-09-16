@@ -1260,9 +1260,10 @@ GameObject:
   - component: {fileID: 306211738}
   - component: {fileID: 306211737}
   - component: {fileID: 306211736}
+  - component: {fileID: 306211739}
   m_Layer: 5
   m_Name: InputField
-  m_TagString: Untagged
+  m_TagString: InputField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1391,6 +1392,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306211734}
   m_CullTransparentMesh: 1
+--- !u!65 &306211739
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306211734}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 600, y: 100, z: 1}
+  m_Center: {x: 300, y: -50, z: 0}
 --- !u!1 &325494149
 GameObject:
   m_ObjectHideFlags: 0
@@ -6930,9 +6944,10 @@ GameObject:
   - component: {fileID: 1794000287}
   - component: {fileID: 1794000286}
   - component: {fileID: 1794000285}
+  - component: {fileID: 1794000288}
   m_Layer: 5
   m_Name: InputField
-  m_TagString: Untagged
+  m_TagString: InputField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7061,6 +7076,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794000283}
   m_CullTransparentMesh: 1
+--- !u!65 &1794000288
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794000283}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 600, y: 100, z: 1}
+  m_Center: {x: 300, y: -50, z: 0}
 --- !u!1 &1815633958
 GameObject:
   m_ObjectHideFlags: 0

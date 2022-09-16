@@ -6,27 +6,27 @@ using TMPro;
 
 public class KeyBoardController : MonoBehaviour
 {
-    public string NickName = "";
+    public string String = "";
     public GameObject TextField;
     public bool Shift = false;
-    public InputField NickNameField;
+    public InputField Field;
     // Start is called before the first frame update
     void Start()
     {
-        NickName = "";
-        NickNameField = GameObject.Find("InputField").GetComponent<InputField>();
+        String = "";
+        Field = GameObject.Find("InputField").GetComponent<InputField>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        TextField.GetComponent<TextMeshProUGUI>().text = NickName;
+        TextField.GetComponent<TextMeshProUGUI>().text = String;
     }
 
     public void InputKey(string a)
     {
-        if(!Shift) NickName += a;
-        else NickName += a.ToUpper();
+        if(!Shift) String += a;
+        else String += a.ToUpper();
     }
 
     public void InputShift(GameObject go)
@@ -38,7 +38,7 @@ public class KeyBoardController : MonoBehaviour
 
     public void CompleteKey()
     {
-        NickNameField.text = NickName;
+        Field.text = String;
         Destroy(gameObject);
     }
 

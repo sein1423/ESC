@@ -65,7 +65,8 @@ public class LayserPointer : MonoBehaviour
                 // 오큘러스 고 리모콘에 큰 동그라미 부분을 누를 경우
                 if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
                 {
-                    var keyboard = Instantiate(KeyboardPrefabs);
+                    GameObject keyboard = Instantiate(KeyboardPrefabs);
+                    keyboard.GetComponent<KeyBoardController>().Field = Collided_object.collider.gameObject.GetComponent<InputField>();
                     keyboard.transform.position = new Vector3(0, -5.5f, 8.13f);
                 }
             }
