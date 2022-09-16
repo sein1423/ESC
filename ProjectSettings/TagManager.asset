@@ -21,6 +21,7 @@ TagManager:
   - Bullet
   - WayPoint
   - PlayerMovePoint
+  - MinimapUI
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Water
   - UI
   - Popup
-  - 
+  - Map
   - 
   - Player
   - 
