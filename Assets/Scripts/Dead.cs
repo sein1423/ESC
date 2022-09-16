@@ -21,7 +21,7 @@ public class Dead : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.gameObject.name == "OVRCameraRig")
         {
             GameManagement gm = gameManagement.GetComponent<GameManagement>();
             gm.Dead();

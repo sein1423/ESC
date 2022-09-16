@@ -6,7 +6,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class Test : MonoBehaviour
 {
-    public XRController controller = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +15,8 @@ public class Test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controller.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool trigger)) { }
-        // output += "Trigger Pressed: " + trigger + "\n";
-        
-        
+        Vector3 dir = Vector3.forward;
+        Vector3 direction = Quaternion.AngleAxis(-30, Vector3.up) * dir;
+        Debug.Log(direction);
     }
 }
