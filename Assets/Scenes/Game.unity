@@ -6246,8 +6246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e370ec6338efac24899cef977f19547e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorial: {fileID: 1087877518}
-  timeManager: {fileID: 1323015828}
 --- !u!4 &1052575223
 Transform:
   m_ObjectHideFlags: 0
