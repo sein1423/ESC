@@ -75,7 +75,7 @@ public class EnemyAI : MonoBehaviour
             {
                 if (Physics.Raycast(transform.position, t_direction, out RaycastHit t_hit, m_distance)) //시야각 안에 있다면 Ray를 플레이어에 쏨 (장애물이 없는지 체크)
                 {
-                    if (t_hit.transform.name == "Player") //Ray에 닿은 객체가 Player라면 둘 사이에 장애물이 없는 걸로 간주
+                    if (t_hit.transform.CompareTag("Player")) //Ray에 닿은 객체가 Player라면 둘 사이에 장애물이 없는 걸로 간주
                     {
                         CancelInvoke();
                         m_target = t_tfPlayer;
@@ -115,7 +115,7 @@ public class EnemyAI : MonoBehaviour
             {
                 if (Physics.Raycast(transform.position, t_direction, out RaycastHit t_hit, m_distance)) //시야각 안에 있다면 Ray를 플레이어에 쏨 (장애물이 없는지 체크)
                 {
-                    if (t_hit.transform.name == "Player") //Ray에 닿은 객체가 Player라면 둘 사이에 장애물이 없는 걸로 간주
+                    if (t_hit.transform.CompareTag("Player")) //Ray에 닿은 객체가 Player라면 둘 사이에 장애물이 없는 걸로 간주
                     {
                         CancelInvoke();
                         m_target = t_tfPlayer;

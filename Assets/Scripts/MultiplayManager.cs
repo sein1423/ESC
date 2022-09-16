@@ -19,6 +19,7 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
             go = Instantiate(playerPrefab) as GameObject;
             go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down*7f);
             go.transform.parent = GameObject.Find("OVRCameraRig").transform;
+            go.tag = "Player";
             Destroy(multiplayManager);
         }
         else if(GameManagement.staticPlaymode == "multiplay")
@@ -31,7 +32,8 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
         Transform[] points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();
         int idx = Random.Range(1, points.Length);
         GameObject go =  PhotonNetwork.Instantiate("Player", points[idx].position, Quaternion.identity);
-        go.transform.position = GameObject.Find("OVRCameraRig").transform.position;
+        go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down * 7f);
         go.transform.parent = GameObject.Find("OVRCameraRig").transform;
+        go.tag = "Player";
     }
 }

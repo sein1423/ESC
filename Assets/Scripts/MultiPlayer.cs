@@ -56,7 +56,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public string nickname;
     public GameObject Oculus;
     public bool GetLight = false;
-    public GameObject target;
 
     //플레이어의 기본적인 움직임 구현
 
@@ -72,7 +71,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         applyCrouchPosY = crouchPosY;
         applySpeed = walkSpeed;
         theCamera = gameObject.transform.GetChild(0).GetComponent<Camera>();
-        target = GameObject.FindWithTag("PlayerMovePoint");
     }
 
     // Update is called once per frame
@@ -103,21 +101,13 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
-        //마우스의 회전값
-        //Vector3 JoyMove = 
 
-        float mouseX = Input.GetAxis("XRI_Right_Secondary2DAxis_Vertical");
-        float mouseY = Input.GetAxis("XRI_Right_Secondary2DAxis_Horizontal");
-
+        //Vector2 mouseX = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
         GameObject.FindWithTag("Player").transform.eulerAngles = new Vector3(0, GameObject.Find("CenterEyeAnchor").transform.eulerAngles.y, 0);
         //PlayerCamera에 마우스 회전값 대입
 
-        /*currentCameraRotationX -= mouseY * lookSensitivity;
-        currentCameraRotationY += mouseX * lookSensitivity;
-        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-        transform.localEulerAngles = new Vector3(currentCameraRotationX, 0, 0);
-
-        transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);*/
+        //currentCameraRotationY += mouseX.x * lookSensitivity;
+        //transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
 
 
 
@@ -180,18 +170,29 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         }
 
 
-        Vector3 dir = GameObject.Find("CenterEyeAnchor").transform.TransformDirection(Vector3.forward);
-        Debug.Log(dir);
-
-        moveVelocity.x = dir.x * h * applySpeed;
+        
+        moveVelocity.x = h * applySpeed;
         moveVelocity.y = 0;
-        moveVelocity.z = dir.z  * applySpeed;
-        //moveVelocity = transform.TransformDirection(moveVelocity);
+        moveVelocity.z = v * applySpeed;
+        moveVelocity = transform.TransformDirection(moveVelocity);
+        //Debug.Log(GameObject.FindWithTag("PlayerTransform").transform.rotation);
+        /*float angle = GameObject.FindWithTag("PlayerTransform").transform.rotation.y * 100f;
+        if(angle < 0)
+        {
+            angle = 360f - angle;
+        }
+        moveVelocity = Quaternion.AngleAxis(angle, Vector3.up) * moveVelocity;
+        Debug.Log(moveVelocity);*/
 
-        Debug.Log(moveVelocity);
+        Vector3 dir = GameObject.Find("CenterEyeAnchor").transform.TransformDirection(moveVelocity);
+        //(moveVelocity.normalized * Time.deltaTime);
+        /*
+        GameObject.FindWithTag("Player").transform.Translate(moveVelocity * .01f);*/
+
+
         if (h != 0 || v != 0)
-        gameObject.transform.Translate(moveVelocity.normalized * 0.05f);
-        //myRigid.MovePosition(myRigid.position + moveVelocity * Time.deltaTime);
+        gameObject.transform.Translate(dir.normalized * Time.deltaTime * applySpeed);
+
 
         //전진,후진 애니메이션 실행
 
