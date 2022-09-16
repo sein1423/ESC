@@ -81,7 +81,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         {
             if(GameObject.Find("MultiplayManager") as GameObject)
             {
-                if (photonView.IsMine)
+                if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().IsMine)
                 {
                     PlayerActive();
                 }

@@ -27,7 +27,7 @@ public class LookCam : MonoBehaviourPunCallbacks
         py = gameObject.transform.parent.GetComponent<MultiPlayer>();
         //서버에 저장되어있는 닉네임 가져와서 적용
         tmp.text = py.photonView.Owner.NickName;
-        Cam = GameObject.Find("Main Camera");
+        Cam = GameObject.Find("OVRCameraRig");
     }
 
 

@@ -20,6 +20,7 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
             go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down*7f);
             go.transform.parent = GameObject.Find("OVRCameraRig").transform;
             go.tag = "Player";
+            go.layer = 10;
             Destroy(multiplayManager);
         }
         else if(GameManagement.staticPlaymode == "multiplay")
@@ -35,5 +36,6 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
         go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down * 7f);
         go.transform.parent = GameObject.Find("OVRCameraRig").transform;
         go.tag = "Player";
+        go.layer = 10;
     }
 }
