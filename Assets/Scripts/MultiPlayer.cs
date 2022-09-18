@@ -125,7 +125,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
         //Vector2 mouseX = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-        GameObject.FindWithTag("Player").transform.eulerAngles = new Vector3(0, GameObject.Find("CenterEyeAnchor").transform.eulerAngles.y, 0);
         //PlayerCamera??ÎßàÏö∞???åÏ†ÑÍ∞??Ä??
 
         //currentCameraRotationY += mouseX.x * lookSensitivity;
@@ -157,20 +156,8 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             applyCrouchPosY = originPosY;
             applySpeed = walkSpeed;
         }
-
-        // ?¥Îèô
         Move(h, v);
 
-        if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().ViewID == 1001)
-        {
-            MultiplayManager.Player1Position = gameObject.transform.position;
-            MultiplayManager.Player1Rotation = gameObject.transform.GetChild(2).transform.rotation;
-        }
-        else
-        {
-            MultiplayManager.Player2Position = gameObject.transform.position;
-            MultiplayManager.Player2Rotation = gameObject.transform.GetChild(2).transform.rotation;
-        }
         //g???ÖÎ†•???ºÏù¥?∞Ïùò Î∂àÏùÑ ÏºúÍ≥† ?àÎã§.
         if (Input.GetButtonDown("Light") || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
         {
@@ -186,6 +173,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     }
 
     //Move?®Ïàò Íµ¨ÌòÑ
+    [PunRPC]
     public void Move(float h, float v)
     {
         //h?Ä vÍ∞íÏúºÎ°??ÑÌõÑÏ¢åÏö∞ ?¥Îèô
@@ -202,7 +190,8 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         }
 
 
-        
+        GameObject.FindWithTag("Player").transform.eulerAngles = new Vector3(0, GameObject.Find("CenterEyeAnchor").transform.eulerAngles.y, 0);
+
         moveVelocity.x = h * applySpeed;
         moveVelocity.y = 0;
         moveVelocity.z = v * applySpeed;

@@ -52,16 +52,14 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
         int idx = Random.Range(1, points.Length);
         GameObject go =  PhotonNetwork.Instantiate("Originalprefab", points[idx].position, Quaternion.identity);
         go.tag = "Player";
+        go.AddComponent<OtherPlayer>();
+        go.GetComponent<PhotonView>().ObservedComponents.Add(go.GetComponent<OtherPlayer>());
         if (go.GetComponent<PhotonView>().IsMine)
         {
             go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down * 7f);
             go.transform.parent = GameObject.Find("OVRCameraRig").transform;
             go.transform.parent.gameObject.AddComponent<MultiPlayer>();
             go.layer = 10;
-        }
-        else
-        {
-            go.AddComponent<OtherPlayer>();
         }
     }
 }

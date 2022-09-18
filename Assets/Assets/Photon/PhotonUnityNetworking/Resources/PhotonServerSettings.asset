@@ -44,6 +44,8 @@ MonoBehaviour:
   - RPC_Lighter
   - RPC_PlayerActive
   - Update
+  - Move
+  - RPCUpdate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

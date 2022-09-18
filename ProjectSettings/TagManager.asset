@@ -22,6 +22,7 @@ TagManager:
   - WayPoint
   - PlayerMovePoint
   - MinimapUI
+  - PlayerMine
   layers:
   - Default
   - TransparentFX

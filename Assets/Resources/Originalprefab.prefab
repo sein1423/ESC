@@ -451,6 +451,7 @@ GameObject:
   - component: {fileID: 1599986705675957173}
   - component: {fileID: 5789465575077379995}
   - component: {fileID: -2530026978382181156}
+  - component: {fileID: 8903748848455053512}
   m_Layer: 9
   m_Name: Originalprefab
   m_TagString: Untagged
@@ -531,6 +532,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1599986705675957172}
+  - {fileID: 8903748848455053512}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -563,6 +565,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &8903748848455053512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047409158086417956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d375644ac924cc141a3d692477fd9346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1072011916067980698
 GameObject:
   m_ObjectHideFlags: 0
