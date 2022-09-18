@@ -7,7 +7,7 @@ using Photon.Realtime;
 public class MultiPlayer : MonoBehaviourPunCallbacks
 {
 
-    // ½ºÇÇµå Á¶Á¤ º¯¼ö
+    // ìŠ¤í”¼ë“œ ì¡°ì • ë³€ìˆ˜
     [SerializeField]
     private float walkSpeed;
     [SerializeField]
@@ -16,32 +16,32 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     private float crouchSpeed;
     private float applySpeed;
 
-    // Á¡ÇÁ Á¤µµ
+    // ì í”„ ì •ë„
     [SerializeField]
     private float jumpForce;
 
-    // »óÅÂ º¯¼ö
+    // ìƒíƒœ ë³€ìˆ˜
     private bool isRun = false;
     public bool isGround = true;
     private bool isCrouch = false;
 
-    // ¾É¾ÒÀ» ¶§ ¾ó¸¶³ª ¾ÉÀ»Áö °áÁ¤ÇÏ´Â º¯¼ö
+    // ì•‰ì•˜ì„ ë•Œ ì–¼ë§ˆë‚˜ ì•‰ì„ì§€ ê²°ì •í•˜ëŠ” ë³€ìˆ˜
     [SerializeField]
     private float crouchPosY;
     private float originPosY;
     private float applyCrouchPosY;
 
-    // ¹Î°¨µµ
+    // ë¯¼ê°ë„
     [SerializeField]
     private float lookSensitivity;
 
-    // Ä«¸Ş¶ó ÇÑ°è
+    // ì¹´ë©”ë¼ í•œê³„
     [SerializeField]
     private float cameraRotationLimit;
     public float currentCameraRotationX = 0;
     public float currentCameraRotationY = 0;
 
-    // ÇÊ¿äÇÑ ÄÄÆ÷³ÍÆ®
+    // í•„ìš”í•œ ì»´í¬ë„ŒíŠ¸
     [SerializeField]
     private Camera theCamera;
     private Rigidbody myRigid;
@@ -59,13 +59,14 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public GameObject Oculus;
     public bool GetLight = false;
     public GameObject anotherPlayer;
-    //ÇÃ·¹ÀÌ¾îÀÇ ±âº»ÀûÀÎ ¿òÁ÷ÀÓ ±¸Çö
+    //í”Œë ˆì´ì–´ì˜ ê¸°ë³¸ì ì¸ ì›€ì§ì„ êµ¬í˜„
 
     private void Awake()
     {
     }
     void Start()
     {
+        Debug.Log("Player Start");
         if (GameObject.Find("MultiplayManager") != null)
         {
             if (!(GameManagement.staticPlaymode == "soloplay" || GameManagement.staticPlaymode == null))
@@ -78,7 +79,17 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
             }
         }
-            gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
+        gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
+        walkSpeed = 40;
+        runSpeed = 150;
+        crouchSpeed = 1;
+        jumpForce = 5;
+        isGround = true;
+        crouchPosY = 1;
+        lookSensitivity = 2;
+        cameraRotationLimit = 45;
+        lighter = gameObject.transform.GetChild(0).transform.GetChild(5).transform.GetChild(0).transform.GetChild(1).gameObject;
+        light = lighter.transform.GetChild(2).gameObject;
         //anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
         originPosY = transform.position.y;
@@ -90,10 +101,10 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     // Update is called once per frame
     private void Update()
     {
-        //ÀÚ½ÅÀÇ Å¬¶óÀÌ¾ğÆ® ÀÏ¶§¸¸ PlayerActive ÇÔ¼ö¸¦ ½ÇÇàÇÔ
+        //ìì‹ ì˜ í´ë¼ì´ì–¸íŠ¸ ì¼ë•Œë§Œ PlayerActive í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•¨
         if (!gm.isMenu)
         {
-            if(GameObject.Find("MultiplayManager") as GameObject)
+            if(GameObject.Find("MultiplayManager") != null)
             {
                 if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().IsMine)
                 {
@@ -132,34 +143,32 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public void PlayerActive()
     {
 
-        //wasd·Î ÀüÈÄÁÂ¿ì·Î ÀÌµ¿
+        //wasdë¡œ ì „í›„ì¢Œìš°ë¡œ ì´ë™
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
-
-
         //Vector2 mouseX = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
         GameObject.FindWithTag("Player").transform.eulerAngles = new Vector3(0, GameObject.Find("CenterEyeAnchor").transform.eulerAngles.y, 0);
-        //PlayerCamera¿¡ ¸¶¿ì½º È¸Àü°ª ´ëÀÔ
+        //PlayerCameraì— ë§ˆìš°ìŠ¤ íšŒì „ê°’ ëŒ€ì…
 
         //currentCameraRotationY += mouseX.x * lookSensitivity;
         //transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
 
 
 
-        // Á¡ÇÁ
+        // ì í”„
         if (Input.GetButtonDown("Jump") && isGround)
         {
             myRigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGround = false;
         }
 
-        // ¾É±â
+        // ì•‰ê¸°
         if (Input.GetButtonDown("Crouch"))
         {
             isCrouch = !isCrouch;
         }
 
-        // ¾É±â »óÅÂ¿¡¼­ ¿òÁ÷ÀÓ Á¦ÇÑ
+        // ì•‰ê¸° ìƒíƒœì—ì„œ ì›€ì§ì„ ì œí•œ
         if (isCrouch)
         {
             applyCrouchPosY = crouchPosY;
@@ -171,10 +180,10 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             applySpeed = walkSpeed;
         }
 
-        // ÀÌµ¿
+        // ì´ë™
         Move(h, v);
 
-        //gÅ° ÀÔ·Â½Ã ¶óÀÌÅÍÀÇ ºÒÀ» ÄÑ°í ²ö´Ù.
+        //gí‚¤ ì…ë ¥ì‹œ ë¼ì´í„°ì˜ ë¶ˆì„ ì¼œê³  ëˆë‹¤.
         if (Input.GetButtonDown("Light") || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
         {
             if (light.activeSelf)
@@ -188,13 +197,13 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    //MoveÇÔ¼ö ±¸Çö
+    //Moveí•¨ìˆ˜ êµ¬í˜„
     public void Move(float h, float v)
     {
-        //h¿Í v°ªÀ¸·Î ÀüÈÄÁÂ¿ì ÀÌµ¿
+        //hì™€ vê°’ìœ¼ë¡œ ì „í›„ì¢Œìš° ì´ë™
         Vector3 moveVelocity = Vector3.zero;
 
-        //shiftÅ°¸¦ ´©¸£¸é ÀüÁø¼Óµµ°¡ Áõ°¡ÇÑ´Ù.
+        //shiftí‚¤ë¥¼ ëˆ„ë¥´ë©´ ì „ì§„ì†ë„ê°€ ì¦ê°€í•œë‹¤.
         if (Input.GetButton("Dash"))
         {
             applySpeed = runSpeed;
@@ -229,7 +238,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         gameObject.transform.Translate(dir.normalized * Time.deltaTime * applySpeed);
 
 
-        //ÀüÁø,ÈÄÁø ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+        //ì „ì§„,í›„ì§„ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
 
 
     }
