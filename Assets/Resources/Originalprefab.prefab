@@ -451,7 +451,6 @@ GameObject:
   - component: {fileID: 1599986705675957173}
   - component: {fileID: 5789465575077379995}
   - component: {fileID: -2530026978382181156}
-  - component: {fileID: -3865534418568046250}
   m_Layer: 9
   m_Name: Originalprefab
   m_TagString: Untagged
@@ -564,39 +563,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &-3865534418568046250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1047409158086417956}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a04266b8ec5aef4bb9e21df1402ed40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 40
-  runSpeed: 150
-  crouchSpeed: 1
-  jumpForce: 5
-  isGround: 1
-  crouchPosY: 1
-  lookSensitivity: 2
-  cameraRotationLimit: 45
-  currentCameraRotationX: 0
-  currentCameraRotationY: 0
-  theCamera: {fileID: 0}
-  hasLighter: 0
-  light: {fileID: 700634309932884683, guid: cc14f415408011042bda8800cbf91932, type: 3}
-  lighter: {fileID: 1894795111916772320, guid: cc14f415408011042bda8800cbf91932, type: 3}
-  isMenu: 0
-  MenuSet: {fileID: 0}
-  OptionSet: {fileID: 0}
-  gm: {fileID: 0}
-  nickname: 
-  Oculus: {fileID: 0}
-  GetLight: 0
 --- !u!1 &1072011916067980698
 GameObject:
   m_ObjectHideFlags: 0

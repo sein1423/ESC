@@ -9,9 +9,13 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
     public GameObject multiplayManager;
     public GameObject playerPrefab;
 
+    [PunRPC]
     public static Vector3 Player1Position;
+    [PunRPC]
     public static Quaternion Player1Rotation;
+    [PunRPC]
     public static Vector3 Player2Position;
+    [PunRPC]
     public static Quaternion Player2Rotation;
 
 
@@ -46,13 +50,13 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
     {
         Transform[] points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();
         int idx = Random.Range(1, points.Length);
-        GameObject go =  PhotonNetwork.Instantiate("Player", points[idx].position, Quaternion.identity);
-        go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down * 7f);
-        go.transform.parent = GameObject.Find("OVRCameraRig").transform;
+        GameObject go =  PhotonNetwork.Instantiate("Originalprefab", points[idx].position, Quaternion.identity);
         go.tag = "Player";
         if (go.GetComponent<PhotonView>().IsMine)
         {
-            go.AddComponent<MultiPlayer>();
+            go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down * 7f);
+            go.transform.parent = GameObject.Find("OVRCameraRig").transform;
+            go.transform.parent.gameObject.AddComponent<MultiPlayer>();
             go.layer = 10;
         }
         else

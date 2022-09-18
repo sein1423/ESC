@@ -59,7 +59,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public GameObject Oculus;
     public bool GetLight = false;
     public GameObject anotherPlayer;
-    //?�레?�어??기본?�인 ?�직임 구현
 
     private void Awake()
     {
@@ -76,7 +75,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
                     gameObject.tag = "PlayerMine";
                 }
                 anotherPlayer = GameObject.FindWithTag("Player");
-
             }
         }
         gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
@@ -110,23 +108,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
                     Debug.Log(MultiplayManager.Player1Rotation);
                     Debug.Log(MultiplayManager.Player2Position);
                     Debug.Log(MultiplayManager.Player2Rotation);
-                }
-                else
-                {
-                    if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().ViewID == 1001)
-                    {
-                        MultiplayManager.Player1Position = gameObject.transform.position;
-                        MultiplayManager.Player1Rotation = gameObject.transform.GetChild(2).transform.rotation;
-                        anotherPlayer.transform.position = MultiplayManager.Player2Position;
-                        anotherPlayer.transform.rotation = MultiplayManager.Player2Rotation;
-                    }
-                    else
-                    {
-                        MultiplayManager.Player2Position = gameObject.transform.position;
-                        MultiplayManager.Player2Rotation = gameObject.transform.GetChild(2).transform.rotation;
-                        anotherPlayer.transform.position = MultiplayManager.Player1Position;
-                        anotherPlayer.transform.rotation = MultiplayManager.Player1Rotation;
-                    }
                 }
             }
             else
@@ -180,6 +161,16 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         // ?�동
         Move(h, v);
 
+        if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().ViewID == 1001)
+        {
+            MultiplayManager.Player1Position = gameObject.transform.position;
+            MultiplayManager.Player1Rotation = gameObject.transform.GetChild(2).transform.rotation;
+        }
+        else
+        {
+            MultiplayManager.Player2Position = gameObject.transform.position;
+            MultiplayManager.Player2Rotation = gameObject.transform.GetChild(2).transform.rotation;
+        }
         //g???�력???�이?�의 불을 켜고 ?�다.
         if (Input.GetButtonDown("Light") || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
         {
