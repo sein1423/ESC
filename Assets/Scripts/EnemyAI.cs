@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class EnemyAI : MonoBehaviour
     int m_count = 0;
 
     Transform m_target = null;
+
+    public VideoPlayer video;
+    public GameObject attackedImage;
+    //GameObject attackedPlayer = GameObject.FindGameObjectWithTag("Player");
+    float timer;
+    float waitingTime = 7.0f;
 
     public void SetTarget(Transform p_target) //위험지역 들어오면 순찰을 취소하고 타겟을 향해 쫓아감
     {
@@ -63,6 +70,16 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (attackedImage.activeSelf)
+        {
+            timer += Time.deltaTime;
+            if (timer > waitingTime)
+            {
+                attackedImage.SetActive(false);
+            }
+            return;
+        }
+
         Collider[] t_cols = Physics.OverlapSphere(transform.position, m_distance, m_layerMask); // 주변에 있는 플레이어 컬라이더를 검출
 
         if (t_cols.Length > 0) //검출 되었다면
@@ -99,6 +116,7 @@ public class EnemyAI : MonoBehaviour
         {
             m_enemy.SetDestination(m_target.position);
         }
+
     }
 
     void Sight() //시야 체크 함수
@@ -160,4 +178,16 @@ public class EnemyAI : MonoBehaviour
 
      }*/
 
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            timer = 0.0f;
+            attackedImage.SetActive(true);
+            video.Play();
+
+            //other.transform.position = new Vector3(0, 0, 2);
+        }
+    }
 }

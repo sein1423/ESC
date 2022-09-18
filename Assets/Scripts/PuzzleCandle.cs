@@ -25,7 +25,7 @@ public class PuzzleCandle : MonoBehaviour
 
     public void Puzzle1()
     {
-        if (Input.GetButtonDown("Interaction"))
+        if (Input.GetButtonDown("Interaction") && GameManagement.staticGetLighter == true)
         {
             PuzzleControl();
         }

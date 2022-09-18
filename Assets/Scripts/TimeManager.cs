@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TimeManager : MonoBehaviour
 {
@@ -27,10 +28,20 @@ public class TimeManager : MonoBehaviour
 
     void Check_Timer() //시간 검사
     {
-        time_current = Time.time - time_start;
-        if (time_current < time_Max)
+        time_current = GameManagement.staticLimitTime - (Time.time - time_start);
+        if (time_current > 30.0f)
         {
+            text_Timer.color = Color.white;
             text_Timer.text = $"{time_current:N2}";
+        }
+        else if (time_current <= 30.0f && time_current > 0.0f)
+        {
+            text_Timer.color = Color.red;
+            text_Timer.text = $"{time_current:N2}";
+        }
+        else if (time_current <= 0.0f)
+        {
+            SceneManager.LoadScene("Die");
         }
         else if (!isEnded)
         {
@@ -51,5 +62,10 @@ public class TimeManager : MonoBehaviour
         time_current = 0;
         text_Timer.text = $"{time_current:N2}";
         isEnded = false;
+    }
+
+    public float GetCurrentTime()
+    {
+        return GameManagement.staticLimitTime - time_current;
     }
 }

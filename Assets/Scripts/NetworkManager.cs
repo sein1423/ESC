@@ -54,9 +54,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 for (int i = 0; i < PN.PlayerList.Length; i++)
                 {
                     arr[i].text = PN.PlayerList[i].NickName;
+                    GameManagement.staticMultiPlayerNames += PN.PlayerList[i].NickName + ",";
                 }
             }
             playerCount.text = $"{PN.CurrentRoom.PlayerCount} / {PN.CurrentRoom.MaxPlayers}";
+        }
+        else
+        {
+            GameManagement.staticMultiPlayerNames = "";
         }
     }
 

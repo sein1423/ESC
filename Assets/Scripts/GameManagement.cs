@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class GameManagement : MonoBehaviour
+public class GameManagement : MonoBehaviourPunCallbacks
 {
     public GameObject helpSet;
     public GameObject rankingSet;
@@ -17,9 +19,12 @@ public class GameManagement : MonoBehaviour
     public bool isMenu = false;
 
     public static string staticPlayerName;
+    public static string staticMultiPlayerNames;
     public static string staticPlayTime;
     public static string staticDisplay;
     public static string staticPlaymode;
+    public static float staticLimitTime = 300.0f;
+    public static bool staticGetLighter = false;
 
     private static GameManagement _instance;
     public static GameManagement Instance
@@ -167,14 +172,24 @@ public class GameManagement : MonoBehaviour
         DBManager db = dbManager.GetComponent<DBManager>();
         TimeManager timer = timeManager.GetComponent<TimeManager>();
 
-        string timeNum = $"{timer.time_current:N2}";    //현재 타임을 소수점 두번째자리 까지만 가져옴
+        string timeNum = $"{timer.GetCurrentTime():N2}";    //현재 타임을 소수점 두번째자리 까지만 가져옴
         float timeFloat = float.Parse(timeNum);           //형변환
         int timeInt = Mathf.RoundToInt(timeFloat);        //반올림
         string minute = (timeInt / 60).ToString();      //분 계산
         string second = (timeInt % 60).ToString();      //초 계산
         string timeStr = minute + "m" + second + "s";
         staticPlayTime = timeStr;
-        db.DBCommand("updateTime", staticPlayerName, timeStr, timeNum);      //플레이타임을 업데이트하는 DB함수
+
+        if(staticPlaymode == "soloplay")
+        {
+            db.DBCommand("updateTime", staticPlayerName, timeStr, timeNum);      //플레이타임을 업데이트하는 DB함수
+        }
+        else if(staticPlaymode == "multiplay")
+        {
+            string PlayerNames =  staticMultiPlayerNames.TrimEnd(',');
+            db.DBCommand("updateTime", PlayerNames, timeStr, timeNum);      //플레이타임을 업데이트하는 DB함수
+        }
+
     }
 
     public void TestCharacter()

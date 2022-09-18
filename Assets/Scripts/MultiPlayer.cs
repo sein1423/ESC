@@ -1,6 +1,8 @@
-using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
+using Photon.Realtime;
 
 public class MultiPlayer : MonoBehaviourPunCallbacks
 {
@@ -56,7 +58,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public string nickname;
     public GameObject Oculus;
     public bool GetLight = false;
-
+    public GameObject anotherPlayer;
     //플레이어의 기본적인 움직임 구현
 
     private void Awake()
@@ -64,7 +66,19 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
+        if (GameObject.Find("MultiplayManager") != null)
+        {
+            if (!(GameManagement.staticPlaymode == "soloplay" || GameManagement.staticPlaymode == null))
+            {
+                if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().IsMine)
+                {
+                    gameObject.tag = "PlayerMine";
+                }
+                anotherPlayer = GameObject.FindWithTag("Player");
+
+            }
+        }
+            gm = GameObject.Find("GameManagement").GetComponent<GameManagement>();
         //anim = gameObject.transform.GetChild(1).GetComponent<Animator>();
         myRigid = GetComponent<Rigidbody>();
         originPosY = transform.position.y;
@@ -84,6 +98,27 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
                 if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().IsMine)
                 {
                     PlayerActive();
+                    Debug.Log(MultiplayManager.Player1Position);
+                    Debug.Log(MultiplayManager.Player1Rotation);
+                    Debug.Log(MultiplayManager.Player2Position);
+                    Debug.Log(MultiplayManager.Player2Rotation);
+                }
+                else
+                {
+                    if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().ViewID == 1001)
+                    {
+                        MultiplayManager.Player1Position = gameObject.transform.position;
+                        MultiplayManager.Player1Rotation = gameObject.transform.GetChild(2).transform.rotation;
+                        anotherPlayer.transform.position = MultiplayManager.Player2Position;
+                        anotherPlayer.transform.rotation = MultiplayManager.Player2Rotation;
+                    }
+                    else
+                    {
+                        MultiplayManager.Player2Position = gameObject.transform.position;
+                        MultiplayManager.Player2Rotation = gameObject.transform.GetChild(2).transform.rotation;
+                        anotherPlayer.transform.position = MultiplayManager.Player1Position;
+                        anotherPlayer.transform.rotation = MultiplayManager.Player1Rotation;
+                    }
                 }
             }
             else
@@ -200,22 +235,35 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     }
     void OnTriggerStay(Collider other)
     {
+
+        GameObject GMLighter = GameObject.Find("lighter");
         
-        if (Input.GetButtonDown("Get"))
+        if (other.tag == "Lighter")
         {
-                Destroy(other.gameObject);
+            if (Input.GetButtonDown("Get"))
+            {
+                //Destroy(other.gameObject);
+                Destroy(GMLighter);
                 light.SetActive(false);
-                lighter.SetActive(true);
-                hasLighter = true;
-        }      
+                    lighter.SetActive(true);
+                    hasLighter = true;
+                GameManagement.staticGetLighter = true;
+            }      
+        }
     }
 
     public void GetLighter(GameObject other)
     {
-            Destroy(other.gameObject);
+        GameObject GMLighter = GameObject.Find("lighter");
+
+        if (other.tag == "Lighter")
+        {
+            //Destroy(other.gameObject);
+            Destroy(GMLighter);
             light.SetActive(false);
             lighter.SetActive(true);
             hasLighter = true;
+        }
     }
 
     public void RPC_Light()

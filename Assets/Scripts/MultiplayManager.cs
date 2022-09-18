@@ -9,6 +9,19 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
     public GameObject multiplayManager;
     public GameObject playerPrefab;
 
+    public static Vector3 Player1Position;
+    public static Quaternion Player1Rotation;
+    public static Vector3 Player2Position;
+    public static Quaternion Player2Rotation;
+
+
+    private void Awake()
+    {
+        Player1Position = Vector3.zero;
+        Player1Rotation = Quaternion.identity;
+        Player2Position = Vector3.zero;
+        Player2Rotation = Quaternion.identity;
+    }
     void Start()
     {
         //PN.IsMessageQueueRunning = true;
@@ -20,6 +33,7 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
             go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down*7f);
             go.transform.parent = GameObject.Find("OVRCameraRig").transform;
             go.tag = "Player";
+            go.AddComponent<MultiPlayer>();
             go.layer = 10;
             Destroy(multiplayManager);
         }
@@ -36,6 +50,9 @@ public class MultiplayManager : MonoBehaviourPunCallbacks
         go.transform.position = GameObject.Find("OVRCameraRig").transform.position + (Vector3.down * 7f);
         go.transform.parent = GameObject.Find("OVRCameraRig").transform;
         go.tag = "Player";
+        go.AddComponent<MultiPlayer>();
         go.layer = 10;
+
+        
     }
 }
