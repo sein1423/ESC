@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
     public GameObject attackedImage;
     //GameObject attackedPlayer = GameObject.FindGameObjectWithTag("Player");
     float timer;
-    float waitingTime = 7.0f;
+    float waitingTime = 8.0f;
 
     public void SetTarget(Transform p_target) //위험지역 들어오면 순찰을 취소하고 타겟을 향해 쫓아감
     {
@@ -75,6 +75,7 @@ public class EnemyAI : MonoBehaviour
             timer += Time.deltaTime;
             if (timer > waitingTime)
             {
+                video.Stop();
                 attackedImage.SetActive(false);
             }
             return;
@@ -187,7 +188,7 @@ public class EnemyAI : MonoBehaviour
             attackedImage.SetActive(true);
             video.Play();
 
-            //other.transform.position = new Vector3(0, 0, 2);
+            other.gameObject.transform.parent.gameObject.transform.position = new Vector3(0, 0, 0);
         }
     }
 }
