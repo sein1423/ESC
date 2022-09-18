@@ -7,7 +7,7 @@ using Photon.Realtime;
 public class MultiPlayer : MonoBehaviourPunCallbacks
 {
 
-    // 스피드 조정 변수
+    // ?�피??조정 변??
     [SerializeField]
     private float walkSpeed;
     [SerializeField]
@@ -16,32 +16,32 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     private float crouchSpeed;
     private float applySpeed;
 
-    // 점프 정도
+    // ?�프 ?�도
     [SerializeField]
     private float jumpForce;
 
-    // 상태 변수
+    // ?�태 변??
     private bool isRun = false;
     public bool isGround = true;
     private bool isCrouch = false;
 
-    // 앉았을 때 얼마나 앉을지 결정하는 변수
+    // ?�았?????�마???�을지 결정?�는 변??
     [SerializeField]
     private float crouchPosY;
     private float originPosY;
     private float applyCrouchPosY;
 
-    // 민감도
+    // 민감??
     [SerializeField]
     private float lookSensitivity;
 
-    // 카메라 한계
+    // 카메???�계
     [SerializeField]
     private float cameraRotationLimit;
     public float currentCameraRotationX = 0;
     public float currentCameraRotationY = 0;
 
-    // 필요한 컴포넌트
+    // ?�요??컴포?�트
     [SerializeField]
     private Camera theCamera;
     private Rigidbody myRigid;
@@ -59,7 +59,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     public GameObject Oculus;
     public bool GetLight = false;
     public GameObject anotherPlayer;
-    //플레이어의 기본적인 움직임 구현
+    //?�레?�어??기본?�인 ?�직임 구현
 
     private void Awake()
     {
@@ -101,9 +101,6 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
     // Update is called once per frame
     private void Update()
     {
-        //자신의 클라이언트 일때만 PlayerActive 함수를 실행함
-        if (!gm.isMenu)
-        {
             if(GameObject.Find("MultiplayManager") != null)
             {
                 if (gameObject.transform.GetChild(2).GetComponent<PhotonView>().IsMine)
@@ -136,39 +133,39 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             {
                 PlayerActive();
             }
-        }
+        
 
     }
 
     public void PlayerActive()
     {
 
-        //wasd로 전후좌우로 이동
+        //wasd�??�후좌우�??�동
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
         //Vector2 mouseX = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
         GameObject.FindWithTag("Player").transform.eulerAngles = new Vector3(0, GameObject.Find("CenterEyeAnchor").transform.eulerAngles.y, 0);
-        //PlayerCamera에 마우스 회전값 대입
+        //PlayerCamera??마우???�전�??�??
 
         //currentCameraRotationY += mouseX.x * lookSensitivity;
         //transform.eulerAngles = new Vector3(0, currentCameraRotationY, 0);
 
 
 
-        // 점프
+        // ?�프
         if (Input.GetButtonDown("Jump") && isGround)
         {
             myRigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGround = false;
         }
 
-        // 앉기
+        // ?�기
         if (Input.GetButtonDown("Crouch"))
         {
             isCrouch = !isCrouch;
         }
 
-        // 앉기 상태에서 움직임 제한
+        // ?�기 ?�태?�서 ?�직임 ?�한
         if (isCrouch)
         {
             applyCrouchPosY = crouchPosY;
@@ -180,10 +177,10 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             applySpeed = walkSpeed;
         }
 
-        // 이동
+        // ?�동
         Move(h, v);
 
-        //g키 입력시 라이터의 불을 켜고 끈다.
+        //g???�력???�이?�의 불을 켜고 ?�다.
         if (Input.GetButtonDown("Light") || OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
         {
             if (light.activeSelf)
@@ -197,13 +194,13 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    //Move함수 구현
+    //Move?�수 구현
     public void Move(float h, float v)
     {
-        //h와 v값으로 전후좌우 이동
+        //h?� v값으�??�후좌우 ?�동
         Vector3 moveVelocity = Vector3.zero;
 
-        //shift키를 누르면 전진속도가 증가한다.
+        //shift?��? ?�르�??�진?�도가 증�??�다.
         if (Input.GetButton("Dash"))
         {
             applySpeed = runSpeed;
@@ -238,7 +235,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
         gameObject.transform.Translate(dir.normalized * Time.deltaTime * applySpeed);
 
 
-        //전진,후진 애니메이션 실행
+        //?�진,?�진 ?�니메이???�행
 
 
     }

@@ -101,6 +101,7 @@ MonoBehaviour:
   nickname: 
   Oculus: {fileID: 0}
   GetLight: 0
+  anotherPlayer: {fileID: 0}
 --- !u!114 &6913733154303172809
 MonoBehaviour:
   m_ObjectHideFlags: 0
