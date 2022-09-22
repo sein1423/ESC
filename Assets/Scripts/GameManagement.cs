@@ -25,6 +25,7 @@ public class GameManagement : MonoBehaviourPunCallbacks
     public static string staticPlaymode;
     public static float staticLimitTime = 300.0f;
     public static bool staticGetLighter = false;
+    public static bool staticFireState = false;
 
     private static GameManagement _instance;
     public static GameManagement Instance

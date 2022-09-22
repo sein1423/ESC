@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class PuzzleCandle : MonoBehaviour
+public class PuzzleCandle : MonoBehaviourPunCallbacks
 {
     GameObject fire;
     GameObject pairObject;
     GameObject puzzleDirector;
     public bool fire_state;
+    PhotonView PV;
 
     // Start is called before the first frame update
     void Start()
@@ -25,21 +28,34 @@ public class PuzzleCandle : MonoBehaviour
 
     public void Puzzle1()
     {
+        PV = photonView;
+
         if (Input.GetButtonDown("Interaction") && GameManagement.staticGetLighter == true)
         {
-            PuzzleControl();
+            if (GameManagement.staticPlaymode == "soloplay" && GameManagement.staticPlaymode == null)
+            {
+                PuzzleControl();
+            }
+            else
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC("PuzzleControl", RpcTarget.All);
+                }
+            }
         }
     }
 
+    [PunRPC]
     public void PuzzleControl()
     {
-        if (fire.GetComponent<ParticleSystem>().isPlaying == true && fire_state)
+        if (fire.GetComponent<ParticleSystem>().isPlaying == true && GameManagement.staticFireState)
         {
             fire.GetComponent<ParticleSystem>().Stop();
             pairObject.GetComponent<Light>().enabled = false;
             puzzleDirector.GetComponent<PuzzleDirector>().Decrease();
         }
-        else if (fire.GetComponent<ParticleSystem>().isPlaying == false && fire_state)
+        else if (fire.GetComponent<ParticleSystem>().isPlaying == false && GameManagement.staticFireState)
         {
             fire.GetComponent<ParticleSystem>().Play();
             pairObject.GetComponent<Light>().enabled = true;
@@ -47,19 +63,21 @@ public class PuzzleCandle : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
-    {
-        if(other.tag == "Player")
-        {
-            fire_state = true;
-        }
-    }
+    //void OnTriggerStay(Collider other)
+    //{
+    //    if(other.tag == "Player")
+    //    {
+    //        fire_state = true;
+    //        Debug.Log("true");
+    //    }
+    //}
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            fire_state = false;
-        }
-    }
+    //void OnTriggerExit(Collider other)
+    //{
+    //    if (other.tag == "Player")
+    //    {
+    //        fire_state = false;
+    //        Debug.Log("false");
+    //    }
+    //}
 }

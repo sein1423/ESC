@@ -219,6 +219,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
 
 
     }
+    
     void OnTriggerStay(Collider other)
     {
 
@@ -229,12 +230,35 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             if (Input.GetButtonDown("Get"))
             {
                 //Destroy(other.gameObject);
+                GameManagement.staticGetLighter = true;
                 Destroy(GMLighter);
                 light.SetActive(false);
                     lighter.SetActive(true);
                     hasLighter = true;
-                GameManagement.staticGetLighter = true;
             }      
+        }
+
+        if (other.tag == "Candle")
+        {
+            GameManagement.staticFireState = true;
+            Debug.Log("true");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "RetryFloor")
+        {
+            gameObject.transform.position = new Vector3(0,0,0);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Candle")
+        {
+            GameManagement.staticFireState = false;
+            Debug.Log("false");
         }
     }
 
@@ -251,6 +275,7 @@ public class MultiPlayer : MonoBehaviourPunCallbacks
             hasLighter = true;
         }
     }
+
 
     public void RPC_Light()
     {

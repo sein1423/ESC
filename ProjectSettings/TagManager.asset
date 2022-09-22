@@ -23,6 +23,7 @@ TagManager:
   - PlayerMovePoint
   - MinimapUI
   - PlayerMine
+  - RetryFloor
   layers:
   - Default
   - TransparentFX
